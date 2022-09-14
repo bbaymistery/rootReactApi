@@ -78,14 +78,11 @@ class BookingLogin extends React.Component {
         fetch(`${__env.domain}/api/v1/reservation/find-details`, requestBody)
           .then((res) => res.json())
           .then((res) => {
-            console.log(res);
             if (res.status === 200) {
               let { data } = res;
               window.manageBookingDispatch.onSuccessLogin(data);
             } else {
               this.setState({ error: eM, loading: false });
-              //triggering alert message when incorrect id or email
-              window.alertMessageDispatch.alertMessage("", eM);
             }
           })
           .catch(
@@ -98,18 +95,16 @@ class BookingLogin extends React.Component {
         //reset Error message after showAlert is gone
         setTimeout(() => {
           this.setState({ error: "" });
-        }, 4000);
+        }, 5000);
       });
     }
   }
 
   render() {
     let { email, reservationId, error, loading } = this.state;
-    console.log(error);
 
     return (
       <div className="tmb-login-section">
-        {error && <AlertMessage />}
         <div className={"tmb-login-content"}>
           <div className={"tmb-login-content-logo-imagee"}>
             <img src={`${__env.websiteLogUrl}`} alt="" />
@@ -155,9 +150,14 @@ class BookingLogin extends React.Component {
                 />
               </div>
             </div>
+            {error ? (
+              <div className="tmb-login-error-div tmb-zoom-out">{error}</div>
+            ) : (
+              ""
+            )}
             <div className={"tmb-input-button"}>
               <button
-                className="tmb-btn  tmb-btn-primary-outlined"
+                className="tmb-btn  tmb-btn-primary"
                 onClick={(e) => this.checkReservationDetails(e)}
               >
                 {loading ? "LOADING ..." : "Find"}

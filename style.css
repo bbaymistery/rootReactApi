@@ -8,8 +8,8 @@
   --placeholder-color: rgba(59, 59, 59, 0.628);
   --border-outlined: rgba(25, 118, 210, 0.5);
   --border-outlined-hover: #1976d2;
-  --error-message-bg: #f32a23;
-  --error-message: #ff0202;
+  --error-message-color: #990000;
+  --error-message-bg: #fbe3e3;
   width: 100%;
   height: 100%;
 }
@@ -52,7 +52,13 @@
   border-radius: 5px;
   margin: var(--window-margin);
 }
-
+.tmb-login-section .tmb-login-content .tmb-login-error-div {
+  color: var(--error-message-color);
+  background: var(--error-message-bg);
+  border-radius: 4px;
+  margin-top: 1rem;
+  padding: 10px 20px;
+}
 .tmb-login-section .tmb-login-content-logo-imagee {
   margin: 0 auto;
   margin-bottom: 1rem;
@@ -79,7 +85,7 @@
 }
 
 .tmb-login-section .tmb-login-content form .tmb-input-button {
-  width: 130px;
+  width: 100%;
   margin: 0 auto;
   margin-top: 1rem;
 }
@@ -172,6 +178,7 @@
   border: 1px solid transparent;
   border-radius: 4px;
   transition: all 0.4s linear;
+  width: 100%;
 }
 .tmb-btn-primary {
   background: var(--main-color);
@@ -288,5 +295,23 @@
     width: 0%;
     background: #fff;
     box-shadow: 0 0 40px #f3c623;
+  }
+}
+/*?Animations*/
+.tmb-zoom-out {
+  animation-name: zoom_out;
+  animation-duration: 1.2s;
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+}
+@keyframes zoom_out {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
