@@ -10,10 +10,29 @@
   --border-outlined-hover: #1976d2;
   --error-message-color: #990000;
   --error-message-bg: #fbe3e3;
+  --gray-text-color: #5d646d;
   width: 100%;
   height: 100%;
+  min-height: 100vh;
 }
-
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--gray-text-color) !important;
+  padding: 0px !important;
+  margin: 0px !important;
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+}
 @media only screen and (max-width: 1200px) {
   .tool-manage-booking {
     --window-margin: 20px;
@@ -51,6 +70,7 @@
   padding: 35px 35px;
   border-radius: 5px;
   margin: var(--window-margin);
+  border: 1px solid rgba(0, 0, 255, 0.235);
 }
 .tmb-login-section .tmb-login-content .tmb-login-error-div {
   color: var(--error-message-color);
@@ -154,6 +174,189 @@
 }
 /* !BookingLogin  finish -----*/
 
+/* *Reservation Details start -----*/
+.rsv-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: 0 var(--window-margin);
+}
+.rsv-section .rsv-section-container {
+  width: 100%;
+  border: 1px solid var(--border-outlined);
+  max-width: var(--max-container-width);
+  box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  background-color: #f5f7fc;
+}
+/* passengeer details */
+.rsv-section .rsv-section-container .psg-passenger-details {
+  padding: 15px;
+  min-height: 300px;
+}
+.rsv-section .rsv-section-container .psg-passenger-details .psg-referenceId {
+  text-align: center;
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+  padding-bottom: 0.55rem;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.rsv-section-container .psg-passenger-details .psg-title {
+  margin-bottom: 32px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+@media (max-width: 568px) {
+  .rsv-section-container .psg-passenger-details .psg-title {
+    flex-direction: column;
+  }
+  .rsv-section-container .psg-passenger-details .psg-title h3::after {
+    display: none !important;
+  }
+  .psg-referenceId {
+    font-size: 20px !important;
+  }
+  .psg-title h3 {
+    font-size: 18px !important;
+    margin-bottom: 1rem !important;
+  }
+}
+.psg-title button {
+  padding: 5px 30px;
+  font-size: 15px;
+}
+.psg-title h3 {
+  position: relative;
+  font-size: 24px;
+  padding-bottom: 20px;
+}
+.psg-title h3::after {
+  position: absolute;
+  width: 63px;
+  height: 5px;
+  background: var(--main-color);
+  content: "";
+  left: 0;
+  bottom: 0;
+  top: 35px;
+}
+
+.psg-passenger-details .psg-column {
+  display: flex;
+  justify-content: space-between;
+}
+.psg-column li {
+  letter-spacing: 0.7px;
+  border-bottom: 1px solid rgba(128, 137, 150, 0.2) !important;
+  border-radius: 3px;
+  list-style: none;
+  width: 48%;
+  display: grid;
+  grid-template-columns: 190px auto;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .psg-passenger-details .psg-column {
+    flex-direction: column;
+  }
+  .psg-passenger-details .psg-column li {
+    width: 100%;
+  }
+  .psg-first-column li:nth-child(2) {
+    grid-template-columns: 190px auto !important;
+  }
+  .psg-second-column,
+  .psg-first-column {
+    flex-direction: column-reverse !important;
+    display: flex;
+  }
+  .psg-second-column li:nth-child(2) {
+    grid-template-columns: 190px auto !important;
+  }
+}
+
+.psg-column li .psg-li-left {
+  display: flex;
+  align-items: center;
+}
+.psg-column li .psg-li-left p {
+  color: black;
+  font-weight: bold !important;
+}
+
+.psg-column li .psg-li-right {
+  color: var(--gray-text-color);
+  display: flex;
+  align-items: center;
+}
+.psg-column li img {
+  width: 11px;
+  margin-right: 6px;
+}
+.psg-user-img-icon {
+  width: 11px !important;
+}
+.psg-users-img-icon {
+  width: 16px !important;
+}
+.psg-first-column li:nth-child(2) {
+  display: grid;
+  grid-template-columns: 128px 1fr;
+}
+.psg-second-column li:nth-child(2) {
+  display: grid;
+  grid-template-columns: 128px 1fr;
+}
+@media (max-width: 460px) {
+  .psg-column li {
+    font-size: 11px;
+    word-break: break-all;
+  }
+  .psg-column li .psg-li-right {
+    font-size: 11px !important;
+    font-weight: bold;
+  }
+  .psg-first-column li {
+    grid-template-columns: 147px auto !important;
+  }
+  .psg-second-column li {
+    grid-template-columns: 147px auto !important;
+  }
+  .psg-first-column li:nth-child(2) {
+    grid-template-columns: 147px auto !important;
+  }
+  .psg-second-column li:nth-child(2) {
+    grid-template-columns: 147px auto !important;
+  }
+  .psg-column li img {
+    width: 10px;
+    margin-left: 2px;
+  }
+  .psg-user-img-icon {
+    width: 9px !important;
+  }
+  .psg-users-img-icon {
+    width: 11px !important;
+  }
+  .rsv-section .rsv-section-container .psg-passenger-details {
+    padding: 12px !important;
+  }
+}
+/* journey details */
+.rsv-section .rsv-section-container .rsv-journey-details {
+  padding: 15px;
+  border: 1px solid rgba(0, 0, 255, 0.175);
+}
+
+/* !Reservation Details finish -----*/
+
 /* ReservationDetails */
 /***********************************************************/
 /* ?btn component */
@@ -178,7 +381,6 @@
   border: 1px solid transparent;
   border-radius: 4px;
   transition: all 0.4s linear;
-  width: 100%;
 }
 .tmb-btn-primary {
   background: var(--main-color);
@@ -200,6 +402,11 @@
   border: 1px solid var(--border-outlined-hover);
 }
 
+.tmb-edit-btn:hover {
+  transition: 0.2s ease;
+  transform: scale(0.99);
+  background-color: #fff;
+}
 /* ?alert compoennt */
 .tmb-alert-container {
   width: 100%;
@@ -314,4 +521,12 @@
     opacity: 1;
     transform: scale(1);
   }
+}
+
+/* utils */
+.fe_bold {
+  font-weight: bold;
+}
+.fw_500 {
+  font-weight: 500;
 }
