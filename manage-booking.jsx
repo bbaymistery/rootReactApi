@@ -11,7 +11,136 @@ const icons = {
     "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNNDkzLjQgMjQuNmwtMTA0LTI0Yy0xMS4zLTIuNi0yMi45IDMuMy0yNy41IDEzLjlsLTQ4IDExMmMtNC4yIDkuOC0xLjQgMjEuMyA2LjkgMjhsNjAuNiA0OS42Yy0zNiA3Ni43LTk4LjkgMTQwLjUtMTc3LjIgMTc3LjJsLTQ5LjYtNjAuNmMtNi44LTguMy0xOC4yLTExLjEtMjgtNi45bC0xMTIgNDhDMy45IDM2Ni41LTIgMzc4LjEuNiAzODkuNGwyNCAxMDRDMjcuMSA1MDQuMiAzNi43IDUxMiA0OCA1MTJjMjU2LjEgMCA0NjQtMjA3LjUgNDY0LTQ2NCAwLTExLjItNy43LTIwLjktMTguNi0yMy40eiIvPjwvc3ZnPg==",
   users:
     "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNOTYgMjI0YzM1LjMgMCA2NC0yOC43IDY0LTY0cy0yOC43LTY0LTY0LTY0LTY0IDI4LjctNjQgNjQgMjguNyA2NCA2NCA2NHptNDQ4IDBjMzUuMyAwIDY0LTI4LjcgNjQtNjRzLTI4LjctNjQtNjQtNjQtNjQgMjguNy02NCA2NCAyOC43IDY0IDY0IDY0em0zMiAzMmgtNjRjLTE3LjYgMC0zMy41IDcuMS00NS4xIDE4LjYgNDAuMyAyMi4xIDY4LjkgNjIgNzUuMSAxMDkuNGg2NmMxNy43IDAgMzItMTQuMyAzMi0zMnYtMzJjMC0zNS4zLTI4LjctNjQtNjQtNjR6bS0yNTYgMGM2MS45IDAgMTEyLTUwLjEgMTEyLTExMlMzODEuOSAzMiAzMjAgMzIgMjA4IDgyLjEgMjA4IDE0NHM1MC4xIDExMiAxMTIgMTEyem03Ni44IDMyaC04LjNjLTIwLjggMTAtNDMuOSAxNi02OC41IDE2cy00Ny42LTYtNjguNS0xNmgtOC4zQzE3OS42IDI4OCAxMjggMzM5LjYgMTI4IDQwMy4yVjQzMmMwIDI2LjUgMjEuNSA0OCA0OCA0OGgyODhjMjYuNSAwIDQ4LTIxLjUgNDgtNDh2LTI4LjhjMC02My42LTUxLjYtMTE1LjItMTE1LjItMTE1LjJ6bS0yMjMuNy0xMy40QzE2MS41IDI2My4xIDE0NS42IDI1NiAxMjggMjU2SDY0Yy0zNS4zIDAtNjQgMjguNy02NCA2NHYzMmMwIDE3LjcgMTQuMyAzMiAzMiAzMmg2NS45YzYuMy00Ny40IDM0LjktODcuMyA3NS4yLTEwOS40eiIvPjwvc3ZnPg==",
+  mapLocation:
+    "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODQgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMTcyLjI2OCA1MDEuNjdDMjYuOTcgMjkxLjAzMSAwIDI2OS40MTMgMCAxOTIgMCA4NS45NjEgODUuOTYxIDAgMTkyIDBzMTkyIDg1Ljk2MSAxOTIgMTkyYzAgNzcuNDEzLTI2Ljk3IDk5LjAzMS0xNzIuMjY4IDMwOS42Ny05LjUzNSAxMy43NzQtMjkuOTMgMTMuNzczLTM5LjQ2NCAwek0xOTIgMjcyYzQ0LjE4MyAwIDgwLTM1LjgxNyA4MC04MHMtMzUuODE3LTgwLTgwLTgwLTgwIDM1LjgxNy04MCA4MCAzNS44MTcgODAgODAgODB6Ii8+PC9zdmc+",
+  circle:
+    "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMjU2IDhDMTE5IDggOCAxMTkgOCAyNTZzMTExIDI0OCAyNDggMjQ4IDI0OC0xMTEgMjQ4LTI0OFMzOTMgOCAyNTYgOHoiLz48L3N2Zz4=",
+  notes:
+    "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMjU2IDMyQzExNC42IDMyIDAgMTI1LjEgMCAyNDBjMCA0OS42IDIxLjQgOTUgNTcgMTMwLjdDNDQuNSA0MjEuMSAyLjcgNDY2IDIuMiA0NjYuNWMtMi4yIDIuMy0yLjggNS43LTEuNSA4LjdTNC44IDQ4MCA4IDQ4MGM2Ni4zIDAgMTE2LTMxLjggMTQwLjYtNTEuNCAzMi43IDEyLjMgNjkgMTkuNCAxMDcuNCAxOS40IDE0MS40IDAgMjU2LTkzLjEgMjU2LTIwOFMzOTcuNCAzMiAyNTYgMzJ6Ii8+PC9zdmc+",
+
+  dollar:
+    "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyODggNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMjA5LjIgMjMzLjRsLTEwOC0zMS42Qzg4LjcgMTk4LjIgODAgMTg2LjUgODAgMTczLjVjMC0xNi4zIDEzLjItMjkuNSAyOS41LTI5LjVoNjYuM2MxMi4yIDAgMjQuMiAzLjcgMzQuMiAxMC41IDYuMSA0LjEgMTQuMyAzLjEgMTkuNS0ybDM0LjgtMzRjNy4xLTYuOSA2LjEtMTguNC0xLjgtMjQuNUMyMzggNzQuOCAyMDcuNCA2NC4xIDE3NiA2NFYxNmMwLTguOC03LjItMTYtMTYtMTZoLTMyYy04LjggMC0xNiA3LjItMTYgMTZ2NDhoLTIuNUM0NS44IDY0LTUuNCAxMTguNy41IDE4My42YzQuMiA0Ni4xIDM5LjQgODMuNiA4My44IDk2LjZsMTAyLjUgMzBjMTIuNSAzLjcgMjEuMiAxNS4zIDIxLjIgMjguMyAwIDE2LjMtMTMuMiAyOS41LTI5LjUgMjkuNWgtNjYuM0MxMDAgMzY4IDg4IDM2NC4zIDc4IDM1Ny41Yy02LjEtNC4xLTE0LjMtMy4xLTE5LjUgMmwtMzQuOCAzNGMtNy4xIDYuOS02LjEgMTguNCAxLjggMjQuNSAyNC41IDE5LjIgNTUuMSAyOS45IDg2LjUgMzB2NDhjMCA4LjggNy4yIDE2IDE2IDE2aDMyYzguOCAwIDE2LTcuMiAxNi0xNnYtNDguMmM0Ni42LS45IDkwLjMtMjguNiAxMDUuNy03Mi43IDIxLjUtNjEuNi0xNC42LTEyNC44LTcyLjUtMTQxLjd6Ii8+PC9zdmc+",
+  barcode:
+    "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMCA0NDhWNjRoMTh2Mzg0SDB6bTI2Ljg1Ny0uMjczVjY0SDM2djM4My43MjdoLTkuMTQzem0yNy4xNDMgMFY2NGg4Ljg1N3YzODMuNzI3SDU0em00NC44NTcgMFY2NGg4Ljg1N3YzODMuNzI3aC04Ljg1N3ptMzYgMFY2NGgxNy43MTR2MzgzLjcyN2gtMTcuNzE0em00NC44NTcgMFY2NGg4Ljg1N3YzODMuNzI3aC04Ljg1N3ptMTggMFY2NGg4Ljg1N3YzODMuNzI3aC04Ljg1N3ptMTggMFY2NGg4Ljg1N3YzODMuNzI3aC04Ljg1N3ptMzUuNzE1IDBWNjRoMTh2MzgzLjcyN2gtMTh6bTQ0Ljg1NyAwVjY0aDE4djM4My43MjdoLTE4em0zNS45OTkgMFY2NGgxOC4wMDF2MzgzLjcyN2gtMTguMDAxem0zNi4wMDEgMFY2NGgxOC4wMDF2MzgzLjcyN2gtMTguMDAxem0yNi44NTcgMFY2NGgxOHYzODMuNzI3aC0xOHptNDUuMTQzIDBWNjRoMjYuODU3djM4My43MjdoLTI2Ljg1N3ptMzUuNzE0IDBWNjRoOS4xNDN2MzgzLjcyN0g0NzZ6bTE4IC4yNzNWNjRoMTh2Mzg0aC0xOHoiLz48L3N2Zz4=",
+  calendar:
+    "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMCA0NjRjMCAyNi41IDIxLjUgNDggNDggNDhoMzUyYzI2LjUgMCA0OC0yMS41IDQ4LTQ4VjE5MkgwdjI3MnptMzIwLTE5NmMwLTYuNiA1LjQtMTIgMTItMTJoNDBjNi42IDAgMTIgNS40IDEyIDEydjQwYzAgNi42LTUuNCAxMi0xMiAxMmgtNDBjLTYuNiAwLTEyLTUuNC0xMi0xMnYtNDB6bTAgMTI4YzAtNi42IDUuNC0xMiAxMi0xMmg0MGM2LjYgMCAxMiA1LjQgMTIgMTJ2NDBjMCA2LjYtNS40IDEyLTEyIDEyaC00MGMtNi42IDAtMTItNS40LTEyLTEydi00MHpNMTkyIDI2OGMwLTYuNiA1LjQtMTIgMTItMTJoNDBjNi42IDAgMTIgNS40IDEyIDEydjQwYzAgNi42LTUuNCAxMi0xMiAxMmgtNDBjLTYuNiAwLTEyLTUuNC0xMi0xMnYtNDB6bTAgMTI4YzAtNi42IDUuNC0xMiAxMi0xMmg0MGM2LjYgMCAxMiA1LjQgMTIgMTJ2NDBjMCA2LjYtNS40IDEyLTEyIDEyaC00MGMtNi42IDAtMTItNS40LTEyLTEydi00MHpNNjQgMjY4YzAtNi42IDUuNC0xMiAxMi0xMmg0MGM2LjYgMCAxMiA1LjQgMTIgMTJ2NDBjMCA2LjYtNS40IDEyLTEyIDEySDc2Yy02LjYgMC0xMi01LjQtMTItMTJ2LTQwem0wIDEyOGMwLTYuNiA1LjQtMTIgMTItMTJoNDBjNi42IDAgMTIgNS40IDEyIDEydjQwYzAgNi42LTUuNCAxMi0xMiAxMkg3NmMtNi42IDAtMTItNS40LTEyLTEydi00MHpNNDAwIDY0aC00OFYxNmMwLTguOC03LjItMTYtMTYtMTZoLTMyYy04LjggMC0xNiA3LjItMTYgMTZ2NDhIMTYwVjE2YzAtOC44LTcuMi0xNi0xNi0xNmgtMzJjLTguOCAwLTE2IDcuMi0xNiAxNnY0OEg0OEMyMS41IDY0IDAgODUuNSAwIDExMnY0OGg0NDh2LTQ4YzAtMjYuNS0yMS41LTQ4LTQ4LTQ4eiIvPjwvc3ZnPg==",
+  car: "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNNDk5Ljk5IDE3NmgtNTkuODdsLTE2LjY0LTQxLjZDNDA2LjM4IDkxLjYzIDM2NS41NyA2NCAzMTkuNSA2NGgtMTI3Yy00Ni4wNiAwLTg2Ljg4IDI3LjYzLTEwMy45OSA3MC40TDcxLjg3IDE3NkgxMi4wMUM0LjIgMTc2LTEuNTMgMTgzLjM0LjM3IDE5MC45MWw2IDI0QzcuNyAyMjAuMjUgMTIuNSAyMjQgMTguMDEgMjI0aDIwLjA3QzI0LjY1IDIzNS43MyAxNiAyNTIuNzggMTYgMjcydjQ4YzAgMTYuMTIgNi4xNiAzMC42NyAxNiA0MS45M1Y0MTZjMCAxNy42NyAxNC4zMyAzMiAzMiAzMmgzMmMxNy42NyAwIDMyLTE0LjMzIDMyLTMydi0zMmgyNTZ2MzJjMCAxNy42NyAxNC4zMyAzMiAzMiAzMmgzMmMxNy42NyAwIDMyLTE0LjMzIDMyLTMydi01NC4wN2M5Ljg0LTExLjI1IDE2LTI1LjggMTYtNDEuOTN2LTQ4YzAtMTkuMjItOC42NS0zNi4yNy0yMi4wNy00OEg0OTRjNS41MSAwIDEwLjMxLTMuNzUgMTEuNjQtOS4wOWw2LTI0YzEuODktNy41Ny0zLjg0LTE0LjkxLTExLjY1LTE0Ljkxem0tMzUyLjA2LTE3LjgzYzcuMjktMTguMjIgMjQuOTQtMzAuMTcgNDQuNTctMzAuMTdoMTI3YzE5LjYzIDAgMzcuMjggMTEuOTUgNDQuNTcgMzAuMTdMMzg0IDIwOEgxMjhsMTkuOTMtNDkuODN6TTk2IDMxOS44Yy0xOS4yIDAtMzItMTIuNzYtMzItMzEuOVM3Ni44IDI1NiA5NiAyNTZzNDggMjguNzEgNDggNDcuODUtMjguOCAxNS45NS00OCAxNS45NXptMzIwIDBjLTE5LjIgMC00OCAzLjE5LTQ4LTE1Ljk1UzM5Ni44IDI1NiA0MTYgMjU2czMyIDEyLjc2IDMyIDMxLjktMTIuOCAzMS45LTMyIDMxLjl6Ii8+PC9zdmc+",
 };
+
+class ShowPointsOnTheTable extends React.Component {
+  render() {
+    console.log(this.props.points);
+
+    return (
+      <div className="jrn-details">
+        <div className="jrn-details-header">
+          <img src={icons.mapLocation} alt="" />
+          <p>{this.props.title} :</p>
+        </div>
+        {this.props.points.map((point) => {
+          return (
+            <div className="jrn-details-bottom-container">
+              <div className="jrn-details-bottom-adress">
+                <img src={icons.check} alt="" />
+                <span className="jrn-details-bottom-name">{point.address}</span>
+              </div>
+              {point.flightDetails.flightNumber ? (
+                <div className="jrn-details-bottom-description">
+                  <img src={icons.circle} alt="" />
+                  <div className="jrn-text-div">
+                    <span>Fligth Number:</span>&nbsp;
+                    <span>{point.flightDetails.flightNumber}</span>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+              {point.flightDetails.waitingPickupTime > 0 ? (
+                <div className="jrn-details-bottom-description">
+                  <img src={icons.circle} alt="" />
+                  <div className="jrn-text-div">
+                    <span>Waiting Pickup Time:</span>&nbsp;
+                    <span>{point.flightDetails.waitingPickupTime > 0}</span>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+
+              {point.postCodeDetails.postCodeAddress ? (
+                <div className="jrn-details-bottom-description">
+                  <img src={icons.circle} alt="" />
+                  <div className="jrn-text-div">
+                    <span>Postcode Address:</span>&nbsp;
+                    <span>{point.postCodeDetails.postCodeAddress}</span>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+              {point.cruiseNumber ? (
+                <div className="jrn-details-bottom-description">
+                  <img src={icons.circle} alt="" />
+                  <div className="jrn-text-div">
+                    <span>Cruise Name:</span>&nbsp;
+                    <span>{point.cruiseNumber}</span>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+              {point.trainNumber ? (
+                <div className="jrn-details-bottom-description">
+                  <img src={icons.circle} alt="" />
+                  <div className="jrn-text-div">
+                    <span>Train Number:</span> &nbsp;
+                    <span>{point.trainNumber}</span>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+              {point.pcatId === 8 && point["address-description"] ? (
+                <div className="jrn-details-bottom-description">
+                  <img src={icons.circle} alt="" />
+                  <div className="jrn-text-div">
+                    <span>Cities:</span>&nbsp;
+                    <span>{point["address-description"]}</span>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+              {/*  */}
+              {point.pcatId === 9 && point["address-description"] ? (
+                <div className="jrn-details-bottom-description">
+                  <img src={icons.circle} alt="" />
+                  <div className="jrn-text-div">
+                    <span>Universities And Colleges:</span>{" "}
+                    <span>{point["address-description"]}</span>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+              {point.pcatId === 10 && point["address-description"] ? (
+                <div className="jrn-details-bottom-description">
+                  <img src={icons.circle} alt="" />
+                  <div className="jrn-text-div">
+                    <span>Description:</span>{" "}
+                    <span>{point["address-description"]}</span>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+}
 class AlertMessage extends React.Component {
   constructor(props) {
     super(props);
@@ -182,7 +311,7 @@ class ReservationDetails extends React.Component {
       firstname: "",
       phone: "",
       passengersNumber: "",
-      orijinalReservationsData: "",
+      orijinalReservationsData: null,
       passengerEditStatus: false, //when we click edit btn
     };
   }
@@ -203,7 +332,14 @@ class ReservationDetails extends React.Component {
     });
   }
   render() {
-    let { email, firstname, phone, passengersNumber } = this.state;
+    let {
+      email,
+      firstname,
+      phone,
+      passengersNumber,
+      orijinalReservationsData,
+    } = this.state;
+    console.log(orijinalReservationsData);
 
     return (
       <div className="rsv-section">
@@ -254,7 +390,155 @@ class ReservationDetails extends React.Component {
             </div>
           </div>
           {/* journey details */}
-          {/* <div className="rsv-journey-details">journeydetails</div> */}
+          <div className="jrn-journey-details">
+            <div className="jrn-title">
+              <h3>Transfer Details</h3>
+              <button className="tmb-btn-primary-outlined fw_500 tmb-btn">
+                Edit
+              </button>
+            </div>
+            <div className="jrn-column">
+              <li>
+                {/* {orijinalReservationsData && (
+                  <ShowPointsOnTheTable
+                    points={orijinalReservationsData.selectedPickupPoints}
+                    title="Pick-up Location"
+                    showWaiting={true}
+                  />
+                )} */}
+                <div className="jrn-details">
+                  <div className="jrn-details-header">
+                    <img src={icons.mapLocation} alt="" />
+                    <p>Pick-up Location :</p>
+                  </div>
+                  <div className="jrn-details-bottom-container">
+                    <div className="jrn-details-bottom-adress">
+                      <img src={icons.check} alt="" />
+                      <span className="jrn-details-bottom-name">
+                        London Heathrow airport
+                      </span>
+                    </div>
+                    <div className="jrn-details-bottom-description">
+                      <img src={icons.circle} alt="" />
+                      <div className="jrn-text-div">
+                        <span>Fligth Number:</span>&nbsp;
+                        <span>j2 8002132131</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                ;
+              </li>
+              <li>
+                {/* {orijinalReservationsData && (
+                  <ShowPointsOnTheTable
+                    points={orijinalReservationsData.selectedDropoffPoints}
+                    title="Drop off Location"
+                    showWaiting={false}
+                  />
+                )} */}
+                <div className="jrn-details">
+                  <div className="jrn-details-header">
+                    <img src={icons.mapLocation} alt="" />
+                    <p>Pick-up Location :</p>
+                  </div>
+                  <div className="jrn-details-bottom-container">
+                    <div className="jrn-details-bottom-adress">
+                      <img src={icons.check} alt="" />
+                      <span className="jrn-details-bottom-name">
+                        London Heathrow airport
+                      </span>
+                    </div>
+                    <div className="jrn-details-bottom-description">
+                      <img src={icons.circle} alt="" />
+                      <div className="jrn-text-div">
+                        <span>Fligth Number:</span>&nbsp;
+                        <span>j2 8002132131</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                ;
+              </li>
+            </div>
+            <div className="jrn-column">
+              <li>
+                <div className="jrn-details-grid">
+                  <div className="jrn-details-grid-header-li">
+                    <img src={icons.circle} alt="" />
+                    <p>Transfer Type</p>
+                  </div>
+                  <div className="jrn-details-grid-bottom">
+                    <span>:Economy</span>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div className="jrn-details-grid">
+                  <div className="jrn-details-grid-header-li">
+                    <img src={icons.notes} alt="" />
+                    <p>Notes</p>
+                  </div>
+                  <div className="jrn-details-grid-bottom">
+                    <span>:Bla bla bla</span>
+                  </div>
+                </div>
+              </li>
+            </div>
+            <div className="jrn-column">
+              <li>
+                <div className="jrn-details-grid">
+                  <div className="jrn-details-grid-header-li">
+                    <img src={icons.circle} alt="" />
+                    <p>Payment Method</p>
+                  </div>
+                  <div className="jrn-details-grid-bottom">
+                    <span>
+                      {2 === 1 && ":Pay With Cash To Driver"}
+                      {88 === 2 && ":Pay With Credit Card"}
+                      {1 === 6 && ":Pay With American Express"}
+                      {99 === 7 && ":Pay With Stripe"}
+                    </span>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div className="jrn-details-grid">
+                  <div className="jrn-details-grid-header-li">
+                    <img src={icons.barcode} alt="" />
+                    <p>Price</p>
+                  </div>
+                  <div className="jrn-details-grid-bottom">
+                    <span>:£30</span>
+                  </div>
+                </div>
+              </li>
+            </div>
+            <div className="jrn-column">
+              <li>
+                <div className="jrn-details-grid">
+                  <div className="jrn-details-grid-header-li">
+                    <img src={icons.calendar} alt="" />
+                    <p>Arrival Date &Time</p>
+                  </div>
+                  <div className="jrn-details-grid-bottom">
+                    <span>12.25.36</span>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div className="jrn-details-grid">
+                  <div className="jrn-details-grid-header-li">
+                    <img src={icons.car} alt="" />
+                    <p>Vehicle Type</p>
+                  </div>
+                  <div className="jrn-details-grid-bottom">
+                    <span>:£30</span>
+                  </div>
+                </div>
+              </li>
+            </div>
+          </div>
         </div>
       </div>
     );
