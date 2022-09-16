@@ -26,118 +26,151 @@ const icons = {
     "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMCA0NjRjMCAyNi41IDIxLjUgNDggNDggNDhoMzUyYzI2LjUgMCA0OC0yMS41IDQ4LTQ4VjE5MkgwdjI3MnptMzIwLTE5NmMwLTYuNiA1LjQtMTIgMTItMTJoNDBjNi42IDAgMTIgNS40IDEyIDEydjQwYzAgNi42LTUuNCAxMi0xMiAxMmgtNDBjLTYuNiAwLTEyLTUuNC0xMi0xMnYtNDB6bTAgMTI4YzAtNi42IDUuNC0xMiAxMi0xMmg0MGM2LjYgMCAxMiA1LjQgMTIgMTJ2NDBjMCA2LjYtNS40IDEyLTEyIDEyaC00MGMtNi42IDAtMTItNS40LTEyLTEydi00MHpNMTkyIDI2OGMwLTYuNiA1LjQtMTIgMTItMTJoNDBjNi42IDAgMTIgNS40IDEyIDEydjQwYzAgNi42LTUuNCAxMi0xMiAxMmgtNDBjLTYuNiAwLTEyLTUuNC0xMi0xMnYtNDB6bTAgMTI4YzAtNi42IDUuNC0xMiAxMi0xMmg0MGM2LjYgMCAxMiA1LjQgMTIgMTJ2NDBjMCA2LjYtNS40IDEyLTEyIDEyaC00MGMtNi42IDAtMTItNS40LTEyLTEydi00MHpNNjQgMjY4YzAtNi42IDUuNC0xMiAxMi0xMmg0MGM2LjYgMCAxMiA1LjQgMTIgMTJ2NDBjMCA2LjYtNS40IDEyLTEyIDEySDc2Yy02LjYgMC0xMi01LjQtMTItMTJ2LTQwem0wIDEyOGMwLTYuNiA1LjQtMTIgMTItMTJoNDBjNi42IDAgMTIgNS40IDEyIDEydjQwYzAgNi42LTUuNCAxMi0xMiAxMkg3NmMtNi42IDAtMTItNS40LTEyLTEydi00MHpNNDAwIDY0aC00OFYxNmMwLTguOC03LjItMTYtMTYtMTZoLTMyYy04LjggMC0xNiA3LjItMTYgMTZ2NDhIMTYwVjE2YzAtOC44LTcuMi0xNi0xNi0xNmgtMzJjLTguOCAwLTE2IDcuMi0xNiAxNnY0OEg0OEMyMS41IDY0IDAgODUuNSAwIDExMnY0OGg0NDh2LTQ4YzAtMjYuNS0yMS41LTQ4LTQ4LTQ4eiIvPjwvc3ZnPg==",
   car: "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNNDk5Ljk5IDE3NmgtNTkuODdsLTE2LjY0LTQxLjZDNDA2LjM4IDkxLjYzIDM2NS41NyA2NCAzMTkuNSA2NGgtMTI3Yy00Ni4wNiAwLTg2Ljg4IDI3LjYzLTEwMy45OSA3MC40TDcxLjg3IDE3NkgxMi4wMUM0LjIgMTc2LTEuNTMgMTgzLjM0LjM3IDE5MC45MWw2IDI0QzcuNyAyMjAuMjUgMTIuNSAyMjQgMTguMDEgMjI0aDIwLjA3QzI0LjY1IDIzNS43MyAxNiAyNTIuNzggMTYgMjcydjQ4YzAgMTYuMTIgNi4xNiAzMC42NyAxNiA0MS45M1Y0MTZjMCAxNy42NyAxNC4zMyAzMiAzMiAzMmgzMmMxNy42NyAwIDMyLTE0LjMzIDMyLTMydi0zMmgyNTZ2MzJjMCAxNy42NyAxNC4zMyAzMiAzMiAzMmgzMmMxNy42NyAwIDMyLTE0LjMzIDMyLTMydi01NC4wN2M5Ljg0LTExLjI1IDE2LTI1LjggMTYtNDEuOTN2LTQ4YzAtMTkuMjItOC42NS0zNi4yNy0yMi4wNy00OEg0OTRjNS41MSAwIDEwLjMxLTMuNzUgMTEuNjQtOS4wOWw2LTI0YzEuODktNy41Ny0zLjg0LTE0LjkxLTExLjY1LTE0Ljkxem0tMzUyLjA2LTE3LjgzYzcuMjktMTguMjIgMjQuOTQtMzAuMTcgNDQuNTctMzAuMTdoMTI3YzE5LjYzIDAgMzcuMjggMTEuOTUgNDQuNTcgMzAuMTdMMzg0IDIwOEgxMjhsMTkuOTMtNDkuODN6TTk2IDMxOS44Yy0xOS4yIDAtMzItMTIuNzYtMzItMzEuOVM3Ni44IDI1NiA5NiAyNTZzNDggMjguNzEgNDggNDcuODUtMjguOCAxNS45NS00OCAxNS45NXptMzIwIDBjLTE5LjIgMC00OCAzLjE5LTQ4LTE1Ljk1UzM5Ni44IDI1NiA0MTYgMjU2czMyIDEyLjc2IDMyIDMxLjktMTIuOCAzMS45LTMyIDMxLjl6Ii8+PC9zdmc+",
 };
-
-class ShowPointsOnTheTable extends React.Component {
+//inside passenger details
+class DetailsLi extends React.Component {
   render() {
-    console.log(this.props.points);
+    let { icon, title, description } = this.props;
 
     return (
-      <div className="jrn-details">
-        <div className="jrn-details-header">
-          <img src={icons.mapLocation} alt="" />
-          <p>{this.props.title} :</p>
+      <li>
+        <div className="psg-li-left">
+          <img src={icon} alt="" />
+          <p>{title}</p>
         </div>
-        {this.props.points.map((point) => {
-          return (
-            <div className="jrn-details-bottom-container">
-              <div className="jrn-details-bottom-adress">
-                <img src={icons.check} alt="" />
-                <span className="jrn-details-bottom-name">{point.address}</span>
-              </div>
-              {point.flightDetails.flightNumber ? (
-                <div className="jrn-details-bottom-description">
-                  <img src={icons.circle} alt="" />
-                  <div className="jrn-text-div">
-                    <span>Fligth Number:</span>&nbsp;
-                    <span>{point.flightDetails.flightNumber}</span>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
-              {point.flightDetails.waitingPickupTime > 0 ? (
-                <div className="jrn-details-bottom-description">
-                  <img src={icons.circle} alt="" />
-                  <div className="jrn-text-div">
-                    <span>Waiting Pickup Time:</span>&nbsp;
-                    <span>{point.flightDetails.waitingPickupTime > 0}</span>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
+        <div className="psg-li-right">:{description}</div>
+      </li>
+    );
+  }
+}
+//journey details
+class DetailsGridLi extends React.Component {
+  render() {
+    let { icon, title, description, className } = this.props;
 
-              {point.postCodeDetails.postCodeAddress ? (
-                <div className="jrn-details-bottom-description">
-                  <img src={icons.circle} alt="" />
-                  <div className="jrn-text-div">
-                    <span>Postcode Address:</span>&nbsp;
-                    <span>{point.postCodeDetails.postCodeAddress}</span>
-                  </div>
+    return (
+      <li>
+        <div className="jrn-details-grid">
+          <div className="jrn-details-grid-header-li">
+            <img src={icon} className={className ? className : ""} alt="" />
+            <p>{title}</p>
+          </div>
+          <div className="jrn-details-grid-bottom">
+            <span>:{description}</span>
+          </div>
+        </div>
+      </li>
+    );
+  }
+}
+/*
+
+
+*/
+//inside  ShowPointsOnTheTable
+class ShowPointDescription extends React.Component {
+  render() {
+    let { icon, title, description } = this.props;
+    return (
+      <li>
+        <div className="jrn-details-bottom-description">
+          <img src={icon} alt="" />
+          <div className="jrn-text-div">
+            <span>{title}:</span>&nbsp;
+            <span>{description}</span>
+          </div>
+        </div>
+      </li>
+    );
+  }
+}
+class ShowPointsOnTheTable extends React.Component {
+  render() {
+    let { points, title, showWaiting } = this.props;
+    return (
+      <li style={{ borderBottom: "1px solid hsla(215, 9%, 55%, 0.2)" }}>
+        <div className="jrn-details">
+          <div className="jrn-details-header">
+            <img src={icons.mapLocation} alt="" />
+            <p>{title} :</p>
+          </div>
+          {points.map((point) => {
+            return (
+              <div className="jrn-details-bottom-container">
+                <div className="jrn-details-bottom-adress">
+                  <img src={icons.check} alt="" />
+                  <span className="jrn-details-bottom-name">
+                    {point.address}
+                  </span>
                 </div>
-              ) : (
-                ""
-              )}
-              {point.cruiseNumber ? (
-                <div className="jrn-details-bottom-description">
-                  <img src={icons.circle} alt="" />
-                  <div className="jrn-text-div">
-                    <span>Cruise Name:</span>&nbsp;
-                    <span>{point.cruiseNumber}</span>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
-              {point.trainNumber ? (
-                <div className="jrn-details-bottom-description">
-                  <img src={icons.circle} alt="" />
-                  <div className="jrn-text-div">
-                    <span>Train Number:</span> &nbsp;
-                    <span>{point.trainNumber}</span>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
-              {point.pcatId === 8 && point["address-description"] ? (
-                <div className="jrn-details-bottom-description">
-                  <img src={icons.circle} alt="" />
-                  <div className="jrn-text-div">
-                    <span>Cities:</span>&nbsp;
-                    <span>{point["address-description"]}</span>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
-              {/*  */}
-              {point.pcatId === 9 && point["address-description"] ? (
-                <div className="jrn-details-bottom-description">
-                  <img src={icons.circle} alt="" />
-                  <div className="jrn-text-div">
-                    <span>Universities And Colleges:</span>{" "}
-                    <span>{point["address-description"]}</span>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
-              {point.pcatId === 10 && point["address-description"] ? (
-                <div className="jrn-details-bottom-description">
-                  <img src={icons.circle} alt="" />
-                  <div className="jrn-text-div">
-                    <span>Description:</span>{" "}
-                    <span>{point["address-description"]}</span>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
-          );
-        })}
-      </div>
+                {point.pcatId === 1 && (
+                  <ShowPointDescription
+                    title="Fligth Number"
+                    icon={icons.circle}
+                    description={point.flightDetails.flightNumber}
+                  />
+                )}
+                {point.pcatId === 1 && showWaiting && (
+                  <ShowPointDescription
+                    title="Waiting Pickup Time"
+                    icon={icons.circle}
+                    description={point.flightDetails.waitingPickupTime || "0"}
+                  />
+                )}
+                {point.pcatId === 5 && (
+                  <ShowPointDescription
+                    title="Postcode Address"
+                    icon={icons.circle}
+                    description={point.postCodeDetails.postCodeAddress}
+                  />
+                )}
+                {point.pcatId === 2 && (
+                  <ShowPointDescription
+                    title="Cruise Name"
+                    icon={icons.circle}
+                    description={point.cruiseNumber}
+                  />
+                )}
+                {point.pcatId === 3 && (
+                  <ShowPointDescription
+                    title="Train Number"
+                    icon={icons.circle}
+                    description={point.trainNumber}
+                  />
+                )}
+                {point.pcatId === 7 && point["address-description"] && (
+                  <ShowPointDescription
+                    title="Places of Interest"
+                    icon={icons.circle}
+                    description={point["address-description"]}
+                  />
+                )}
+                {point.pcatId === 8 && point["address-description"] && (
+                  <ShowPointDescription
+                    title="Cities"
+                    icon={icons.circle}
+                    description={point["address-description"]}
+                  />
+                )}
+                {/*  */}
+                {point.pcatId === 9 && point["address-description"] && (
+                  <ShowPointDescription
+                    title="Universities And Colleges"
+                    icon={icons.circle}
+                    description={point["address-description"]}
+                  />
+                )}
+                {point.pcatId === 10 && point["address-description"] && (
+                  <ShowPointDescription
+                    title="Description"
+                    icon={icons.circle}
+                    description={point["address-description"]}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </li>
     );
   }
 }
@@ -307,45 +340,36 @@ class ReservationDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      firstname: "",
-      phone: "",
-      passengersNumber: "",
       orijinalReservationsData: null,
       passengerEditStatus: false, //when we click edit btn
     };
   }
-
-  componentDidMount() {
-    let { reservations } = this.props;
-    let email = reservations.passengerDetails.email;
-    let phone = reservations.passengerDetails.phone;
-    let firstname = reservations.passengerDetails.firstname;
-    let passengersNumber = reservations.transferDetails.passengersNumber;
-    this.setState({
-      ...this.state,
-      email,
-      phone,
-      firstname,
-      passengersNumber,
-      orijinalReservationsData: reservations,
-    });
-  }
   render() {
     let {
-      email,
-      firstname,
-      phone,
-      passengersNumber,
-      orijinalReservationsData,
-    } = this.state;
-    console.log(orijinalReservationsData);
+      reservation,
+      resources: { carsTypes },
+    } = this.props;
+    let carsTypesObject = Object.assign(
+      {},
+      ...carsTypes.map((obj) => ({ [obj.id]: obj }))
+    );
+    let {
+      selectedPickupPoints,
+      selectedDropoffPoints,
+      passengerDetails,
+      transferDetails,
+      quotation,
+      paymentDetails,
+      reservationDetails,
+    } = reservation;
 
     return (
       <div className="rsv-section">
         <div className="rsv-section-container">
           <div className="psg-passenger-details">
-            <h1 class="psg-referenceId">Referance Id 671836</h1>
+            <h1 class="psg-referenceId">
+              Referance Id {reservationDetails.id}
+            </h1>
             <div className="psg-title">
               <h3>Customer Details</h3>
               <button className="tmb-btn-primary-outlined fw_500 tmb-btn">
@@ -353,40 +377,33 @@ class ReservationDetails extends React.Component {
               </button>
             </div>
             <div className="psg-column psg-first-column">
-              <li>
-                <div className="psg-li-left">
-                  <img src={icons.user} className="psg-user-img-icon" alt="" />
-                  <p>Full Name</p>
-                </div>
-                <div className="psg-li-right">:{firstname}</div>
-              </li>
-              <li>
-                <div className="psg-li-left">
-                  <img src={icons.at} alt="" />
-                  <p>Email</p>
-                </div>
-                <div className="psg-li-right">:{email}</div>
-              </li>
+              <DetailsLi
+                title="Full Name"
+                icon={icons.user}
+                description={`${passengerDetails.firstname} ${
+                  typeof passengerDetails.lastname === "string" &&
+                  passengerDetails.lastname.length > 0
+                    ? ` ${passengerDetails.lastname}`
+                    : ""
+                }`}
+              />
+              <DetailsLi
+                title="Email"
+                icon={icons.at}
+                description={passengerDetails.email}
+              />
             </div>
             <div className="psg-column psg-second-column">
-              <li>
-                <div className="psg-li-left">
-                  <img
-                    src={icons.users}
-                    className="psg-users-img-icon"
-                    alt=""
-                  />
-                  <p>Number of Passengers</p>
-                </div>
-                <div className="psg-li-right">:{passengersNumber}</div>
-              </li>
-              <li>
-                <div className="psg-li-left">
-                  <img src={icons.phone} alt="" />
-                  <p>Phone Number</p>
-                </div>
-                <div className="psg-li-right">:{phone}</div>
-              </li>
+              <DetailsLi
+                title="Number of Passengers"
+                icon={icons.users}
+                description={transferDetails.passengersNumber}
+              />
+              <DetailsLi
+                title="Phone Number"
+                icon={icons.phone}
+                description={passengerDetails.phone}
+              />
             </div>
           </div>
           {/* journey details */}
@@ -398,142 +415,75 @@ class ReservationDetails extends React.Component {
               </button>
             </div>
             <div className="jrn-column">
-              <li>
-                {/* {orijinalReservationsData && (
-                  <ShowPointsOnTheTable
-                    points={orijinalReservationsData.selectedPickupPoints}
-                    title="Pick-up Location"
-                    showWaiting={true}
-                  />
-                )} */}
-                <div className="jrn-details">
-                  <div className="jrn-details-header">
-                    <img src={icons.mapLocation} alt="" />
-                    <p>Pick-up Location :</p>
-                  </div>
-                  <div className="jrn-details-bottom-container">
-                    <div className="jrn-details-bottom-adress">
-                      <img src={icons.check} alt="" />
-                      <span className="jrn-details-bottom-name">
-                        London Heathrow airport
-                      </span>
-                    </div>
-                    <div className="jrn-details-bottom-description">
-                      <img src={icons.circle} alt="" />
-                      <div className="jrn-text-div">
-                        <span>Fligth Number:</span>&nbsp;
-                        <span>j2 8002132131</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                ;
-              </li>
-              <li>
-                {/* {orijinalReservationsData && (
-                  <ShowPointsOnTheTable
-                    points={orijinalReservationsData.selectedDropoffPoints}
-                    title="Drop off Location"
-                    showWaiting={false}
-                  />
-                )} */}
-                <div className="jrn-details">
-                  <div className="jrn-details-header">
-                    <img src={icons.mapLocation} alt="" />
-                    <p>Pick-up Location :</p>
-                  </div>
-                  <div className="jrn-details-bottom-container">
-                    <div className="jrn-details-bottom-adress">
-                      <img src={icons.check} alt="" />
-                      <span className="jrn-details-bottom-name">
-                        London Heathrow airport
-                      </span>
-                    </div>
-                    <div className="jrn-details-bottom-description">
-                      <img src={icons.circle} alt="" />
-                      <div className="jrn-text-div">
-                        <span>Fligth Number:</span>&nbsp;
-                        <span>j2 8002132131</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                ;
-              </li>
+              <ShowPointsOnTheTable
+                points={selectedPickupPoints}
+                title="Pick-up Location"
+                showWaiting={true}
+              />
+              <ShowPointsOnTheTable
+                points={selectedDropoffPoints}
+                title="Drop off Location"
+                showWaiting={false}
+              />
             </div>
-            <div className="jrn-column">
-              <li>
-                <div className="jrn-details-grid">
-                  <div className="jrn-details-grid-header-li">
-                    <img src={icons.circle} alt="" />
-                    <p>Transfer Type</p>
-                  </div>
-                  <div className="jrn-details-grid-bottom">
-                    <span>:Economy</span>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="jrn-details-grid">
-                  <div className="jrn-details-grid-header-li">
-                    <img src={icons.notes} alt="" />
-                    <p>Notes</p>
-                  </div>
-                  <div className="jrn-details-grid-bottom">
-                    <span>:Bla bla bla</span>
-                  </div>
-                </div>
-              </li>
+            <div className="jrn-column jrn-column-details">
+              <DetailsGridLi
+                title="Transfer Type"
+                description={carsTypesObject[quotation.carId].transferType}
+                className={false}
+                icon={icons.circle}
+              />
+              <DetailsGridLi
+                title="Notes"
+                description={transferDetails.specialRequests}
+                className={"jrn-notes-img"}
+                icon={icons.circle}
+              />
             </div>
-            <div className="jrn-column">
-              <li>
-                <div className="jrn-details-grid">
-                  <div className="jrn-details-grid-header-li">
-                    <img src={icons.circle} alt="" />
-                    <p>Payment Method</p>
-                  </div>
-                  <div className="jrn-details-grid-bottom">
-                    <span>
-                      {2 === 1 && ":Pay With Cash To Driver"}
-                      {88 === 2 && ":Pay With Credit Card"}
-                      {1 === 6 && ":Pay With American Express"}
-                      {99 === 7 && ":Pay With Stripe"}
-                    </span>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="jrn-details-grid">
-                  <div className="jrn-details-grid-header-li">
-                    <img src={icons.barcode} alt="" />
-                    <p>Price</p>
-                  </div>
-                  <div className="jrn-details-grid-bottom">
-                    <span>:£30</span>
-                  </div>
-                </div>
-              </li>
+            {/* + */}
+            <div className="jrn-column jrn-column-details">
+              <DetailsGridLi
+                title="Payment Method"
+                description={
+                  (paymentDetails.paymentType === 1 &&
+                    "Pay With Cash To Driver") ||
+                  (paymentDetails.paymentType === 2 &&
+                    "Pay With Credit Card") ||
+                  (paymentDetails.paymentType === 6 &&
+                    "Pay With American Express") ||
+                  (paymentDetails.paymentType === 7 && "Pay With Stripe")
+                }
+                className={false}
+                icon={icons.circle}
+              />
+
+              <DetailsGridLi
+                title="Price"
+                description={paymentDetails.price}
+                className={false}
+                icon={icons.circle}
+              />
             </div>
-            <div className="jrn-column">
+            <div className="jrn-column jrn-column-details">
               <li>
                 <div className="jrn-details-grid">
                   <div className="jrn-details-grid-header-li">
-                    <img src={icons.calendar} alt="" />
+                    <img className="jrn-date-img" src={icons.calendar} alt="" />
                     <p>Arrival Date &Time</p>
                   </div>
                   <div className="jrn-details-grid-bottom">
-                    <span>12.25.36</span>
+                    <span>:{transferDetails.transferDateTimeString}</span>
                   </div>
                 </div>
               </li>
               <li>
                 <div className="jrn-details-grid">
                   <div className="jrn-details-grid-header-li">
-                    <img src={icons.car} alt="" />
+                    <img className="jrn-notes-img" src={icons.car} alt="" />
                     <p>Vehicle Type</p>
                   </div>
                   <div className="jrn-details-grid-bottom">
-                    <span>:£30</span>
+                    <span>:{carsTypesObject[quotation.carId].name}</span>
                   </div>
                 </div>
               </li>
@@ -549,20 +499,40 @@ class ManageBooking extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      reservations: [],
+      reservation: JSON.parse(localStorage["reservation"]), // {},
       isAuth: false,
       showState: false,
+      resources: {},
     };
   }
   componentDidMount() {
+    this.getResources();
     window.manageBookingDispatch = {
-      onSuccessLogin: (reservations) =>
-        this.setState({ ...this.state, reservations, isAuth: true }),
+      onSuccessLogin: (reservation) =>
+        this.setState({ ...this.state, reservation, isAuth: true }),
     };
   }
+  getResources() {
+    const url = `${__env.domain}/app/en`;
+    const config = {
+      method: "GET",
+    };
+    fetch(url, config)
+      .then((res) => res.json())
+      .then((data) => {
+        let { carsTypes, pointTypeCategories } = data;
+        // check-point -> remove iaAuth in production mode
+        this.setState({
+          resources: { carsTypes, pointTypeCategories },
+          isAuth: true,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   render() {
-    let { reservations, isAuth, showState } = this.state;
-
+    let { reservation, isAuth, showState, resources } = this.state;
     return (
       <div className="tool-manage-booking" mode="dark">
         <div
@@ -592,7 +562,7 @@ class ManageBooking extends React.Component {
           )}
         </div>
         {isAuth ? (
-          <ReservationDetails reservations={reservations} />
+          <ReservationDetails reservation={reservation} resources={resources} />
         ) : (
           <BookingLogin />
         )}

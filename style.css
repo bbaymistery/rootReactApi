@@ -385,17 +385,21 @@ a {
   display: flex;
   justify-content: space-between;
 }
-
-.jrn-column li {
+.jrn-column-details li {
+  border-bottom: 1px solid hsla(215, 9%, 55%, 0.2) !important;
+}
+.jrn-journey-details .jrn-column li {
   flex-direction: row;
   color: #091e76;
   list-style: none;
   padding: 6px 0;
   letter-spacing: 0.7px;
-  border-bottom: 1px solid hsla(215, 9%, 55%, 0.2) !important;
   margin-bottom: 0.5rem;
   border-radius: 3px;
   flex-basis: 48%;
+}
+.jrn-journey-details .jrn-column li:nth-child(3) {
+  margin-top: -15px;
 }
 .jrn-column li .jrn-details {
   width: 100%;
@@ -416,7 +420,7 @@ a {
 }
 .jrn-column li .jrn-details .jrn-details-header img {
   margin-right: 5px;
-  width: 12px;
+  width: 10px;
 }
 .jrn-details-bottom-container {
   padding-top: 10px;
@@ -431,6 +435,7 @@ a {
   align-items: baseline;
   line-height: 25px;
 }
+
 .jrn-details-bottom-adress .jrn-details-bottom-name {
   margin: 0;
   font-weight: 300;
@@ -477,6 +482,9 @@ a {
   color: #000;
   font-weight: 700;
 }
+.jrn-details-grid .jrn-details-grid-header-li p {
+  margin: 0px;
+}
 .jrn-details-grid .jrn-details-grid-header-li img {
   width: 5px;
   margin-right: 6px;
@@ -497,6 +505,21 @@ a {
   color: #6e6d6d;
   word-break: break-word;
 }
+.jrn-notes-img {
+  width: 12px !important;
+}
+.jrn-date-img {
+  width: 10px !important;
+}
+.jrn-price-mg {
+  width: 8px !important;
+}
+
+@media (max-width: 768px) {
+  .jrn-column {
+    flex-direction: column-reverse;
+  }
+}
 @media (max-width: 568px) {
   .jrn-title h3 {
     font-size: 18px !important;
@@ -504,6 +527,36 @@ a {
   }
   .jrn-title h3::after {
     display: none !important;
+  }
+  .jrn-details-header p {
+    font-size: 15px;
+  }
+  .jrn-details-header img {
+    width: 9px;
+  }
+  .jrn-details-bottom-adress .jrn-details-bottom-name {
+    font-size: 13px;
+  }
+  .jrn-text-div {
+    font-size: 12px !important;
+  }
+  .jrn-details-grid-header-li p {
+    font-size: 12px;
+  }
+  .jrn-details-grid-header-li .jrn-notes-img {
+    width: 9px !important;
+  }
+  .jrn-details-grid-bottom span {
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 374px) {
+  .jrn-details-grid-bottom span {
+    font-size: 10px !important;
+  }
+  .jrn-details-grid-header-li p {
+    font-size: 11px;
   }
 }
 /* !Reservation Details finish -----*/
