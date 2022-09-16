@@ -25,6 +25,8 @@ const icons = {
   calendar:
     "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMCA0NjRjMCAyNi41IDIxLjUgNDggNDggNDhoMzUyYzI2LjUgMCA0OC0yMS41IDQ4LTQ4VjE5MkgwdjI3MnptMzIwLTE5NmMwLTYuNiA1LjQtMTIgMTItMTJoNDBjNi42IDAgMTIgNS40IDEyIDEydjQwYzAgNi42LTUuNCAxMi0xMiAxMmgtNDBjLTYuNiAwLTEyLTUuNC0xMi0xMnYtNDB6bTAgMTI4YzAtNi42IDUuNC0xMiAxMi0xMmg0MGM2LjYgMCAxMiA1LjQgMTIgMTJ2NDBjMCA2LjYtNS40IDEyLTEyIDEyaC00MGMtNi42IDAtMTItNS40LTEyLTEydi00MHpNMTkyIDI2OGMwLTYuNiA1LjQtMTIgMTItMTJoNDBjNi42IDAgMTIgNS40IDEyIDEydjQwYzAgNi42LTUuNCAxMi0xMiAxMmgtNDBjLTYuNiAwLTEyLTUuNC0xMi0xMnYtNDB6bTAgMTI4YzAtNi42IDUuNC0xMiAxMi0xMmg0MGM2LjYgMCAxMiA1LjQgMTIgMTJ2NDBjMCA2LjYtNS40IDEyLTEyIDEyaC00MGMtNi42IDAtMTItNS40LTEyLTEydi00MHpNNjQgMjY4YzAtNi42IDUuNC0xMiAxMi0xMmg0MGM2LjYgMCAxMiA1LjQgMTIgMTJ2NDBjMCA2LjYtNS40IDEyLTEyIDEySDc2Yy02LjYgMC0xMi01LjQtMTItMTJ2LTQwem0wIDEyOGMwLTYuNiA1LjQtMTIgMTItMTJoNDBjNi42IDAgMTIgNS40IDEyIDEydjQwYzAgNi42LTUuNCAxMi0xMiAxMkg3NmMtNi42IDAtMTItNS40LTEyLTEydi00MHpNNDAwIDY0aC00OFYxNmMwLTguOC03LjItMTYtMTYtMTZoLTMyYy04LjggMC0xNiA3LjItMTYgMTZ2NDhIMTYwVjE2YzAtOC44LTcuMi0xNi0xNi0xNmgtMzJjLTguOCAwLTE2IDcuMi0xNiAxNnY0OEg0OEMyMS41IDY0IDAgODUuNSAwIDExMnY0OGg0NDh2LTQ4YzAtMjYuNS0yMS41LTQ4LTQ4LTQ4eiIvPjwvc3ZnPg==",
   car: "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNNDk5Ljk5IDE3NmgtNTkuODdsLTE2LjY0LTQxLjZDNDA2LjM4IDkxLjYzIDM2NS41NyA2NCAzMTkuNSA2NGgtMTI3Yy00Ni4wNiAwLTg2Ljg4IDI3LjYzLTEwMy45OSA3MC40TDcxLjg3IDE3NkgxMi4wMUM0LjIgMTc2LTEuNTMgMTgzLjM0LjM3IDE5MC45MWw2IDI0QzcuNyAyMjAuMjUgMTIuNSAyMjQgMTguMDEgMjI0aDIwLjA3QzI0LjY1IDIzNS43MyAxNiAyNTIuNzggMTYgMjcydjQ4YzAgMTYuMTIgNi4xNiAzMC42NyAxNiA0MS45M1Y0MTZjMCAxNy42NyAxNC4zMyAzMiAzMiAzMmgzMmMxNy42NyAwIDMyLTE0LjMzIDMyLTMydi0zMmgyNTZ2MzJjMCAxNy42NyAxNC4zMyAzMiAzMiAzMmgzMmMxNy42NyAwIDMyLTE0LjMzIDMyLTMydi01NC4wN2M5Ljg0LTExLjI1IDE2LTI1LjggMTYtNDEuOTN2LTQ4YzAtMTkuMjItOC42NS0zNi4yNy0yMi4wNy00OEg0OTRjNS41MSAwIDEwLjMxLTMuNzUgMTEuNjQtOS4wOWw2LTI0YzEuODktNy41Ny0zLjg0LTE0LjkxLTExLjY1LTE0Ljkxem0tMzUyLjA2LTE3LjgzYzcuMjktMTguMjIgMjQuOTQtMzAuMTcgNDQuNTctMzAuMTdoMTI3YzE5LjYzIDAgMzcuMjggMTEuOTUgNDQuNTcgMzAuMTdMMzg0IDIwOEgxMjhsMTkuOTMtNDkuODN6TTk2IDMxOS44Yy0xOS4yIDAtMzItMTIuNzYtMzItMzEuOVM3Ni44IDI1NiA5NiAyNTZzNDggMjguNzEgNDggNDcuODUtMjguOCAxNS45NS00OCAxNS45NXptMzIwIDBjLTE5LjIgMC00OCAzLjE5LTQ4LTE1Ljk1UzM5Ni44IDI1NiA0MTYgMjU2czMyIDEyLjc2IDMyIDMxLjktMTIuOCAzMS45LTMyIDMxLjl6Ii8+PC9zdmc+",
+  arrowRight:
+    "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMTkwLjUgNjYuOWwyMi4yLTIyLjJjOS40LTkuNCAyNC42LTkuNCAzMy45IDBMNDQxIDIzOWM5LjQgOS40IDkuNCAyNC42IDAgMzMuOUwyNDYuNiA0NjcuM2MtOS40IDkuNC0yNC42IDkuNC0zMy45IDBsLTIyLjItMjIuMmMtOS41LTkuNS05LjMtMjUgLjQtMzQuM0wzMTEuNCAyOTZIMjRjLTEzLjMgMC0yNC0xMC43LTI0LTI0di0zMmMwLTEzLjMgMTAuNy0yNCAyNC0yNGgyODcuNEwxOTAuOSAxMDEuMmMtOS44LTkuMy0xMC0yNC44LS40LTM0LjN6Ii8+PC9zdmc+",
 };
 //inside passenger details
 class DetailsLi extends React.Component {
@@ -35,9 +37,9 @@ class DetailsLi extends React.Component {
       <li>
         <div className="psg-li-left">
           <img src={icon} alt="" />
-          <p>{title}</p>
+          <p>{title}:</p>
         </div>
-        <div className="psg-li-right">:{description}</div>
+        <div className="psg-li-right">{description}</div>
       </li>
     );
   }
@@ -62,10 +64,6 @@ class DetailsGridLi extends React.Component {
     );
   }
 }
-/*
-
-
-*/
 //inside  ShowPointsOnTheTable
 class ShowPointDescription extends React.Component {
   render() {
@@ -90,14 +88,14 @@ class ShowPointsOnTheTable extends React.Component {
       <li style={{ borderBottom: "1px solid hsla(215, 9%, 55%, 0.2)" }}>
         <div className="jrn-details">
           <div className="jrn-details-header">
-            <img src={icons.mapLocation} alt="" />
+            <img src={icons.circle} alt="" />
             <p>{title} :</p>
           </div>
           {points.map((point) => {
             return (
               <div className="jrn-details-bottom-container">
                 <div className="jrn-details-bottom-adress">
-                  <img src={icons.check} alt="" />
+                  <img src={icons.mapLocation} alt="" />
                   <span className="jrn-details-bottom-name">
                     {point.address}
                   </span>
@@ -344,6 +342,45 @@ class ReservationDetails extends React.Component {
       passengerEditStatus: false, //when we click edit btn
     };
   }
+  print() {
+    // let vehicleTypes = [
+    //   selectedQuotTransfer && carObject[selectedQuotTransfer?.carId]?.name,
+    // ];
+    // let transferTypes = [
+    //   selectedQuotTransfer &&
+    //     carObject[selectedQuotTransfer?.carId]?.transferType,
+    // ];
+    // let reservId = [[reserv]];
+    // let reqOptions = {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     reservId,
+    //     reservations: [reservations[0]],
+    //     vehicleTypes,
+    //     transferTypes,
+    //     meetPoint,
+    //     surcharge,
+    //   }),
+    //   headers: {
+    //     Accept: "application/json, text/plain, */*",
+    //     "Content-Type": "application/json",
+    //   },
+    // };
+    // fetch(`${env.websiteDomain}/api/reservation-document/${reserv}`, reqOptions)
+    //   .then((res) => res.json())
+    //   .then((res) => {
+    //     if (res.status === "OK") {
+    //       setTimeout(() => {
+    //         (async () => {
+    //           var win = window.open("", `Reservation ID ${reserv}`);
+    //           win.document.body.innerHTML = res.htmlTemplate;
+    //           win.print();
+    //         })();
+    //       }, 1000);
+    //     }
+    //   })
+    //   .catch((e) => console.log(e.message));
+  }
   render() {
     let {
       reservation,
@@ -366,6 +403,7 @@ class ReservationDetails extends React.Component {
     return (
       <div className="rsv-section">
         <div className="rsv-section-container">
+          {/*//!passenger details table*/}
           <div className="psg-passenger-details">
             <h1 class="psg-referenceId">
               Referance Id {reservationDetails.id}
@@ -406,7 +444,7 @@ class ReservationDetails extends React.Component {
               />
             </div>
           </div>
-          {/* journey details */}
+          {/* //!journey details */}
           <div className="jrn-journey-details">
             <div className="jrn-title">
               <h3>Transfer Details</h3>
@@ -436,7 +474,7 @@ class ReservationDetails extends React.Component {
               <DetailsGridLi
                 title="Notes"
                 description={transferDetails.specialRequests}
-                className={"jrn-notes-img"}
+                className={false}
                 icon={icons.circle}
               />
             </div>
@@ -459,7 +497,7 @@ class ReservationDetails extends React.Component {
 
               <DetailsGridLi
                 title="Price"
-                description={paymentDetails.price}
+                description={`£${paymentDetails.price}`}
                 className={false}
                 icon={icons.circle}
               />
@@ -490,6 +528,47 @@ class ReservationDetails extends React.Component {
             </div>
           </div>
         </div>
+        <div className="rsv-payment-details">
+          {/* payByCardBtn here */}
+          <div className={"rsv-payment-details-header"}>
+            <div className={"rsv-payment-details-left"}>
+              {paymentDetails.paymentType !== 1 ? (
+                ""
+              ) : (
+                <div className={"rsv-payment-details-left-btn-div"}>
+                  <button className=" tmb-btn tmb-btn-primary">
+                    Pay by card
+                  </button>
+                  <br />
+                </div>
+              )}
+              <a target="_blank" className={"rsv-payment-details-left-proceed"}>
+                <img src={icons.check} alt="" />
+                By proceeding, you agree to our terms and conditions
+              </a>
+
+              <a className={"rsv-payment-details-left-click-tag"}>
+                <img src={icons.arrowRight} alt="" />
+                <span>Please click here to read it.</span>
+              </a>
+            </div>
+
+            <div className={"rsv-payment-details-right"}>
+              <p className={"rsv-payment-details-right-text"}>Total Price</p>
+              <span className={"rsv-payment-details-right-number"}>
+                £{quotation.price}
+              </span>
+            </div>
+          </div>
+          <div className="rsv-print-email-div rsv-payment-details-header">
+            <button className=" tmb-btn tmb-btn-primary">
+              Print Booking Details
+            </button>
+            <button onClick={print} className="tmb-btn tmb-btn-primary">
+              Send Booking Details As Email
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -509,7 +588,7 @@ class ManageBooking extends React.Component {
     this.getResources();
     window.manageBookingDispatch = {
       onSuccessLogin: (reservation) =>
-        this.setState({ ...this.state, reservation, isAuth: true }),
+        this.setState({ reservation, isAuth: true }),
     };
   }
   getResources() {
