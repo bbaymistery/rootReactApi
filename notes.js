@@ -97,3 +97,57 @@
       );
     });
 }
+//  print() {
+// let vehicleTypes = [
+//   selectedQuotTransfer && carObject[selectedQuotTransfer?.carId]?.name,
+// ];
+// let transferTypes = [
+//   selectedQuotTransfer &&
+//     carObject[selectedQuotTransfer?.carId]?.transferType,
+// ];
+// let reservId = [[reserv]];
+// let reqOptions = {
+//   method: "POST",
+//   body: JSON.stringify({
+//     reservId,
+//     reservations: [reservations[0]],
+//     vehicleTypes,
+//     transferTypes,
+//     meetPoint,
+//     surcharge,
+//   }),
+//   headers: {
+//     Accept: "application/json, text/plain, */*",
+//     "Content-Type": "application/json",
+//   },
+// };
+// fetch(`${env.websiteDomain}/api/reservation-document/${reserv}`, reqOptions)
+//   .then((res) => res.json())
+//   .then((res) => {
+//     if (res.status === "OK") {
+//       setTimeout(() => {
+//         (async () => {
+//           var win = window.open("", `Reservation ID ${reserv}`);
+//           win.document.body.innerHTML = res.htmlTemplate;
+//           win.print();
+//         })();
+//       }, 1000);
+//     }
+//   })
+//   .catch((e) => console.log(e.message));
+// }
+if (e.target.name !== "passengersNumber") {
+  this.setState({
+    editableDataReservation: {
+      ...this.state.editableDataReservation.passengerDetails,
+      [e.target.name]: e.target.value,
+    },
+  });
+} else {
+  this.setState({
+    editableDataReservation: {
+      ...this.state.editableDataReservation.transferDetails,
+      [e.target.name]: e.target.value,
+    },
+  });
+}

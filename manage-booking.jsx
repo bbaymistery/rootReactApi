@@ -3,6 +3,8 @@ const __env = {
   websiteLogUrl: "https://heathrow-gatwick-transfers.com/images/logoJpg.png",
 };
 const icons = {
+  angleDown:
+    "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMjAgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMTQzIDM1Mi4zTDcgMjE2LjNjLTkuNC05LjQtOS40LTI0LjYgMC0zMy45bDIyLjYtMjIuNmM5LjQtOS40IDI0LjYtOS40IDMzLjkgMGw5Ni40IDk2LjQgOTYuNC05Ni40YzkuNC05LjQgMjQuNi05LjQgMzMuOSAwbDIyLjYgMjIuNmM5LjQgOS40IDkuNCAyNC42IDAgMzMuOWwtMTM2IDEzNmMtOS4yIDkuNC0yNC40IDkuNC0zMy44IDB6Ii8+PC9zdmc+",
   at: `data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMjU2IDhDMTE4Ljk0MSA4IDggMTE4LjkxOSA4IDI1NmMwIDEzNy4wNTkgMTEwLjkxOSAyNDggMjQ4IDI0OCA0OC4xNTQgMCA5NS4zNDItMTQuMTQgMTM1LjQwOC00MC4yMjMgMTIuMDA1LTcuODE1IDE0LjYyNS0yNC4yODggNS41NTItMzUuMzcybC0xMC4xNzctMTIuNDMzYy03LjY3MS05LjM3MS0yMS4xNzktMTEuNjY3LTMxLjM3My01LjEyOUMzMjUuOTIgNDI5Ljc1NyAyOTEuMzE0IDQ0MCAyNTYgNDQwYy0xMDEuNDU4IDAtMTg0LTgyLjU0Mi0xODQtMTg0UzE1NC41NDIgNzIgMjU2IDcyYzEwMC4xMzkgMCAxODQgNTcuNjE5IDE4NCAxNjAgMCAzOC43ODYtMjEuMDkzIDc5Ljc0Mi01OC4xNyA4My42OTMtMTcuMzQ5LS40NTQtMTYuOTEtMTIuODU3LTEzLjQ3Ni0zMC4wMjRsMjMuNDMzLTEyMS4xMUMzOTQuNjUzIDE0OS43NSAzODMuMzA4IDEzNiAzNjguMjI1IDEzNmgtNDQuOTgxYTEzLjUxOCAxMy41MTggMCAwIDAtMTMuNDMyIDExLjk5M2wtLjAxLjA5MmMtMTQuNjk3LTE3LjkwMS00MC40NDgtMjEuNzc1LTU5Ljk3MS0yMS43NzUtNzQuNTggMC0xMzcuODMxIDYyLjIzNC0xMzcuODMxIDE1MS40NiAwIDY1LjMwMyAzNi43ODUgMTA1Ljg3IDk2IDEwNS44NyAyNi45ODQgMCA1Ny4zNjktMTUuNjM3IDc0Ljk5MS0zOC4zMzMgOS41MjIgMzQuMTA0IDQwLjYxMyAzNC4xMDMgNzAuNzEgMzQuMTAzQzQ2Mi42MDkgMzc5LjQxIDUwNCAzMDcuNzk4IDUwNCAyMzIgNTA0IDk1LjY1MyAzOTQuMDIzIDggMjU2IDh6bS0yMS42OCAzMDQuNDNjLTIyLjI0OSAwLTM2LjA3LTE1LjYyMy0zNi4wNy00MC43NzEgMC00NC45OTMgMzAuNzc5LTcyLjcyOSA1OC42My03Mi43MjkgMjIuMjkyIDAgMzUuNjAxIDE1LjI0MSAzNS42MDEgNDAuNzcgMCA0NS4wNjEtMzMuODc1IDcyLjczLTU4LjE2MSA3Mi43M3oiLz48L3N2Zz4=`,
   user: "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMjI0IDI1NmM3MC43IDAgMTI4LTU3LjMgMTI4LTEyOFMyOTQuNyAwIDIyNCAwIDk2IDU3LjMgOTYgMTI4czU3LjMgMTI4IDEyOCAxMjh6bTg5LjYgMzJoLTE2LjdjLTIyLjIgMTAuMi00Ni45IDE2LTcyLjkgMTZzLTUwLjYtNS44LTcyLjktMTZoLTE2LjdDNjAuMiAyODggMCAzNDguMiAwIDQyMi40VjQ2NGMwIDI2LjUgMjEuNSA0OCA0OCA0OGgzNTJjMjYuNSAwIDQ4LTIxLjUgNDgtNDh2LTQxLjZjMC03NC4yLTYwLjItMTM0LjQtMTM0LjQtMTM0LjR6Ii8+PC9zdmc+",
   check:
@@ -29,14 +31,104 @@ const icons = {
     "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMTkwLjUgNjYuOWwyMi4yLTIyLjJjOS40LTkuNCAyNC42LTkuNCAzMy45IDBMNDQxIDIzOWM5LjQgOS40IDkuNCAyNC42IDAgMzMuOUwyNDYuNiA0NjcuM2MtOS40IDkuNC0yNC42IDkuNC0zMy45IDBsLTIyLjItMjIuMmMtOS41LTkuNS05LjMtMjUgLjQtMzQuM0wzMTEuNCAyOTZIMjRjLTEzLjMgMC0yNC0xMC43LTI0LTI0di0zMmMwLTEzLjMgMTAuNy0yNCAyNC0yNGgyODcuNEwxOTAuOSAxMDEuMmMtOS44LTkuMy0xMC0yNC44LS40LTM0LjN6Ii8+PC9zdmc+",
 };
 //inside passenger details
+class SelectBox extends React.Component {
+  render() {
+    let {
+      value = "",
+      onChange = (e) => {},
+      name = "",
+      title = "",
+      icon = "",
+      classNameImg = "",
+      data = [],
+    } = this.props;
+
+    return (
+      <div className="editable-form-control">
+        <div className="editable-form-control-header">
+          <p className="editable-form-control-header-label">{title}</p>
+        </div>
+        <div className="editable-select-div">
+          <img className={classNameImg} src={icon} alt="" />
+          <img
+            className="editable-select-img-angle-down"
+            src={icons.angleDown}
+            alt=""
+          />
+          <select name={name} onChange={onChange} defaultValue={value}>
+            {Number(data)
+              ? Array(data)
+                  .fill()
+                  .map((x, i) => {
+                    return (
+                      <option key={i} value={i + 1}>
+                        {`${i + 1}`}
+                      </option>
+                    );
+                  })
+              : data.map((d, i) => {
+                  return (
+                    <option key={i} value={d.value} id={d.id && d.id}>
+                      {d.value}
+                    </option>
+                  );
+                })}
+          </select>
+        </div>
+      </div>
+    );
+  }
+}
+//inside passenger details
+class TextInput extends React.Component {
+  render() {
+    let {
+      value = "",
+      onChange = (e) => {},
+      name = "",
+      title = "",
+      icon = "",
+      placeholder = "",
+      type = "",
+      errorMessage = "",
+      classNameImg = "",
+    } = this.props;
+
+    return (
+      <div className="editable-form-control">
+        <div className="editable-form-control-header">
+          <p className="editable-form-control-header-label">{title}</p>
+          {errorMessage && (
+            <p className="editable-form-control-header-message">
+              {errorMessage}
+            </p>
+          )}
+        </div>
+        <div className="editable-form-control-input-div">
+          <img src={icon} className={classNameImg} alt="" />
+          <input
+            autocomplete="off"
+            placeholder={placeholder}
+            name={name}
+            type={type}
+            value={value}
+            onChange={onChange}
+            className={`${errorMessage ? "editable-error-input" : ""}`}
+          />
+        </div>
+      </div>
+    );
+  }
+}
+//inside passenger details
 class DetailsLi extends React.Component {
   render() {
-    let { icon, title, description } = this.props;
+    let { icon, title, description, className } = this.props;
 
     return (
       <li>
         <div className="psg-li-left">
-          <img src={icon} alt="" />
+          <img src={icon} className={className} alt="" />
           <p>{title}:</p>
         </div>
         <div className="psg-li-right">{description}</div>
@@ -81,6 +173,7 @@ class ShowPointDescription extends React.Component {
     );
   }
 }
+//inside journeyDetails
 class ShowPointsOnTheTable extends React.Component {
   render() {
     let { points, title, showWaiting } = this.props;
@@ -338,49 +431,33 @@ class ReservationDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      orijinalReservationsData: null,
+      orijinalReservationData: this.props.reservation,
       passengerEditStatus: false, //when we click edit btn
+      //in order to activate onchangeHandle
+      editableDataReservation: this.props.reservation,
     };
   }
-  print() {
-    // let vehicleTypes = [
-    //   selectedQuotTransfer && carObject[selectedQuotTransfer?.carId]?.name,
-    // ];
-    // let transferTypes = [
-    //   selectedQuotTransfer &&
-    //     carObject[selectedQuotTransfer?.carId]?.transferType,
-    // ];
-    // let reservId = [[reserv]];
-    // let reqOptions = {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     reservId,
-    //     reservations: [reservations[0]],
-    //     vehicleTypes,
-    //     transferTypes,
-    //     meetPoint,
-    //     surcharge,
-    //   }),
-    //   headers: {
-    //     Accept: "application/json, text/plain, */*",
-    //     "Content-Type": "application/json",
-    //   },
-    // };
-    // fetch(`${env.websiteDomain}/api/reservation-document/${reserv}`, reqOptions)
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     if (res.status === "OK") {
-    //       setTimeout(() => {
-    //         (async () => {
-    //           var win = window.open("", `Reservation ID ${reserv}`);
-    //           win.document.body.innerHTML = res.htmlTemplate;
-    //           win.print();
-    //         })();
-    //       }, 1000);
-    //     }
-    //   })
-    //   .catch((e) => console.log(e.message));
-  }
+  //disabled for temporary
+  print() {}
+
+  onchangeHandler = (e) => {
+    if (e.target.name !== "passengersNumber") {
+      this.setState({
+        editableDataReservation: {
+          ...this.state.editableDataReservation.passengerDetails,
+          [e.target.name]: e.target.value,
+        },
+      });
+    } else {
+      this.setState({
+        editableDataReservation: {
+          ...this.state.editableDataReservation.transferDetails,
+          [e.target.name]: e.target.value,
+        },
+      });
+    }
+  };
+
   render() {
     let {
       reservation,
@@ -399,51 +476,161 @@ class ReservationDetails extends React.Component {
       paymentDetails,
       reservationDetails,
     } = reservation;
+    console.log(this.state.editableDataReservation.passengerDetails.firstname);
 
     return (
       <div className="rsv-section">
         <div className="rsv-section-container">
-          {/*//!passenger details table*/}
-          <div className="psg-passenger-details">
-            <h1 class="psg-referenceId">
-              Referance Id {reservationDetails.id}
-            </h1>
-            <div className="psg-title">
-              <h3>Customer Details</h3>
-              <button className="tmb-btn-primary-outlined fw_500 tmb-btn">
-                Edit
-              </button>
+          {/* //!editable passenger details */}
+          {/* //!datas will be editable so pass editable datas in order to handleonchange */}
+          {this.state.passengerEditStatus ? (
+            <div className="editable-psg-details editable-psg-details-two">
+              <div className="editable-psg-header">
+                <h3>Customer Details</h3>
+                <div className="editable-buttons">
+                  <button
+                    onClick={() =>
+                      this.setState({
+                        passengerEditStatus: !this.state.passengerEditStatus,
+                      })
+                    }
+                    className="tmb-cancel-btn tmb-btn-primary-outlined fw_500 tmb-btn"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() =>
+                      this.setState({
+                        passengerEditStatus: !this.state.passengerEditStatus,
+                      })
+                    }
+                    className="tmb-btn-primary-outlined fw_500 tmb-btn"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+              <div className="editable-inp-boxes">
+                <div className="editable-inp-box">
+                  <TextInput
+                    value={
+                      this.state.editableDataReservation.passengerDetails
+                        .firstname
+                    }
+                    classNameImg="user-icon-input"
+                    name="firstname"
+                    type="text"
+                    errorMessage={""}
+                    onChange={this.onchangeHandler}
+                    title="Full Name"
+                    icon={icons.user}
+                    placeholder="Full Name"
+                  />
+                </div>
+                <div className="editable-inp-box">
+                  <TextInput
+                    value={
+                      this.state.editableDataReservation.passengerDetails.email
+                    }
+                    classNameImg="email-icon-input"
+                    name="email"
+                    type="text"
+                    errorMessage={""}
+                    onChange={this.onchangeHandler}
+                    title="Email"
+                    icon={icons.at}
+                    placeholder="Email"
+                  />
+                </div>
+              </div>
+              <div className="editable-inp-boxes">
+                <div className="editable-inp-box">
+                  <SelectBox
+                    value={
+                      this.state.editableDataReservation.transferDetails
+                        .passengersNumber
+                    }
+                    classNameImg="editable-select-img"
+                    name="passengersNumber"
+                    onChange={this.onchangeHandler}
+                    title="Number of passengers"
+                    icon={icons.users}
+                    data={transferDetails.passengersNumber}
+                  />
+                </div>
+                <div className="editable-inp-box">
+                  <TextInput
+                    value={
+                      this.state.editableDataReservation.passengerDetails.phone
+                    }
+                    classNameImg="phone-icon-input"
+                    name="phone"
+                    type="text"
+                    errorMessage={""}
+                    onChange={this.onchangeHandler}
+                    title="Phone Number"
+                    icon={icons.phone}
+                    placeholder="Phone Number"
+                  />
+                  <p className="editable-phone-subtitle">
+                    * with international dialling code
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="psg-column psg-first-column">
-              <DetailsLi
-                title="Full Name"
-                icon={icons.user}
-                description={`${passengerDetails.firstname} ${
-                  typeof passengerDetails.lastname === "string" &&
-                  passengerDetails.lastname.length > 0
-                    ? ` ${passengerDetails.lastname}`
-                    : ""
-                }`}
-              />
-              <DetailsLi
-                title="Email"
-                icon={icons.at}
-                description={passengerDetails.email}
-              />
+          ) : (
+            //!all datas comes from original api
+            //!passenger details table
+            <div className="psg-passenger-details">
+              <h1 class="psg-referenceId">
+                Referance Id {reservationDetails.id}
+              </h1>
+              <div className="psg-title">
+                <h3>Customer Details</h3>
+                <button
+                  onClick={() =>
+                    this.setState({
+                      passengerEditStatus: !this.state.passengerEditStatus,
+                    })
+                  }
+                  className="tmb-btn-primary-outlined fw_500 tmb-btn"
+                >
+                  Edit
+                </button>
+              </div>
+              <div className="psg-column psg-first-column">
+                <DetailsLi
+                  title="Full Name"
+                  icon={icons.user}
+                  className="fullname-img"
+                  description={`${passengerDetails.firstname} ${
+                    typeof passengerDetails.lastname === "string" &&
+                    passengerDetails.lastname.length > 0
+                      ? ` ${passengerDetails.lastname}`
+                      : ""
+                  }`}
+                />
+                <DetailsLi
+                  title="Email"
+                  icon={icons.at}
+                  description={passengerDetails.email}
+                />
+              </div>
+              <div className="psg-column psg-second-column">
+                <DetailsLi
+                  title="Number of Passengers"
+                  icon={icons.users}
+                  description={transferDetails.passengersNumber}
+                />
+                <DetailsLi
+                  title="Phone Number"
+                  icon={icons.phone}
+                  description={passengerDetails.phone}
+                />
+              </div>
             </div>
-            <div className="psg-column psg-second-column">
-              <DetailsLi
-                title="Number of Passengers"
-                icon={icons.users}
-                description={transferDetails.passengersNumber}
-              />
-              <DetailsLi
-                title="Phone Number"
-                icon={icons.phone}
-                description={passengerDetails.phone}
-              />
-            </div>
-          </div>
+          )}
+
           {/* //!journey details */}
           <div className="jrn-journey-details">
             <div className="jrn-title">
