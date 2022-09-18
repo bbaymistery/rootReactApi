@@ -1,5 +1,5 @@
 const __env = {
-  domain: "https://api.london-tech.com",
+  apiDomain: "https://api.london-tech.com",
   websiteLogUrl: "https://heathrow-gatwick-transfers.com/images/logoJpg.png",
 };
 const icons = {
@@ -332,7 +332,7 @@ class BookingLogin extends React.Component {
           headers: { "Content-Type": "application/json" },
         };
 
-        fetch(`${__env.domain}/api/v1/reservation/find-details`, requestBody)
+        fetch(`${__env.apiDomain}/api/v1/reservation/find-details`, requestBody)
           .then((res) => res.json())
           .then((res) => {
             if (res.status === 200) {
@@ -426,37 +426,311 @@ class BookingLogin extends React.Component {
     );
   }
 }
+//passenger details information Which shows on the table
+class PassengerDetailsForm extends React.Component {
+  render() {
+    return (
+      <div className="psg-passenger-details">
+        <h1 class="psg-referenceId">
+          Referance Id {this.props.reservationDetails.id}
+        </h1>
+        <div className="psg-title">
+          <h3>Customer Details</h3>
+          <button
+            onClick={() => this.props.onEdit()}
+            className="tmb-btn-primary-outlined fw_500 tmb-btn"
+          >
+            Edit
+          </button>
+        </div>
+        <div className="psg-column psg-first-column">
+          <DetailsLi
+            title="Full Name"
+            icon={icons.user}
+            className="fullname-img"
+            description={`${this.props.passengerDetails.firstname} ${
+              typeof this.props.passengerDetails.lastname === "string" &&
+              this.props.passengerDetails.lastname.length > 0
+                ? ` ${this.props.passengerDetails.lastname}`
+                : ""
+            }`}
+          />
+          <DetailsLi
+            title="Email"
+            icon={icons.at}
+            description={this.props.passengerDetails.email}
+          />
+        </div>
+        <div className="psg-column psg-second-column">
+          <DetailsLi
+            title="Number of Passengers"
+            icon={icons.users}
+            description={this.props.transferDetails.passengersNumber}
+          />
+          <DetailsLi
+            title="Phone Number"
+            icon={icons.phone}
+            description={this.props.passengerDetails.phone}
+          />
+        </div>
+      </div>
+    );
+  }
+}
+//pasenger detils onchange handler form
+class PassengerDetailsUpdateForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstname: this.props.passengerDetails.firstname,
+      email: this.props.passengerDetails.email,
+      phone: this.props.passengerDetails.phone,
+      passengersNumber: this.props.transferDetails.passengersNumber,
+      loading: false,
+    };
+  }
+  onCancel() {
+    if (typeof this.props.onCancel === "function") {
+      this.props.onCancel();
+    }
+  }
+  onSave() {
+    let { passengerDetails, transferDetails } = this.props;
+    let { email, firstname, phone, passengersNumber } = this.state;
+    let isUpdated = false;
+    if (
+      passengerDetails.email !== email ||
+      passengerDetails.firstname !== firstname ||
+      passengerDetails.phone !== phone ||
+      transferDetails.passengersNumber !== passengersNumber
+    ) {
+      isUpdated = true;
+    }
+    if (isUpdated) {
+      passengerDetails = { ...passengerDetails, email, firstname, phone };
+      transferDetails = { ...transferDetails, passengersNumber };
 
+      let params = { passengerDetails, transferDetails };
+      let callback = () => {
+        this.setState({ loading: false }, () => {
+          this.props.onSave();
+        });
+      };
+      this.setState({ loading: true }, () => {
+        window.manageBookingDispatch.saveNewPassengerDetails(params, callback);
+      });
+    } else {
+      this.props.onSave();
+    }
+  }
+  onchangeHandler(e) {
+    let { name, value } = e.target;
+    this.setState({ [name]: value });
+  }
+  render() {
+    let { loading } = this.state;
+    return (
+      <div className="editable-psg-details editable-psg-details-two">
+        <div className="editable-psg-header">
+          <h3>Customer Details</h3>
+          <div className="editable-buttons">
+            <button
+              onClick={() => this.onCancel()}
+              className="tmb-cancel-btn tmb-btn-primary-outlined fw_500 tmb-btn"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={loading ? () => {} : () => this.onSave()}
+              className="tmb-btn-primary-outlined fw_500 tmb-btn"
+            >
+              {loading ? "Loading.." : "Save"}
+            </button>
+          </div>
+        </div>
+        <div className="editable-inp-boxes">
+          <div className="editable-inp-box">
+            <TextInput
+              value={this.state.firstname}
+              classNameImg="user-icon-input"
+              name="firstname"
+              type="text"
+              errorMessage={""}
+              onChange={(e) => this.onchangeHandler(e)}
+              title="Full Name"
+              icon={icons.user}
+              placeholder="Full Name"
+            />
+          </div>
+          <div className="editable-inp-box">
+            <TextInput
+              value={this.state.email}
+              classNameImg="email-icon-input"
+              name="email"
+              type="text"
+              errorMessage={""}
+              onChange={(e) => this.onchangeHandler(e)}
+              title="Email"
+              icon={icons.at}
+              placeholder="Email"
+            />
+          </div>
+        </div>
+        <div className="editable-inp-boxes">
+          <div className="editable-inp-box">
+            <SelectBox
+              value={this.state.passengersNumber}
+              classNameImg="editable-select-img"
+              name="passengersNumber"
+              onChange={(e) => this.onchangeHandler(e)}
+              title="Number of passengers"
+              icon={icons.users}
+              data={this.props.maxPax}
+            />
+          </div>
+          <div className="editable-inp-box">
+            <TextInput
+              value={this.state.phone}
+              classNameImg="phone-icon-input"
+              name="phone"
+              type="text"
+              errorMessage={""}
+              onChange={(e) => this.onchangeHandler(e)}
+              title="Phone Number"
+              icon={icons.phone}
+              placeholder="Phone Number"
+            />
+            <p className="editable-phone-subtitle">
+              * with international dialling code
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+//journey details information  Which shows on the table
+class JourneyDetailsForm extends React.Component {
+  render() {
+    return (
+      <div className="jrn-journey-details">
+        <div className="jrn-title">
+          <h3>Transfer Details</h3>
+          <button
+            onClick={() => this.props.onEdit()}
+            className="tmb-btn-primary-outlined fw_500 tmb-btn"
+          >
+            Edit
+          </button>
+        </div>
+        <div className="jrn-column">
+          <ShowPointsOnTheTable
+            points={this.props.selectedPickupPoints}
+            title="Pick-up Location"
+            showWaiting={true}
+          />
+          <ShowPointsOnTheTable
+            points={this.props.selectedDropoffPoints}
+            title="Drop off Location"
+            showWaiting={false}
+          />
+        </div>
+        <div className="jrn-column jrn-column-details">
+          <DetailsGridLi
+            title="Transfer Type"
+            description={this.props.transferType}
+            className={false}
+            icon={icons.circle}
+          />
+          <DetailsGridLi
+            title="Notes"
+            description={this.props.transferDetails.specialRequests}
+            className={false}
+            icon={icons.circle}
+          />
+        </div>
+        {/* + */}
+        <div className="jrn-column jrn-column-details">
+          <DetailsGridLi
+            title="Payment Method"
+            description={
+              (this.props.paymentDetails.paymentType === 1 &&
+                "Pay With Cash To Driver") ||
+              (this.props.paymentDetails.paymentType === 2 &&
+                "Pay With Credit Card") ||
+              (this.props.paymentDetails.paymentType === 6 &&
+                "Pay With American Express") ||
+              (this.props.paymentDetails.paymentType === 7 && "Pay With Stripe")
+            }
+            className={false}
+            icon={icons.circle}
+          />
+
+          <DetailsGridLi
+            title="Price"
+            description={`£${this.props.paymentDetails.price}`}
+            className={false}
+            icon={icons.circle}
+          />
+        </div>
+        <div className="jrn-column jrn-column-details">
+          <li>
+            <div className="jrn-details-grid">
+              <div className="jrn-details-grid-header-li">
+                <img className="jrn-date-img" src={icons.calendar} alt="" />
+                <p>Arrival Date &Time</p>
+              </div>
+              <div className="jrn-details-grid-bottom">
+                <span>
+                  :{this.props.transferDetails.transferDateTimeString}
+                </span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div className="jrn-details-grid">
+              <div className="jrn-details-grid-header-li">
+                <img className="jrn-notes-img" src={icons.car} alt="" />
+                <p>Vehicle Type</p>
+              </div>
+              <div className="jrn-details-grid-bottom">
+                <span>:{this.props.vehicleType}</span>
+              </div>
+            </div>
+          </li>
+        </div>
+      </div>
+    );
+  }
+}
+
+class JorneyDetailsUpdateForm extends React.Component {
+  render() {
+    return (
+      <div className="editable-psg-details editable-psg-details-two">
+        <div className="editable-psg-header">
+          <h3>Journey Details</h3>
+          <div className="editable-buttons">
+            <button className="tmb-cancel-btn tmb-btn-primary-outlined fw_500 tmb-btn">
+              Cancel
+            </button>
+            <button onClick={loading ? () => {} : () => this.onSave()}>
+              {loading ? "loading .." : "Save"}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 class ReservationDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      orijinalReservationData: this.props.reservation,
-      passengerEditStatus: false, //when we click edit btn
-      //in order to activate onchangeHandle
-      editableDataReservation: this.props.reservation,
+      passengerEditStatus: false,
+      journeyDetailsEditStatus: false,
     };
   }
-  //disabled for temporary
-  print() {}
-
-  onchangeHandler = (e) => {
-    if (e.target.name !== "passengersNumber") {
-      this.setState({
-        editableDataReservation: {
-          ...this.state.editableDataReservation.passengerDetails,
-          [e.target.name]: e.target.value,
-        },
-      });
-    } else {
-      this.setState({
-        editableDataReservation: {
-          ...this.state.editableDataReservation.transferDetails,
-          [e.target.name]: e.target.value,
-        },
-      });
-    }
-  };
 
   render() {
     let {
@@ -476,244 +750,40 @@ class ReservationDetails extends React.Component {
       paymentDetails,
       reservationDetails,
     } = reservation;
-    console.log(this.state.editableDataReservation.passengerDetails.firstname);
-
     return (
       <div className="rsv-section">
         <div className="rsv-section-container">
-          {/* //!editable passenger details */}
-          {/* //!datas will be editable so pass editable datas in order to handleonchange */}
           {this.state.passengerEditStatus ? (
-            <div className="editable-psg-details editable-psg-details-two">
-              <div className="editable-psg-header">
-                <h3>Customer Details</h3>
-                <div className="editable-buttons">
-                  <button
-                    onClick={() =>
-                      this.setState({
-                        passengerEditStatus: !this.state.passengerEditStatus,
-                      })
-                    }
-                    className="tmb-cancel-btn tmb-btn-primary-outlined fw_500 tmb-btn"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={() =>
-                      this.setState({
-                        passengerEditStatus: !this.state.passengerEditStatus,
-                      })
-                    }
-                    className="tmb-btn-primary-outlined fw_500 tmb-btn"
-                  >
-                    Save
-                  </button>
-                </div>
-              </div>
-              <div className="editable-inp-boxes">
-                <div className="editable-inp-box">
-                  <TextInput
-                    value={
-                      this.state.editableDataReservation.passengerDetails
-                        .firstname
-                    }
-                    classNameImg="user-icon-input"
-                    name="firstname"
-                    type="text"
-                    errorMessage={""}
-                    onChange={this.onchangeHandler}
-                    title="Full Name"
-                    icon={icons.user}
-                    placeholder="Full Name"
-                  />
-                </div>
-                <div className="editable-inp-box">
-                  <TextInput
-                    value={
-                      this.state.editableDataReservation.passengerDetails.email
-                    }
-                    classNameImg="email-icon-input"
-                    name="email"
-                    type="text"
-                    errorMessage={""}
-                    onChange={this.onchangeHandler}
-                    title="Email"
-                    icon={icons.at}
-                    placeholder="Email"
-                  />
-                </div>
-              </div>
-              <div className="editable-inp-boxes">
-                <div className="editable-inp-box">
-                  <SelectBox
-                    value={
-                      this.state.editableDataReservation.transferDetails
-                        .passengersNumber
-                    }
-                    classNameImg="editable-select-img"
-                    name="passengersNumber"
-                    onChange={this.onchangeHandler}
-                    title="Number of passengers"
-                    icon={icons.users}
-                    data={transferDetails.passengersNumber}
-                  />
-                </div>
-                <div className="editable-inp-box">
-                  <TextInput
-                    value={
-                      this.state.editableDataReservation.passengerDetails.phone
-                    }
-                    classNameImg="phone-icon-input"
-                    name="phone"
-                    type="text"
-                    errorMessage={""}
-                    onChange={this.onchangeHandler}
-                    title="Phone Number"
-                    icon={icons.phone}
-                    placeholder="Phone Number"
-                  />
-                  <p className="editable-phone-subtitle">
-                    * with international dialling code
-                  </p>
-                </div>
-              </div>
-            </div>
+            <PassengerDetailsUpdateForm
+              maxPax={carsTypesObject[quotation.carId].pax}
+              onCancel={(e) => this.setState({ passengerEditStatus: false })}
+              onSave={(e) => this.setState({ passengerEditStatus: false })}
+              passengerDetails={reservation.passengerDetails}
+              transferDetails={reservation.transferDetails}
+            />
           ) : (
-            //!all datas comes from original api
-            //!passenger details table
-            <div className="psg-passenger-details">
-              <h1 class="psg-referenceId">
-                Referance Id {reservationDetails.id}
-              </h1>
-              <div className="psg-title">
-                <h3>Customer Details</h3>
-                <button
-                  onClick={() =>
-                    this.setState({
-                      passengerEditStatus: !this.state.passengerEditStatus,
-                    })
-                  }
-                  className="tmb-btn-primary-outlined fw_500 tmb-btn"
-                >
-                  Edit
-                </button>
-              </div>
-              <div className="psg-column psg-first-column">
-                <DetailsLi
-                  title="Full Name"
-                  icon={icons.user}
-                  className="fullname-img"
-                  description={`${passengerDetails.firstname} ${
-                    typeof passengerDetails.lastname === "string" &&
-                    passengerDetails.lastname.length > 0
-                      ? ` ${passengerDetails.lastname}`
-                      : ""
-                  }`}
-                />
-                <DetailsLi
-                  title="Email"
-                  icon={icons.at}
-                  description={passengerDetails.email}
-                />
-              </div>
-              <div className="psg-column psg-second-column">
-                <DetailsLi
-                  title="Number of Passengers"
-                  icon={icons.users}
-                  description={transferDetails.passengersNumber}
-                />
-                <DetailsLi
-                  title="Phone Number"
-                  icon={icons.phone}
-                  description={passengerDetails.phone}
-                />
-              </div>
-            </div>
+            <PassengerDetailsForm
+              passengerDetails={passengerDetails}
+              transferDetails={transferDetails}
+              reservationDetails={reservationDetails}
+              onEdit={(e) => this.setState({ passengerEditStatus: true })}
+            />
           )}
 
           {/* //!journey details */}
-          <div className="jrn-journey-details">
-            <div className="jrn-title">
-              <h3>Transfer Details</h3>
-              <button className="tmb-btn-primary-outlined fw_500 tmb-btn">
-                Edit
-              </button>
-            </div>
-            <div className="jrn-column">
-              <ShowPointsOnTheTable
-                points={selectedPickupPoints}
-                title="Pick-up Location"
-                showWaiting={true}
-              />
-              <ShowPointsOnTheTable
-                points={selectedDropoffPoints}
-                title="Drop off Location"
-                showWaiting={false}
-              />
-            </div>
-            <div className="jrn-column jrn-column-details">
-              <DetailsGridLi
-                title="Transfer Type"
-                description={carsTypesObject[quotation.carId].transferType}
-                className={false}
-                icon={icons.circle}
-              />
-              <DetailsGridLi
-                title="Notes"
-                description={transferDetails.specialRequests}
-                className={false}
-                icon={icons.circle}
-              />
-            </div>
-            {/* + */}
-            <div className="jrn-column jrn-column-details">
-              <DetailsGridLi
-                title="Payment Method"
-                description={
-                  (paymentDetails.paymentType === 1 &&
-                    "Pay With Cash To Driver") ||
-                  (paymentDetails.paymentType === 2 &&
-                    "Pay With Credit Card") ||
-                  (paymentDetails.paymentType === 6 &&
-                    "Pay With American Express") ||
-                  (paymentDetails.paymentType === 7 && "Pay With Stripe")
-                }
-                className={false}
-                icon={icons.circle}
-              />
-
-              <DetailsGridLi
-                title="Price"
-                description={`£${paymentDetails.price}`}
-                className={false}
-                icon={icons.circle}
-              />
-            </div>
-            <div className="jrn-column jrn-column-details">
-              <li>
-                <div className="jrn-details-grid">
-                  <div className="jrn-details-grid-header-li">
-                    <img className="jrn-date-img" src={icons.calendar} alt="" />
-                    <p>Arrival Date &Time</p>
-                  </div>
-                  <div className="jrn-details-grid-bottom">
-                    <span>:{transferDetails.transferDateTimeString}</span>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="jrn-details-grid">
-                  <div className="jrn-details-grid-header-li">
-                    <img className="jrn-notes-img" src={icons.car} alt="" />
-                    <p>Vehicle Type</p>
-                  </div>
-                  <div className="jrn-details-grid-bottom">
-                    <span>:{carsTypesObject[quotation.carId].name}</span>
-                  </div>
-                </div>
-              </li>
-            </div>
-          </div>
+          {this.state.journeyDetailsEditStatus ? (
+            ""
+          ) : (
+            <JourneyDetailsForm
+              paymentDetails={paymentDetails}
+              transferDetails={transferDetails}
+              selectedPickupPoints={selectedPickupPoints}
+              selectedDropoffPoints={selectedDropoffPoints}
+              vehicleType={carsTypesObject[quotation.carId].name}
+              transferType={carsTypesObject[quotation.carId].transferType}
+              onEdit={(e) => this.setState({ journeyDetailsEditStatus: true })}
+            />
+          )}
         </div>
         <div className="rsv-payment-details">
           {/* payByCardBtn here */}
@@ -774,12 +844,36 @@ class ManageBooking extends React.Component {
   componentDidMount() {
     this.getResources();
     window.manageBookingDispatch = {
-      onSuccessLogin: (reservation) =>
-        this.setState({ reservation, isAuth: true }),
+      onSuccessLogin: (reservation) => {
+        localStorage["reservation"] = JSON.stringify(reservation);
+        this.setState({ reservation, isAuth: true });
+      },
+      saveNewPassengerDetails: async (params = {}, callback = () => {}) => {
+        let { passengerDetails, transferDetails } = params;
+        let { reservation } = this.state;
+        reservation.passengerDetails = {
+          ...reservation.passengerDetails,
+          ...passengerDetails,
+        };
+        reservation.transferDetails = {
+          ...reservation.transferDetails,
+          ...transferDetails,
+        };
+        let url = `${__env.apiDomain}/api/v1/reservation/edit`;
+        let bodyRequest = {
+          method: "POST",
+          body: JSON.stringify({ reservation: [reservation], ...this.props }),
+          headers: { "Content-Type": "application/json" },
+        };
+        let fetchReq = await fetch(url, bodyRequest);
+        let fetchRes = await fetchReq.json();
+        console.log(fetchRes, typeof callback);
+        if (fetchRes.status === 200) callback(fetchRes);
+      },
     };
   }
   getResources() {
-    const url = `${__env.domain}/app/en`;
+    const url = `${__env.apiDomain}/app/en`;
     const config = {
       method: "GET",
     };
@@ -790,7 +884,7 @@ class ManageBooking extends React.Component {
         // check-point -> remove iaAuth in production mode
         this.setState({
           resources: { carsTypes, pointTypeCategories },
-          isAuth: true,
+          // isAuth: true,
         });
       })
       .catch((error) => {
@@ -840,9 +934,11 @@ class ManageBooking extends React.Component {
 (() => {
   let insrter = setInterval(() => {
     if (document.getElementById("manageBookingDemo")) {
-      //
       ReactDOM.render(
-        React.createElement(ManageBooking, {}),
+        React.createElement(ManageBooking, {
+          "user-id": 490,
+          "x-auth-token": "24610b048c20464f0ca1aefbcab94c2c",
+        }),
         document.getElementById("manageBookingDemo")
       );
       console.log("render is done");
