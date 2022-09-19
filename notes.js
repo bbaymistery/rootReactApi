@@ -151,3 +151,31 @@ if (e.target.name !== "passengersNumber") {
     },
   });
 }
+<div className="editable-jrn-points-container-box-card">
+  <div className="editable-jrn-points-container-box-card-header">
+    <span>1</span>
+    <img src="https://api.london-tech.com/media/mglafg5zqlrsocfwodwj.svg" />
+    <p>London Heathrow Airport, Terminal 4</p>
+
+    <div className="editable-jrn-points-container-box-card-trash">x</div>
+  </div>
+</div>;
+{
+  objectDetailStatuses[1]?.flightDetails?.waitingPickupTime.pickup === 1 && (
+    <Select
+      icon="plane-arrival"
+      title="When should the driver pick you up?"
+      data={waitingMinutes}
+      name="waitingPickupTime"
+      onChange={(e) => onchangeHandler(e, 0, 0)}
+      fromTrDetails={true}
+      value={
+        flightDetails.waitingPickupTime > 0
+          ? flightDetails.waitingPickupTime
+          : `${selectedPickUpPointsOneWay[whichSelectedItem]?.flightDetails?.waitingPickupTime} minutes`
+      }
+      infoForFlight={true}
+      fromBooking={true}
+    />
+  );
+}
