@@ -639,6 +639,40 @@ class TextInput extends React.Component {
   }
 }
 //inside passenger details
+class DateInput extends React.Component {
+  render() {
+    let {
+      value = "",
+      onChange = (e) => {},
+      name = "",
+      title = "",
+      type = "",
+      icon,
+      classNameImg = "",
+      fromPoints = false,
+    } = this.props;
+
+    return (
+      <div className="editable-form-control">
+        <div className="editable-form-control-header">
+          <p className="editable-form-control-header-label">{title}</p>
+        </div>
+        <div className="editable-form-control-input-div  date-input-div">
+          <img src={icon} className={classNameImg} alt="" />
+          <input
+            name={name}
+            type={type}
+            value={value}
+            onChange={onChange}
+            lang="en"
+            className={`inputDate ${fromPoints ? "input-selected-points" : ""}`}
+          />
+        </div>
+      </div>
+    );
+  }
+}
+//inside passenger details
 class TextArea extends React.Component {
   render() {
     let {
@@ -872,11 +906,11 @@ class BookingLogin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // email: "elgun.ezmemmedov@mail.ru",
-      // reservationId: "671836",
+      email: "elgun.ezmemmedov@mail.ru",
+      reservationId: "671836",
       //
-      email: "info@aplcars.com",
-      reservationId: "678623",
+      // email: "info@aplcars.com",
+      // reservationId: "678623",
       error: "",
       loading: false,
     };
@@ -1314,6 +1348,7 @@ class JorneyDetailsUpdateForm extends React.Component {
 
     return (
       <div className="editable-jrn-details">
+        {/* header */}
         <div className="editable-jrn-header">
           <h3>Journey Details</h3>
           <div className="editable-buttons">
@@ -1331,6 +1366,7 @@ class JorneyDetailsUpdateForm extends React.Component {
             </button>
           </div>
         </div>
+        {/* selected points  */}
         <div className="editable-jrn-points-container">
           <div className="editable-jrn-points-container-box">
             <div className="editable-jrn-points-container-box-header">
@@ -1405,6 +1441,29 @@ class JorneyDetailsUpdateForm extends React.Component {
               </div>
             )}
           </div>
+        </div>
+        {/* dateInput timehour getQuotationBtn */}
+        <div className="editable-jrn-date-hour-minute-div">
+          <div className="editable-jrn-departing-date">
+            <DateInput
+              title={`${
+                selectedPickupPoints[0].pcatId === 1
+                  ? "Flight Landing Date"
+                  : "Pick Up Date"
+              }`}
+              name="DeparuteDate"
+              //dateTimeStringFunc()?.split(" ")[0]
+              min="2022-09-20"
+              icon={icons.calendar}
+              type="date"
+              classNameImg="icon-inside-small-input"
+              // onChange={(e) => onchangeHandler(e, "date", 0)}
+              //here we sending 2022-0422   part of
+              value={"2022-10-26"}
+            />
+          </div>
+          <div className="editable-jrn-detparting-time">time</div>
+          <div className="editable-jrn-departing-btn">btn</div>
         </div>
       </div>
     );
@@ -1577,47 +1636,52 @@ class ReservationDetails extends React.Component {
             />
           )}
         </div>
-        <div className="rsv-payment-details">
-          {/* payByCardBtn here */}
-          <div className={"rsv-payment-details-header"}>
-            <div className={"rsv-payment-details-left"}>
-              {paymentDetails.paymentType !== 1 ? (
-                ""
-              ) : (
-                <div className={"rsv-payment-details-left-btn-div"}>
-                  <button className=" tmb-btn tmb-btn-primary">
-                    Pay by card
-                  </button>
-                  <br />
-                </div>
-              )}
-              <a target="_blank" className={"rsv-payment-details-left-proceed"}>
-                <img src={icons.check} alt="" />
-                By proceeding, you agree to our terms and conditions
-              </a>
+        {!this.state.journeyEditStatus && (
+          <div className="rsv-payment-details">
+            {/* payByCardBtn here */}
+            <div className={"rsv-payment-details-header"}>
+              <div className={"rsv-payment-details-left"}>
+                {paymentDetails.paymentType !== 1 ? (
+                  ""
+                ) : (
+                  <div className={"rsv-payment-details-left-btn-div"}>
+                    <button className=" tmb-btn tmb-btn-primary">
+                      Pay by card
+                    </button>
+                    <br />
+                  </div>
+                )}
+                <a
+                  target="_blank"
+                  className={"rsv-payment-details-left-proceed"}
+                >
+                  <img src={icons.check} alt="" />
+                  By proceeding, you agree to our terms and conditions
+                </a>
 
-              <a className={"rsv-payment-details-left-click-tag"}>
-                <img src={icons.arrowRight} alt="" />
-                <span>Please click here to read it.</span>
-              </a>
+                <a className={"rsv-payment-details-left-click-tag"}>
+                  <img src={icons.arrowRight} alt="" />
+                  <span>Please click here to read it.</span>
+                </a>
+              </div>
+
+              <div className={"rsv-payment-details-right"}>
+                <p className={"rsv-payment-details-right-text"}>Total Price</p>
+                <span className={"rsv-payment-details-right-number"}>
+                  £{quotation.price}
+                </span>
+              </div>
             </div>
-
-            <div className={"rsv-payment-details-right"}>
-              <p className={"rsv-payment-details-right-text"}>Total Price</p>
-              <span className={"rsv-payment-details-right-number"}>
-                £{quotation.price}
-              </span>
+            <div className="rsv-print-email-div rsv-payment-details-header">
+              <button className=" tmb-btn tmb-btn-primary">
+                Print Booking Details
+              </button>
+              <button onClick={print} className="tmb-btn tmb-btn-primary">
+                Send Booking Details As Email
+              </button>
             </div>
           </div>
-          <div className="rsv-print-email-div rsv-payment-details-header">
-            <button className=" tmb-btn tmb-btn-primary">
-              Print Booking Details
-            </button>
-            <button onClick={print} className="tmb-btn tmb-btn-primary">
-              Send Booking Details As Email
-            </button>
-          </div>
-        </div>
+        )}
       </div>
     );
   }

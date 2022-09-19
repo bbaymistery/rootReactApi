@@ -940,7 +940,35 @@ a {
 }
 /* !Payment details finish */
 
-/* ReservationDetails */
+/*//*Date landingHour || minute get quotaion div  */
+.editable-jrn-date-hour-minute-div {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-direction: row;
+}
+.editable-jrn-departing-date {
+  flex-grow: 0;
+  flex-shrink: 0;
+  border: 1px solid rgb(36, 21, 128);
+  flex-basis: 33.3%;
+}
+.editable-jrn-detparting-time {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 33.3%;
+  border: 1px solid rgb(3, 2, 2);
+
+  padding: 0 22px;
+}
+.editable-jrn-departing-btn {
+  flex-basis: 33.3%;
+  border: 1px solid red;
+}
 /***********************************************************/
 /* ?btn component */
 .tmb-btn {
@@ -1135,8 +1163,8 @@ a {
   position: relative;
 }
 
-/* react components */
-/* inputComponent */
+/*//!--------> react components */
+/* ?inputComponent */
 .editable-form-control {
   width: 100%;
 }
@@ -1184,7 +1212,7 @@ a {
   filter: invert(38%) sepia(10%) saturate(469%) hue-rotate(174deg)
     brightness(94%) contrast(84%);
 }
-/* icons image scssss */
+/* ?icons image scssss */
 .email-icon-input {
   width: 12px;
 }
@@ -1207,7 +1235,7 @@ a {
 .editable-error-input {
   color: red;
 }
-/* selectComponent */
+/* ?selectComponent */
 
 .editable-select-div {
   position: relative;
@@ -1252,7 +1280,7 @@ a {
   /* width: px; */
 }
 
-/* text area */
+/* ?text area */
 .editable-form-control-textarea-div img {
   width: 10px;
   position: absolute;
@@ -1274,7 +1302,7 @@ a {
   position: relative;
   width: 100%;
 }
-/*input select box for inside updatebale selectedPoints
+/*?input select box for inside updatebale selectedPoints
 */
 .input-selected-points {
   padding: 3px 42px !important;
@@ -1322,7 +1350,33 @@ a {
 .editable-select-img-angle-down-for-selectedPoints {
   top: 10px;
 }
+/* ?input date component */
+/* make the native arrow invisible and stretch it over the whole field so you can click anywhere in the input field to trigger the native datepicker*/
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  color: transparent;
+  background: transparent;
+  user-select: none;
+}
 
+.date-input-div {
+  position: relative !important;
+}
+.date-input-div img {
+  top: 19px !important;
+  width: 11px;
+  filter: var(--gray-text-color-image);
+}
+.date-input-div input {
+  font-size: 15px;
+  color: var(--dark-blue-black);
+}
 /* add extra input */
 .add-extra-input-div-status {
   position: relative;
