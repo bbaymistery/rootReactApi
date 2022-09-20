@@ -1,8 +1,14 @@
 const __env = {
   apiDomain: "https://api.london-tech.com",
   websiteLogUrl: "https://heathrow-gatwick-transfers.com/images/logoJpg.png",
+  infoAlert: "https://heathrow-gatwick-transfers.com/images/infoLittle.png",
 };
 const icons = {
+  info: "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMjAgNDI0LjIyOWgyMFYyNzkuNzcxSDIwYy0xMS4wNDYgMC0yMC04Ljk1NC0yMC0yMFYyMTJjMC0xMS4wNDYgOC45NTQtMjAgMjAtMjBoMTEyYzExLjA0NiAwIDIwIDguOTU0IDIwIDIwdjIxMi4yMjloMjBjMTEuMDQ2IDAgMjAgOC45NTQgMjAgMjBWNDkyYzAgMTEuMDQ2LTguOTU0IDIwLTIwIDIwSDIwYy0xMS4wNDYgMC0yMC04Ljk1NC0yMC0yMHYtNDcuNzcxYzAtMTEuMDQ2IDguOTU0LTIwIDIwLTIwek05NiAwQzU2LjIzNSAwIDI0IDMyLjIzNSAyNCA3MnMzMi4yMzUgNzIgNzIgNzIgNzItMzIuMjM1IDcyLTcyUzEzNS43NjQgMCA5NiAweiIvPjwvc3ZnPg==",
+  suitcase:
+    "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMTI4IDQ4MGgyNTZWODBjMC0yNi41LTIxLjUtNDgtNDgtNDhIMTc2Yy0yNi41IDAtNDggMjEuNS00OCA0OHY0MDB6bTY0LTM4NGgxMjh2MzJIMTkyVjk2em0zMjAgODB2MjU2YzAgMjYuNS0yMS41IDQ4LTQ4IDQ4aC00OFYxMjhoNDhjMjYuNSAwIDQ4IDIxLjUgNDggNDh6TTk2IDQ4MEg0OGMtMjYuNSAwLTQ4LTIxLjUtNDgtNDhWMTc2YzAtMjYuNSAyMS41LTQ4IDQ4LTQ4aDQ4djM1MnoiLz48L3N2Zz4=",
+  speed:
+    "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDY0IDY0IiBoZWlnaHQ9IjY0cHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0cHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxwYXRoIGQ9Ik0yOC4zNzEsMzEuODc5YzAsMi4xOSwxLjc3NywzLjk2NiwzLjk2NiwzLjk2NmMxLjUzOCwwLDIuODU2LTAuODg0LDMuNTE0LTIuMTYzbDAuMDExLDAuMDFsNy4yNC0xMy4wNjJsLTEyLjcxLDcuNzk0ICAgbDAuMDEyLDAuMDEyQzI5LjE5NywyOS4xMTcsMjguMzcxLDMwLjM5NSwyOC4zNzEsMzEuODc5eiIvPjxwYXRoIGQ9Ik00OC4zMTUsMTIuOTgxQzQ0LjI1MSw5LjQyOSwzOSw3LjE2MSwzMyw2LjgyMnY2LjAyN2M1LDAuMzE4LDcuOTQ2LDEuOTA2LDEwLjkwNCw0LjM4NEw0OC4zMTUsMTIuOTgxeiIvPjxwYXRoIGQ9Ik01MS4xNDYsMzBoNi4wMmMtMC40MDQtNi0yLjc1MS0xMC45My02LjM5NS0xNC45N2wtNC4yNTksNC4yMzNDNDkuMDc4LDIyLjIwMyw1MC43NjYsMjYsNTEuMTQ2LDMweiIvPjxwYXRoIGQ9Ik01MS4xNzQsMzNjLTAuNjM3LDEwLTguOTIyLDE3LjkzMS0xOS4wNDIsMTcuOTMxYy0xMC41MzUsMC0xOS40MjEtOC41NDQtMTkuNDIxLTE5LjA3OEMxMi43MTEsMjEuODI1LDIxLDEzLjYyLDMwLDEyLjg1ICAgVjYuODIzQzE3LDcuNjAyLDYuNzExLDE4LjU0LDYuNzExLDMxLjg3OWMwLDEzLjg0MywxMS40MiwyNS4wNTIsMjUuMjYzLDI1LjA1MkM0NS40MDYsNTYuOTMxLDU2LjU2NCw0Niw1Ny4yMDUsMzNINTEuMTc0eiIvPjwvZz48L3N2Zz4=",
   locationArrow:
     "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNNDQ0LjUyIDMuNTJMMjguNzQgMTk1LjQyYy00Ny45NyAyMi4zOS0zMS45OCA5Mi43NSAxOS4xOSA5Mi43NWgxNzUuOTF2MTc1LjkxYzAgNTEuMTcgNzAuMzYgNjcuMTcgOTIuNzUgMTkuMTlsMTkxLjktNDE1Ljc4YzE1Ljk5LTM4LjM5LTI1LjU5LTc5Ljk3LTYzLjk3LTYzLjk3eiIvPjwvc3ZnPg==",
   building:
@@ -43,6 +49,167 @@ const icons = {
     "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMTkwLjUgNjYuOWwyMi4yLTIyLjJjOS40LTkuNCAyNC42LTkuNCAzMy45IDBMNDQxIDIzOWM5LjQgOS40IDkuNCAyNC42IDAgMzMuOUwyNDYuNiA0NjcuM2MtOS40IDkuNC0yNC42IDkuNC0zMy45IDBsLTIyLjItMjIuMmMtOS41LTkuNS05LjMtMjUgLjQtMzQuM0wzMTEuNCAyOTZIMjRjLTEzLjMgMC0yNC0xMC43LTI0LTI0di0zMmMwLTEzLjMgMTAuNy0yNCAyNC0yNGgyODcuNEwxOTAuOSAxMDEuMmMtOS44LTkuMy0xMC0yNC44LS40LTM0LjN6Ii8+PC9zdmc+",
   close: "",
 };
+const hourss = [
+  {
+    value: "00",
+    id: 1,
+  },
+
+  {
+    id: 2,
+    value: "01",
+  },
+
+  {
+    id: 3,
+    value: "02",
+  },
+
+  {
+    id: 4,
+    value: "03",
+  },
+  {
+    id: 5,
+    value: "04",
+  },
+
+  {
+    id: 6,
+    value: "05",
+  },
+  {
+    id: 7,
+    value: "06",
+  },
+  {
+    id: 8,
+    value: "07",
+  },
+  {
+    id: 9,
+    value: "08",
+  },
+  {
+    id: 10,
+    value: "09",
+  },
+  {
+    id: 11,
+    value: "10",
+  },
+  {
+    id: 12,
+    value: "11",
+  },
+  {
+    id: 13,
+    value: "12",
+  },
+  {
+    id: 14,
+    value: "13",
+  },
+  {
+    id: 15,
+    value: "14",
+  },
+  {
+    id: 16,
+    value: "15",
+  },
+  {
+    id: 17,
+    value: "16",
+  },
+  {
+    id: 18,
+    value: "17",
+  },
+  {
+    id: 19,
+    value: "18",
+  },
+  {
+    id: 20,
+    value: "19",
+  },
+  {
+    id: 21,
+    value: "20",
+  },
+  {
+    id: 22,
+    value: "21",
+  },
+  {
+    id: 23,
+    value: "22",
+  },
+  {
+    id: 24,
+    value: "23",
+  },
+  // {
+  //   id: 25,
+  //   value: "00",
+  // },
+];
+const minutes = [
+  {
+    value: "00",
+    id: 1,
+  },
+
+  {
+    id: 2,
+    value: "05",
+  },
+
+  {
+    id: 3,
+    value: "10",
+  },
+
+  {
+    id: 4,
+    value: "15",
+  },
+  {
+    id: 5,
+    value: "20",
+  },
+
+  {
+    id: 6,
+    value: "25",
+  },
+
+  {
+    id: 7,
+    value: "30",
+  },
+  {
+    id: 8,
+    value: "35",
+  },
+  {
+    id: 9,
+    value: "40",
+  },
+  {
+    id: 10,
+    value: "45",
+  },
+  {
+    id: 11,
+    value: "50",
+  },
+  {
+    id: 12,
+    value: "55",
+  },
+];
 const waitingMinutes = [
   {
     value: "0 minutes after flight has landed",
@@ -122,6 +289,182 @@ const waitingMinutes = [
   },
 ];
 
+class ModalInfo extends React.Component {
+  render() {
+    let { content, fromCar, setModalCarStatus } = this.props;
+    return (
+      <div className={"tmb-modal"}>
+        <div className={"tmb-modal_container"}>
+          <p>{content}</p>
+
+          <div className={"tmb-modal-button-di"}>
+            <button
+              onClick={fromCar ? () => setModalCarStatus() : ""}
+              className="tmb-btn-primary tmb-btn"
+            >
+              Okay
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+class QuotationCardItem extends React.Component {
+  render() {
+    let { quotations, carsTypesObject, setModalCarStatus } = this.props;
+
+    return (
+      <div className="jrn-quotation-results-items">
+        {quotations.map((item, i) => {
+          return (
+            <div className="jrn-quotation-card-item">
+              <div className="jrn-quotation-card-item-content">
+                <div className={"item_main"}>
+                  <div className={"main_left"}>
+                    <div className={"left_title"}>
+                      {carsTypesObject[item.carId].name}
+                      <span onClick={() => setModalCarStatus()}>
+                        <img
+                          src={icons.info}
+                          className="circle-info-quotation-card-icon"
+                          alt=""
+                        />
+                      </span>
+                    </div>
+                    <div className={"left_subtitle"}>
+                      {carsTypesObject[item.carId].transferType}
+                    </div>
+                    <ul className={"icon_details"}>
+                      <li className={"icon_details_item"}>
+                        <img
+                          src={icons.users}
+                          className="users-quotation-card-icon"
+                          alt=""
+                        />
+                        {carsTypesObject[item.carId].suitcases}
+                      </li>
+                      <li className={"icon_details_item"}>
+                        <img
+                          src={icons.suitcase}
+                          alt=""
+                          className="suitcase-quotation-card-icon"
+                        />
+                        {carsTypesObject[item.carId].pax}
+                      </li>
+                    </ul>
+                  </div>
+                  <div className={"main_right"}>
+                    <img
+                      src={`https://api.london-tech.com${
+                        carsTypesObject[item.carId].image
+                      }`}
+                      alt="car"
+                    />
+                  </div>
+                </div>
+                <div className={"item_bottom"}>
+                  <div className={"free_meet first"}>
+                    <p>
+                      <span>
+                        <img
+                          src={icons.check}
+                          className="check-quotation-card-icon"
+                          alt=""
+                        />
+                      </span>
+                      Flight Tracking
+                    </p>
+                    <p>
+                      <span>
+                        <img
+                          src={icons.check}
+                          className="check-quotation-card-icon"
+                          alt=""
+                        />
+                      </span>
+                      Free Waiting Time
+                    </p>
+
+                    <p className={"uzunad"}>
+                      <span>
+                        <img
+                          src={icons.check}
+                          className="check-quotation-card-icon"
+                          alt=""
+                        />
+                      </span>
+                      Free meet and greet
+                    </p>
+                    <p className={"uzunad"}>
+                      <span>
+                        <img
+                          src={icons.check}
+                          className="check-quotation-card-icon"
+                          alt=""
+                        />
+                      </span>
+                      No charge for flight delays
+                    </p>
+                  </div>
+
+                  <div className={"free_meet second"}>
+                    <p className={"uzunad"}>
+                      <span>
+                        <img
+                          src={icons.check}
+                          alt=""
+                          className="check-quotation-card-icon"
+                        />
+                      </span>
+                      Free meet and greet
+                    </p>
+                    <p className={"uzunad"}>
+                      <span>
+                        <img
+                          src={icons.check}
+                          alt=""
+                          className="check-quotation-card-icon"
+                        />
+                      </span>
+                      No charge for flight delays
+                    </p>
+                  </div>
+
+                  <div className={"free_meet free_meet_price"}>
+                    <div className={"price"}>£ {item.price}</div>
+                    <button
+                      className={`
+                          ${"button"}
+          }
+
+                          `}
+                    >
+                      Select
+                      {/* Selected
+                                      ${
+                            Number(selectedQuotation?.carId) ===
+                            Number(carsTypesObject[item.carId]id)
+                              ? selectedBtn
+                              : ""
+                           */}
+                    </button>
+                    <p className={"enjoy_travel"}>Enjoy Travel</p>
+                  </div>
+                </div>
+              </div>
+              <img
+                src={icons.speed}
+                className="jrn-quotation-card-item-outer-icon"
+                alt=""
+              />
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+}
 class CheckForFlight extends React.Component {
   render() {
     let { item, index, objectDetailStatuses } = this.props;
@@ -709,6 +1052,92 @@ class TextArea extends React.Component {
             ${fromPoints ? "input-selected-points" : ""}`}
             value={value}
           ></textarea>
+        </div>
+      </div>
+    );
+  }
+}
+class TimePicker extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dropdownActive: false,
+      activeHour: "01",
+      activeMinute: "05",
+    };
+  }
+
+  statusDropDown() {
+    this.setState({ dropdownActive: !this.state.dropdownActive });
+  }
+  selectValue(e, name) {
+    if (name === "hour") {
+      this.setState({ activeHour: e.target.innerText });
+    } else {
+      this.setState({ activeMinute: e.target.innerText });
+    }
+  }
+  render() {
+    let { title, name, options } = this.props;
+    let { activeHour, activeMinute, dropdownActive } = this.state;
+    return (
+      <div
+        className={`
+        jrn-time-picker
+        ${name === "hour" ? "jrn-time-picker-left" : "jrn-time-picker-right"}`}
+      >
+        <p>{title}</p>
+        <div
+          onClick={() => this.statusDropDown()}
+          className="jrn-timepicker-dropdown-holder"
+        >
+          <div
+            className={`
+            jrn-timepicker-dropdown
+            ${dropdownActive ? "DropDownActive" : ""}
+            `}
+          >
+            <p className={"jrn-timepicker-holder"}>
+              {name === "hour" ? activeHour : activeMinute}
+            </p>
+          </div>
+          <ul className={"jrn-timepicker-dropdown-option"} name={name}>
+            {name === "hour"
+              ? options.map((item, i) => {
+                  return (
+                    <li
+                      onClick={(e) => this.selectValue(e, name)}
+                      className={`li ${
+                        Number(activeHour) === Number(item.value)
+                          ? "li-current"
+                          : ""
+                      }`}
+                      key={item.id}
+                      value={item.value}
+                      name={name}
+                    >
+                      {item.value}
+                    </li>
+                  );
+                })
+              : options.map((item, i) => {
+                  return (
+                    <li
+                      onClick={(e) => this.selectValue(e, name)}
+                      className={`li ${
+                        Number(activeMinute) === Number(item.value)
+                          ? "li-current"
+                          : ""
+                      }`}
+                      key={item.id}
+                      value={item.value}
+                      name={name}
+                    >
+                      {item.value}
+                    </li>
+                  );
+                })}
+          </ul>
         </div>
       </div>
     );
@@ -1306,12 +1735,13 @@ class JorneyDetailsUpdateForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      addExtraPointTextPickUp: true,
-      addExtraPointTextDropOff: true,
-      inputPickUpShowStatus: false,
-      inputDropOffShowStatus: false,
       pickUpPointInput: "",
+
       dropOffPointInput: "",
+      inputPickUpShowStatus: false,
+      addExtraPointTextPickUp: true,
+      inputDropOffShowStatus: false,
+      addExtraPointTextDropOff: true,
     };
   }
   onCancel() {
@@ -1338,11 +1768,15 @@ class JorneyDetailsUpdateForm extends React.Component {
   render() {
     // let { loading } = this.state;
     let {
+      quotations,
+      carsTypesObject,
+      postCodeAddress,
       imageTypesObject,
+      setModalCarStatus,
+      setModalFlightStatus,
       selectedPickupPoints,
       selectedDropoffPoints,
       objectDetailStatuses,
-      postCodeAddress,
     } = this.props;
     let loading = false;
 
@@ -1462,8 +1896,63 @@ class JorneyDetailsUpdateForm extends React.Component {
               value={"2022-10-26"}
             />
           </div>
-          <div className="editable-jrn-detparting-time">time</div>
-          <div className="editable-jrn-departing-btn">btn</div>
+          <div className="editable-jrn-detparting-time">
+            <TimePicker
+              name="hour"
+              title={`${
+                selectedPickupPoints[0].pcatId === 1
+                  ? "Landing Hour"
+                  : "Pick Up Hour"
+              }`}
+              options={hourss}
+            />
+            <TimePicker
+              name="minute"
+              title={`${
+                selectedPickupPoints[0].pcatId === 1
+                  ? "Landing Minute"
+                  : "Pick Up Minute"
+              }`}
+              options={minutes}
+            />
+          </div>
+          <div className="editable-jrn-departing-btn">
+            <button className="tmb-btn tmb-button-primary-outlined-hover">
+              Get Quotation
+            </button>
+          </div>
+        </div>
+        {/* special request  */}
+        <TextArea
+          value="Special Request "
+          // onChange={(e) => onchangeHandler(e, 0, 0)}
+          title="Special Request"
+          name="specialRequest"
+          icon={icons.idBadge}
+          fromBooking={true}
+          classNameImg=""
+        />
+        {/*quotation results*/}
+        <div className="jrn-quotation-results">
+          <QuotationCardItem
+            quotations={quotations}
+            carsTypesObject={carsTypesObject}
+            setModalCarStatus={setModalCarStatus}
+          />
+        </div>
+        <div class="informative-subcharges-div">
+          <img src={__env.infoAlert} alt="" />
+          <div class="informative-subcharge-price-info ">
+            <p id="informationMessage">Due to the amendments you have made;</p>
+            <p id="informationMessage">Previous journey price : £ 59</p>
+            <p id="informationMessage">Price difference : £17</p>
+            <p id="informationMessage">New Journey price : £76</p>
+          </div>
+        </div>
+        <div className="jrn-py-btn-div">
+          <button className="tmb-btn tmb-button-primary-outlined-hover ">
+            Pay By Card
+          </button>
         </div>
       </div>
     );
@@ -1555,6 +2044,8 @@ class ReservationDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      setModalCar: false,
+      setModalFlight: false,
       journeyEditStatus: false,
       passengerEditStatus: false,
     };
@@ -1562,6 +2053,7 @@ class ReservationDetails extends React.Component {
 
   render() {
     let {
+      quotations,
       reservation,
       postCodeAddress,
       resources: { carsTypes, pointTypeCategories },
@@ -1582,22 +2074,33 @@ class ReservationDetails extends React.Component {
     );
 
     let {
-      selectedPickupPoints,
-      selectedDropoffPoints,
-      passengerDetails,
-      transferDetails,
       quotation,
       paymentDetails,
+      transferDetails,
+      passengerDetails,
       reservationDetails,
+      selectedPickupPoints,
+      selectedDropoffPoints,
     } = reservation;
-
     return (
       <div className="rsv-section">
+        {this.state.setModalCar ? (
+          <ModalInfo
+            fromCar={true}
+            setModalCarStatus={(e) =>
+              this.setState({ setModalCar: !this.state.setModalCar })
+            }
+            content="This is meant to give an approcimation of car size and category .Actual mane and model may vary"
+          />
+        ) : (
+          ""
+        )}
+        {this.state.setModalFlight ? "" : ""}
         <div className="rsv-section-container">
           {this.state.passengerEditStatus ? (
             <PassengerDetailsUpdateForm
-              maxPax={carsTypesObject[quotation.carId].pax}
               transferDetails={reservation.transferDetails}
+              maxPax={carsTypesObject[quotation.carId].pax}
               passengerDetails={reservation.passengerDetails}
               onSave={(e) => this.setState({ passengerEditStatus: false })}
               onCancel={(e) => this.setState({ passengerEditStatus: false })}
@@ -1616,13 +2119,23 @@ class ReservationDetails extends React.Component {
           {/* //!journey details */}
           {this.state.journeyEditStatus ? (
             <JorneyDetailsUpdateForm
+              quotations={quotations}
+              carsTypesObject={carsTypesObject}
               postCodeAddress={postCodeAddress}
               imageTypesObject={imageTypesObject}
+              setModalCar={this.state.setModalCar}
+              setModalFlight={this.state.setModalFlight}
               objectDetailStatuses={objectDetailStatuses}
               selectedPickupPoints={selectedPickupPoints}
               selectedDropoffPoints={selectedDropoffPoints}
               onSave={(e) => this.setState({ journeyEditStatus: false })}
               onCancel={(e) => this.setState({ journeyEditStatus: false })}
+              setModalCarStatus={(e) =>
+                this.setState({ setModalCar: !this.state.setModalCar })
+              }
+              setModalFlightStatus={(e) =>
+                this.setState({ setModalFlight: !this.state.setModalFlight })
+              }
             />
           ) : (
             <JourneyDetailsForm
@@ -1696,12 +2209,24 @@ class ManageBooking extends React.Component {
       showState: false,
       resources: {},
       postCodeAddress: [],
+      quotations: [],
     };
   }
   componentDidMount() {
-    this.getPostCodeAdresses();
-
+    let {
+      selectedPickupPoints,
+      selectedDropoffPoints,
+      transferDetails: { transferDateTimeString },
+    } = this.state.reservation;
     this.getResources();
+
+    //next time when we will try use this function again (We wil pass params into it in order to get quotations)
+    this.getQuotations(
+      selectedPickupPoints,
+      selectedDropoffPoints,
+      transferDateTimeString
+    );
+    this.getPostCodeAdresses();
     window.manageBookingDispatch = {
       onSuccessLogin: (reservation) => {
         localStorage["reservation"] = JSON.stringify(reservation);
@@ -1743,7 +2268,7 @@ class ManageBooking extends React.Component {
         // check-point -> remove iaAuth in production mode
         this.setState({
           resources: { carsTypes, pointTypeCategories },
-          // isAuth: true,
+          isAuth: true,
         });
       })
       .catch((error) => {
@@ -1781,9 +2306,38 @@ class ManageBooking extends React.Component {
       });
   }
 
+  getQuotations(
+    selectedPickupPoints,
+    selectedDropoffPoints,
+    transferDateTimeString
+  ) {
+    const url = `${__env.apiDomain}/api/v1/quotation`;
+    const method = "POST";
+    const headers = { "Content-Type": "application/json" };
+    const body = JSON.stringify({
+      selectedPickupPoints,
+      selectedDropoffPoints,
+      transferDateTimeString,
+    });
+    const configTransfer = { method, headers, body };
+    fetch(url, configTransfer)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === 200)
+          this.setState({ quotations: data.quotationOptions });
+      })
+      .catch((error) => console.log(error));
+  }
   render() {
-    let { reservation, isAuth, showState, resources, postCodeAddress } =
-      this.state;
+    let {
+      reservation,
+      isAuth,
+      showState,
+      resources,
+      postCodeAddress,
+      quotations,
+    } = this.state;
+
     return (
       <div className="tool-manage-booking" mode="dark">
         <div
@@ -1814,8 +2368,9 @@ class ManageBooking extends React.Component {
         </div>
         {isAuth ? (
           <ReservationDetails
-            reservation={reservation}
             resources={resources}
+            quotations={quotations}
+            reservation={reservation}
             postCodeAddress={postCodeAddress}
           />
         ) : (
