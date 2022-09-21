@@ -1222,6 +1222,10 @@ a {
 .relative {
   position: relative;
 }
+.display-flex {
+  display: flex;
+  align-items: center;
+}
 
 /*//!--------> react components */
 /* ?inputComponent */
@@ -1282,7 +1286,7 @@ a {
 .usersIcon {
   width: 11px;
 }
-/* ircle icon inside span  */
+/* circle icon inside span  */
 .left_title span {
   background-color: var(--main-color);
   display: flex;
@@ -1294,6 +1298,22 @@ a {
   cursor: pointer;
 }
 .left_title span img {
+  width: 3px;
+  filter: var(--white-color-image) !important;
+}
+/* circle icon incide waiting pick up */
+.info-for-flight {
+  background-color: var(--main-color);
+  display: flex;
+  margin-left: 5px;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 5px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: 11px;
+}
+.info-for-flight img {
   width: 3px;
   filter: var(--white-color-image) !important;
 }

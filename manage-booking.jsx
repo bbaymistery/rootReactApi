@@ -291,7 +291,8 @@ const waitingMinutes = [
 
 class ModalInfo extends React.Component {
   render() {
-    let { content, fromCar, setModalCarStatus } = this.props;
+    let { content, fromCar, setModalCarStatus, setModalFlightStatus } =
+      this.props;
     return (
       <div className={"tmb-modal"}>
         <div className={"tmb-modal_container"}>
@@ -299,7 +300,11 @@ class ModalInfo extends React.Component {
 
           <div className={"tmb-modal-button-di"}>
             <button
-              onClick={fromCar ? () => setModalCarStatus() : ""}
+              onClick={
+                fromCar
+                  ? () => setModalCarStatus()
+                  : () => setModalFlightStatus()
+              }
               className="tmb-btn-primary tmb-btn"
             >
               Okay
@@ -467,7 +472,8 @@ class QuotationCardItem extends React.Component {
 }
 class CheckForFlight extends React.Component {
   render() {
-    let { item, index, objectDetailStatuses } = this.props;
+    let { item, index, objectDetailStatuses, setModalFlightStatus } =
+      this.props;
 
     return (
       <div>
@@ -477,13 +483,13 @@ class CheckForFlight extends React.Component {
             {objectDetailStatuses[1].flightDetails.flightNumber.pickup ===
               1 && (
               <TextInput
-                title="Flight No"
-                icon={icons.planeDeparture}
                 type="text"
-                name="flightNumber"
                 value={"dasdas"}
-                classNameImg="icon-inside-small-input"
                 fromPoints={true}
+                title="Flight No"
+                name="flightNumber"
+                icon={icons.planeDeparture}
+                classNameImg="icon-inside-small-input"
               />
             )}
             {objectDetailStatuses[1].flightDetails.waitingPickupTime.pickup ===
@@ -491,11 +497,13 @@ class CheckForFlight extends React.Component {
               <SelectBox
                 // valuw
                 //onChange
-                name="waitingPickupTime"
-                title="When should the driver pick you up?"
-                icon={icons.planeArrival}
-                data={waitingMinutes}
                 fromPoints={true}
+                infoForFlight={true}
+                data={waitingMinutes}
+                name="waitingPickupTime"
+                icon={icons.planeArrival}
+                setModalFlightStatus={setModalFlightStatus}
+                title="When should the driver pick you up?"
                 classNameImg="icon_selectedPoints_selectbox"
               />
             )}
@@ -507,13 +515,13 @@ class CheckForFlight extends React.Component {
           objectDetailStatuses[1].flightDetails.flightNumber.dropoff === 2 && (
             <div className="editable-selected-inputs">
               <TextInput
-                title="Flight No"
-                icon={icons.planeArrival}
                 type="text"
-                name="flightNumber"
                 value={"dsadas"}
-                classNameImg="icon-inside-small-input"
+                title="Flight No"
                 fromPoints={true}
+                name="flightNumber"
+                icon={icons.planeArrival}
+                classNameImg="icon-inside-small-input"
 
                 //onChange
               />
@@ -874,21 +882,37 @@ class CheckForOther extends React.Component {
 class SelectBox extends React.Component {
   render() {
     let {
-      value = "",
-      onChange = (e) => {},
-      name = "",
-      title = "",
-      icon = "",
-      classNameImg = "",
       data,
+      name = "",
+      icon = "",
+      title = "",
+      value = "",
+      classNameImg = "",
       fromPoints = false,
       placeholder = false,
+      setModalFlightStatus,
+      onChange = (e) => {},
+      infoForFlight = false,
     } = this.props;
 
     return (
       <div className="editable-form-control">
-        <div className="editable-form-control-header">
+        <div className="editable-form-control-header display-flex">
           <p className="editable-form-control-header-label">{title}</p>
+          {infoForFlight ? (
+            <span
+              onClick={() => setModalFlightStatus()}
+              className="info-for-flight"
+            >
+              <img
+                src={icons.info}
+                className="circle-info-quotation-card-icon"
+                alt=""
+              />
+            </span>
+          ) : (
+            " "
+          )}
         </div>
         <div className="editable-select-div">
           <img className={classNameImg} src={icon} alt="" />
@@ -1736,7 +1760,6 @@ class JorneyDetailsUpdateForm extends React.Component {
     super(props);
     this.state = {
       pickUpPointInput: "",
-
       dropOffPointInput: "",
       inputPickUpShowStatus: false,
       addExtraPointTextPickUp: true,
@@ -1812,6 +1835,7 @@ class JorneyDetailsUpdateForm extends React.Component {
               postCodeAddress={postCodeAddress}
               imageTypesObject={imageTypesObject}
               selectedItems={selectedPickupPoints}
+              setModalFlightStatus={setModalFlightStatus} //when click to info
               objectDetailStatuses={objectDetailStatuses}
             />
             {this.state.inputPickUpShowStatus && (
@@ -1963,11 +1987,12 @@ class JorneyDetailsUpdateForm extends React.Component {
 class SelectedLists extends React.Component {
   render() {
     let {
-      imageTypesObject,
-      selectedItems,
       pickOrDrop,
-      objectDetailStatuses,
+      selectedItems,
       postCodeAddress,
+      imageTypesObject,
+      objectDetailStatuses,
+      setModalFlightStatus,
     } = this.props;
 
     return (
@@ -1991,6 +2016,7 @@ class SelectedLists extends React.Component {
               <CheckForFlight
                 item={item}
                 index={pickOrDrop}
+                setModalFlightStatus={setModalFlightStatus}
                 objectDetailStatuses={objectDetailStatuses}
               />
               <CheckForCruises
@@ -2078,6 +2104,8 @@ class ReservationDetails extends React.Component {
       paymentDetails,
       transferDetails,
       passengerDetails,
+      pickUpSuggestions,
+      dropOffSuggestions,
       reservationDetails,
       selectedPickupPoints,
       selectedDropoffPoints,
@@ -2095,7 +2123,18 @@ class ReservationDetails extends React.Component {
         ) : (
           ""
         )}
-        {this.state.setModalFlight ? "" : ""}
+        {this.state.setModalFlight ? (
+          <ModalInfo
+            fromCar={false}
+            setModalFlightStatus={(e) =>
+              this.setState({ setModalFlight: !this.state.setModalFlight })
+            }
+            content="Please note that on international flights, for UK and EU Citizens the average clearing time is around 45 to 60 minutes except for first & business class travellers where it is 30-45 minutes. Other nationalities take around 60-70 minutes and foreign students may take up to 90 minutes. For domestic flight, the clearance time is around 15 minutes"
+          />
+        ) : (
+          ""
+        )}
+
         <div className="rsv-section-container">
           {this.state.passengerEditStatus ? (
             <PassengerDetailsUpdateForm
@@ -2124,6 +2163,8 @@ class ReservationDetails extends React.Component {
               postCodeAddress={postCodeAddress}
               imageTypesObject={imageTypesObject}
               setModalCar={this.state.setModalCar}
+              pickUpSuggestions={pickUpSuggestions}
+              dropOffSuggestions={dropOffSuggestions}
               setModalFlight={this.state.setModalFlight}
               objectDetailStatuses={objectDetailStatuses}
               selectedPickupPoints={selectedPickupPoints}
@@ -2204,12 +2245,14 @@ class ManageBooking extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      reservation: JSON.parse(localStorage["reservation"]), // {},
-      isAuth: false,
-      showState: false,
       resources: {},
-      postCodeAddress: [],
+      isAuth: false,
       quotations: [],
+      showState: false,
+      postCodeAddress: [],
+      pickUpSuggestions: [],
+      dropOffSuggestions: [],
+      reservation: JSON.parse(localStorage["reservation"]), // {},
     };
   }
   componentDidMount() {
@@ -2330,12 +2373,14 @@ class ManageBooking extends React.Component {
   }
   render() {
     let {
-      reservation,
       isAuth,
-      showState,
       resources,
-      postCodeAddress,
+      showState,
       quotations,
+      reservation,
+      postCodeAddress,
+      pickUpSuggestions,
+      dropOffSuggestions,
     } = this.state;
 
     return (
@@ -2372,6 +2417,8 @@ class ManageBooking extends React.Component {
             quotations={quotations}
             reservation={reservation}
             postCodeAddress={postCodeAddress}
+            pickUpSuggestions={pickUpSuggestions}
+            dropOffSuggestions={dropOffSuggestions}
           />
         ) : (
           <BookingLogin />
