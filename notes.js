@@ -136,46 +136,117 @@
 //   })
 //   .catch((e) => console.log(e.message));
 // }
-if (e.target.name !== "passengersNumber") {
-  this.setState({
-    editableDataReservation: {
-      ...this.state.editableDataReservation.passengerDetails,
-      [e.target.name]: e.target.value,
-    },
-  });
-} else {
-  this.setState({
-    editableDataReservation: {
-      ...this.state.editableDataReservation.transferDetails,
-      [e.target.name]: e.target.value,
-    },
-  });
-}
-<div className="editable-jrn-points-container-box-card">
-  <div className="editable-jrn-points-container-box-card-header">
-    <span>1</span>
-    <img src="https://api.london-tech.com/media/mglafg5zqlrsocfwodwj.svg" />
-    <p>London Heathrow Airport, Terminal 4</p>
+{/* {0 === 0 && (
+              <li key={0} className={0 === 0 ? "tmb-search-groupname" : ""}>
+                {9 === 10 ? (
+                  <img
+                    src="https://api.london-tech.com/media/g-google.svg"
+                    alt=""
+                  />
+                ) : (
+                  // imgObj && (
+                  //   <img
+                  //     src={`https://api.london-tech.com${imgObj[item.pcatId]}`}
+                  //     alt=""
+                  //   />
+                  // )
+                  true && (
+                    <img
+                      src={
+                        "https://api.london-tech.com/media/mglafg5zqlrsocfwodwj.svg"
+                      }
+                      alt=""
+                    />
+                  )
+                )}
 
-    <div className="editable-jrn-points-container-box-card-trash">x</div>
-  </div>
-</div>;
-{
-  objectDetailStatuses[1]?.flightDetails?.waitingPickupTime.pickup === 1 && (
-    <Select
-      icon="plane-arrival"
-      title="When should the driver pick you up?"
-      data={waitingMinutes}
-      name="waitingPickupTime"
-      onChange={(e) => onchangeHandler(e, 0, 0)}
-      fromTrDetails={true}
-      value={
-        flightDetails.waitingPickupTime > 0
-          ? flightDetails.waitingPickupTime
-          : `${selectedPickUpPointsOneWay[whichSelectedItem]?.flightDetails?.waitingPickupTime} minutes`
+                <a>Airports</a>
+                {10 === 10 && (
+                  <img
+                    src={
+                      "https://api.london-tech.com/media/mglafg5zqlrsocfwodwj.svg"
+                    }
+                    alt=""
+                    className={"tmb-search-groupname-google-image"}
+                  />
+                )}
+              </li>
+            )} */}
+
+{/* <li>
+              {imgObj && (
+                <img
+                  src={`https://api.london-tech.com${imgObj[item.pcatId]}`}
+                  alt=""
+                />
+              )}
+              <p href="/location/londiani-188981">
+                {item.address}
+                {`   ${item?.postcode ? `-  ${item?.postcode}` : ""}`}
+              </p>
+            </li> */}
+
+<li>
+  {true && (
+    <img
+      // src={`https://api.london-tech.com${imgObj[item.pcatId]}`}
+      src={
+        "https://api.london-tech.com/media/mglafg5zqlrsocfwodwj.svg"
       }
-      infoForFlight={true}
-      fromBooking={true}
+      alt=""
     />
-  );
-}
+  )}
+  <p href="#">
+    {"item.address heath gregs"}
+    {/* {`   ${item?.postcode ? `-  ${item?.postcode}` : ""}`} */}
+    {"T2gt-56"}
+  </p>
+</li>
+
+
+// *************************************
+
+
+
+  <div key={i}>
+            {i === 0 && (
+              <li key={0} className={i === 0 ? "tmb-search-groupname" : ""}>
+                {item.pcatId === 10 ? (
+                  <img
+                    src="https://api.london-tech.com/media/g-google.svg"
+                    alt=""
+                  />
+                ) : (
+                  imgObj && (
+                    <img
+                      src={`https://api.london-tech.com${imgObj[item.pcatId]}`}
+                      alt=""
+                    />
+                  )
+
+                )}
+                <a>  {namePlaceOfObj && namePlaceOfObj[item.pcatId]}</a>
+                {10 === 10 && (
+                  <img
+                    src={
+                      "https://api.london-tech.com/media/mglafg5zqlrsocfwodwj.svg"
+                    }
+                    alt=""
+                    className={"tmb-search-groupname-google-image"}
+                  />
+                )}
+              </li>
+            )}
+            <li>
+              {imgObj && (
+                <img
+                  src={`https://api.london-tech.com${imgObj[item.pcatId]}`}
+                  alt=""
+                />
+              )}
+              <p href="/location/londiani-188981">
+                {item.address}
+                {`   ${item?.postcode ? `-  ${item?.postcode}` : ""}`}
+              </p>
+            </li>
+          </div>

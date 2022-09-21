@@ -49,6 +49,11 @@ const icons = {
     "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMTkwLjUgNjYuOWwyMi4yLTIyLjJjOS40LTkuNCAyNC42LTkuNCAzMy45IDBMNDQxIDIzOWM5LjQgOS40IDkuNCAyNC42IDAgMzMuOUwyNDYuNiA0NjcuM2MtOS40IDkuNC0yNC42IDkuNC0zMy45IDBsLTIyLjItMjIuMmMtOS41LTkuNS05LjMtMjUgLjQtMzQuM0wzMTEuNCAyOTZIMjRjLTEzLjMgMC0yNC0xMC43LTI0LTI0di0zMmMwLTEzLjMgMTAuNy0yNCAyNC0yNGgyODcuNEwxOTAuOSAxMDEuMmMtOS44LTkuMy0xMC0yNC44LS40LTM0LjN6Ii8+PC9zdmc+",
   close: "",
 };
+const icons2 = {
+  circleClose:
+    "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMjU2IDhDMTE5IDggOCAxMTkgOCAyNTZzMTExIDI0OCAyNDggMjQ4IDI0OC0xMTEgMjQ4LTI0OFMzOTMgOCAyNTYgOHptMTIxLjYgMzEzLjFjNC43IDQuNyA0LjcgMTIuMyAwIDE3TDMzOCAzNzcuNmMtNC43IDQuNy0xMi4zIDQuNy0xNyAwTDI1NiAzMTJsLTY1LjEgNjUuNmMtNC43IDQuNy0xMi4zIDQuNy0xNyAwTDEzNC40IDMzOGMtNC43LTQuNy00LjctMTIuMyAwLTE3bDY1LjYtNjUtNjUuNi02NS4xYy00LjctNC43LTQuNy0xMi4zIDAtMTdsMzkuNi0zOS42YzQuNy00LjcgMTIuMy00LjcgMTcgMGw2NSA2NS43IDY1LjEtNjUuNmM0LjctNC43IDEyLjMtNC43IDE3IDBsMzkuNiAzOS42YzQuNyA0LjcgNC43IDEyLjMgMCAxN0wzMTIgMjU2bDY1LjYgNjUuMXoiLz48L3N2Zz4",
+};
+
 const hourss = [
   {
     value: "00",
@@ -289,6 +294,134 @@ const waitingMinutes = [
   },
 ];
 
+class NoResults extends React.Component {
+  render() {
+    return (
+      <ul className="tmb-noResults">
+        <li className={"tmb-noResults-li"}>
+          <img src={icons2.circleClose} className="circle-close-icon" alt="" />
+          <div>
+          </div>
+          <p>
+            No any result matched <br /> if you want a quotation, try to contact
+            with this phone number :{" "}
+            <a href="tel:0090 xxx xx xxx 55">0090 xxx xx xxx 55</a>
+          </p>
+        </li>
+      </ul>
+    );
+  }
+}
+class HandleSearchResults extends React.Component {
+  render() {
+    let objKeyss = []
+    let noresult = false
+    let {
+      pickOrDropItems,
+      imageTypesObject,
+      namePlaceTypesObject,
+      objectDetailStatuses,
+    } = this.props;
+
+    //arranging objects in order to show items correctly
+    if (pickOrDropItems[0]) objKeyss = Object.keys(pickOrDropItems[0]);
+    const moveZeroosToTheEnd = (nums) => {
+      let zeros = 0;
+      for (let i = 0; i < nums.length; i++) {
+        let isZero = nums[i] === "0";
+        if (isZero) {
+          zeros++;
+          nums.splice(i, 1);
+          i--;
+        }
+      }
+      for (let i = 0; i < zeros; i++) {
+        nums.push("0");
+      }
+      return nums;
+    };
+
+    objKeyss = moveZeroosToTheEnd(objKeyss);
+    let newFilteredItems = objKeyss.map((key) => {
+      return pickOrDropItems[0][key];
+    });
+
+    if (newFilteredItems[0] === true) {
+      noresult = true
+    } else {
+      noresult = false
+    }
+    return (
+      <div className="tmb-hndl-results">
+
+        {noresult ?
+          <ul className="tmb-all-results-ul">
+            <NoResults />
+          </ul>
+          : ""}
+
+        {
+          newFilteredItems.length && !noresult ? (
+            <ul className="tmb-all-results-ul">
+              {
+                newFilteredItems.map((arr) => {
+                  return arr.map((item, i) => {
+                    return (
+                      <div key={i}>
+                        {i === 0 && (
+                          <li key={0} className={i === 0 ? "tmb-search-groupname" : ""}>
+                            {item.pcatId === 10 ? (
+                              <img
+                                src="https://api.london-tech.com/media/g-google.svg"
+                                alt=""
+                              />
+                            ) : (
+                              imageTypesObject && (
+                                <img
+                                  src={`https://api.london-tech.com${imageTypesObject[item.pcatId]}`}
+                                  alt=""
+                                />
+                              )
+                            )}
+                            <a>{namePlaceTypesObject && namePlaceTypesObject[item.pcatId]}</a>
+                            {item.pcatId === 10 && (
+                              <img
+                                src={"https://api.london-tech.com/media/powered-by-google.png"}
+                                alt=""
+                                className={"tmb-search-groupname-google-image"}
+                              />
+                            )}
+                          </li>
+                        )}
+
+                        <li>
+                          {imageTypesObject && (
+                            <img
+                              src={`https://api.london-tech.com${imageTypesObject[item.pcatId]}`}
+                              alt=""
+                            />
+                          )}
+
+                          <p href="/location/londiani-188981">
+                            {item.address}
+                            {`   ${item.postcode ? `-  ${item.postcode}` : ""}`}
+                          </p>
+                        </li>
+                      </div>
+                    )
+
+                  })
+                })
+              }
+            </ul>
+          ) :
+            ("")
+        }
+
+      </div>
+    );
+  }
+}
 class ModalInfo extends React.Component {
   render() {
     let { content, fromCar, setModalCarStatus, setModalFlightStatus } =
@@ -320,152 +453,153 @@ class QuotationCardItem extends React.Component {
     let { quotations, carsTypesObject, setModalCarStatus } = this.props;
 
     return (
-      <div className="jrn-quotation-results-items">
-        {quotations.map((item, i) => {
-          return (
-            <div className="jrn-quotation-card-item">
-              <div className="jrn-quotation-card-item-content">
-                <div className={"item_main"}>
-                  <div className={"main_left"}>
-                    <div className={"left_title"}>
-                      {carsTypesObject[item.carId].name}
-                      <span onClick={() => setModalCarStatus()}>
-                        <img
-                          src={icons.info}
-                          className="circle-info-quotation-card-icon"
-                          alt=""
-                        />
-                      </span>
+      <div className="jrn-quotation-results">
+        <div className="jrn-quotation-results-items">
+          {quotations.map((item, i) => {
+            return (
+              <div className="jrn-quotation-card-item">
+                <div className="jrn-quotation-card-item-content">
+                  <div className={"item_main"}>
+                    <div className={"main_left"}>
+                      <div className={"left_title"}>
+                        {carsTypesObject[item.carId].name}
+                        <span onClick={() => setModalCarStatus()}>
+                          <img
+                            src={icons.info}
+                            className="circle-info-quotation-card-icon"
+                            alt=""
+                          />
+                        </span>
+                      </div>
+                      <div className={"left_subtitle"}>
+                        {carsTypesObject[item.carId].transferType}
+                      </div>
+                      <ul className={"icon_details"}>
+                        <li className={"icon_details_item"}>
+                          <img
+                            src={icons.users}
+                            className="users-quotation-card-icon"
+                            alt=""
+                          />
+                          {carsTypesObject[item.carId].suitcases}
+                        </li>
+                        <li className={"icon_details_item"}>
+                          <img
+                            src={icons.suitcase}
+                            alt=""
+                            className="suitcase-quotation-card-icon"
+                          />
+                          {carsTypesObject[item.carId].pax}
+                        </li>
+                      </ul>
                     </div>
-                    <div className={"left_subtitle"}>
-                      {carsTypesObject[item.carId].transferType}
+                    <div className={"main_right"}>
+                      <img
+                        src={`https://api.london-tech.com${carsTypesObject[item.carId].image
+                          }`}
+                        alt="car"
+                      />
                     </div>
-                    <ul className={"icon_details"}>
-                      <li className={"icon_details_item"}>
-                        <img
-                          src={icons.users}
-                          className="users-quotation-card-icon"
-                          alt=""
-                        />
-                        {carsTypesObject[item.carId].suitcases}
-                      </li>
-                      <li className={"icon_details_item"}>
-                        <img
-                          src={icons.suitcase}
-                          alt=""
-                          className="suitcase-quotation-card-icon"
-                        />
-                        {carsTypesObject[item.carId].pax}
-                      </li>
-                    </ul>
                   </div>
-                  <div className={"main_right"}>
-                    <img
-                      src={`https://api.london-tech.com${
-                        carsTypesObject[item.carId].image
-                      }`}
-                      alt="car"
-                    />
-                  </div>
-                </div>
-                <div className={"item_bottom"}>
-                  <div className={"free_meet first"}>
-                    <p>
-                      <span>
-                        <img
-                          src={icons.check}
-                          className="check-quotation-card-icon"
-                          alt=""
-                        />
-                      </span>
-                      Flight Tracking
-                    </p>
-                    <p>
-                      <span>
-                        <img
-                          src={icons.check}
-                          className="check-quotation-card-icon"
-                          alt=""
-                        />
-                      </span>
-                      Free Waiting Time
-                    </p>
+                  <div className={"item_bottom"}>
+                    <div className={"free_meet first"}>
+                      <p>
+                        <span>
+                          <img
+                            src={icons.check}
+                            className="check-quotation-card-icon"
+                            alt=""
+                          />
+                        </span>
+                        Flight Tracking
+                      </p>
+                      <p>
+                        <span>
+                          <img
+                            src={icons.check}
+                            className="check-quotation-card-icon"
+                            alt=""
+                          />
+                        </span>
+                        Free Waiting Time
+                      </p>
 
-                    <p className={"uzunad"}>
-                      <span>
-                        <img
-                          src={icons.check}
-                          className="check-quotation-card-icon"
-                          alt=""
-                        />
-                      </span>
-                      Free meet and greet
-                    </p>
-                    <p className={"uzunad"}>
-                      <span>
-                        <img
-                          src={icons.check}
-                          className="check-quotation-card-icon"
-                          alt=""
-                        />
-                      </span>
-                      No charge for flight delays
-                    </p>
-                  </div>
+                      <p className={"uzunad"}>
+                        <span>
+                          <img
+                            src={icons.check}
+                            className="check-quotation-card-icon"
+                            alt=""
+                          />
+                        </span>
+                        Free meet and greet
+                      </p>
+                      <p className={"uzunad"}>
+                        <span>
+                          <img
+                            src={icons.check}
+                            className="check-quotation-card-icon"
+                            alt=""
+                          />
+                        </span>
+                        No charge for flight delays
+                      </p>
+                    </div>
 
-                  <div className={"free_meet second"}>
-                    <p className={"uzunad"}>
-                      <span>
-                        <img
-                          src={icons.check}
-                          alt=""
-                          className="check-quotation-card-icon"
-                        />
-                      </span>
-                      Free meet and greet
-                    </p>
-                    <p className={"uzunad"}>
-                      <span>
-                        <img
-                          src={icons.check}
-                          alt=""
-                          className="check-quotation-card-icon"
-                        />
-                      </span>
-                      No charge for flight delays
-                    </p>
-                  </div>
+                    <div className={"free_meet second"}>
+                      <p className={"uzunad"}>
+                        <span>
+                          <img
+                            src={icons.check}
+                            alt=""
+                            className="check-quotation-card-icon"
+                          />
+                        </span>
+                        Free meet and greet
+                      </p>
+                      <p className={"uzunad"}>
+                        <span>
+                          <img
+                            src={icons.check}
+                            alt=""
+                            className="check-quotation-card-icon"
+                          />
+                        </span>
+                        No charge for flight delays
+                      </p>
+                    </div>
 
-                  <div className={"free_meet free_meet_price"}>
-                    <div className={"price"}>£ {item.price}</div>
-                    <button
-                      className={`
+                    <div className={"free_meet free_meet_price"}>
+                      <div className={"price"}>£ {item.price}</div>
+                      <button
+                        className={`
                           ${"button"}
           }
 
                           `}
-                    >
-                      Select
-                      {/* Selected
+                      >
+                        Select
+                        {/* Selected
                                       ${
                             Number(selectedQuotation?.carId) ===
                             Number(carsTypesObject[item.carId]id)
                               ? selectedBtn
                               : ""
                            */}
-                    </button>
-                    <p className={"enjoy_travel"}>Enjoy Travel</p>
+                      </button>
+                      <p className={"enjoy_travel"}>Enjoy Travel</p>
+                    </div>
                   </div>
                 </div>
+                <img
+                  src={icons.speed}
+                  className="jrn-quotation-card-item-outer-icon"
+                  alt=""
+                />
               </div>
-              <img
-                src={icons.speed}
-                className="jrn-quotation-card-item-outer-icon"
-                alt=""
-              />
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     );
   }
@@ -482,31 +616,31 @@ class CheckForFlight extends React.Component {
           <div className="editable-selected-inputs">
             {objectDetailStatuses[1].flightDetails.flightNumber.pickup ===
               1 && (
-              <TextInput
-                type="text"
-                value={"dasdas"}
-                fromPoints={true}
-                title="Flight No"
-                name="flightNumber"
-                icon={icons.planeDeparture}
-                classNameImg="icon-inside-small-input"
-              />
-            )}
+                <TextInput
+                  type="text"
+                  value={"dasdas"}
+                  fromPoints={true}
+                  title="Flight No"
+                  name="flightNumber"
+                  icon={icons.planeDeparture}
+                  classNameImg="icon-inside-small-input"
+                />
+              )}
             {objectDetailStatuses[1].flightDetails.waitingPickupTime.pickup ===
               1 && (
-              <SelectBox
-                // valuw
-                //onChange
-                fromPoints={true}
-                infoForFlight={true}
-                data={waitingMinutes}
-                name="waitingPickupTime"
-                icon={icons.planeArrival}
-                setModalFlightStatus={setModalFlightStatus}
-                title="When should the driver pick you up?"
-                classNameImg="icon_selectedPoints_selectbox"
-              />
-            )}
+                <SelectBox
+                  // valuw
+                  //onChange
+                  fromPoints={true}
+                  infoForFlight={true}
+                  data={waitingMinutes}
+                  name="waitingPickupTime"
+                  icon={icons.planeArrival}
+                  setModalFlightStatus={setModalFlightStatus}
+                  title="When should the driver pick you up?"
+                  classNameImg="icon_selectedPoints_selectbox"
+                />
+              )}
           </div>
         )}
         {/* //!drop off section  */}
@@ -523,7 +657,7 @@ class CheckForFlight extends React.Component {
                 icon={icons.planeArrival}
                 classNameImg="icon-inside-small-input"
 
-                //onChange
+              //onChange
               />
             </div>
           )}
@@ -566,7 +700,7 @@ class CheckForCruises extends React.Component {
                 value={"dsadas"}
                 classNameImg="icon-inside-small-input"
                 fromPoints={true}
-                //onChange
+              //onChange
               />
             </div>
           )}
@@ -609,7 +743,7 @@ class CheckForTrain extends React.Component {
                 value={"Trains"}
                 classNameImg="icon-inside-small-input"
                 fromPoints={true}
-                //onChange
+              //onChange
               />
             </div>
           )}
@@ -655,18 +789,18 @@ class CheckingForPostcodes extends React.Component {
             )}
             {this.state.postCodeDetails.id === 0
               ? objectDetailStatuses[5].postCodeDetails.postCodeAddress
-                  .pickup === 1 && (
-                  <TextArea
-                    value="text"
-                    // onChange={(e) => onchangeHandler(e, 0, 0)}
-                    title="Adress Description *"
-                    name="postCodeAddress"
-                    icon={icons.idBadge}
-                    errorMessage={""}
-                    fromBooking={true}
-                    classNameImg="icon-inside-small-input"
-                  />
-                )
+                .pickup === 1 && (
+                <TextArea
+                  value="text"
+                  // onChange={(e) => onchangeHandler(e, 0, 0)}
+                  title="Adress Description *"
+                  name="postCodeAddress"
+                  icon={icons.idBadge}
+                  errorMessage={""}
+                  fromBooking={true}
+                  classNameImg="icon-inside-small-input"
+                />
+              )
               : null}
           </div>
         )}
@@ -688,17 +822,17 @@ class CheckingForPostcodes extends React.Component {
             )}
             {this.state.postCodeDetails.id === 0
               ? objectDetailStatuses[5].postCodeDetails.postCodeAddress
-                  .dropoff === 1 && (
-                  <TextArea
-                    value="text"
-                    // onChange={(e) => onchangeHandler(e, 0, 0)}
-                    title="Adress Description *"
-                    name="postCodeAddress"
-                    icon={icons.idBadge}
-                    errorMessage={""}
-                    fromBooking={true}
-                  />
-                )
+                .dropoff === 1 && (
+                <TextArea
+                  value="text"
+                  // onChange={(e) => onchangeHandler(e, 0, 0)}
+                  title="Adress Description *"
+                  name="postCodeAddress"
+                  icon={icons.idBadge}
+                  errorMessage={""}
+                  fromBooking={true}
+                />
+              )
               : null}
           </div>
         )}
@@ -741,7 +875,7 @@ class CheckPlaceOfInterest extends React.Component {
                 value={"Trains"}
                 classNameImg="icon-inside-small-input"
                 fromPoints={true}
-                //onChange
+              //onChange
               />
             </div>
           )}
@@ -784,7 +918,7 @@ class CheckForCitites extends React.Component {
                 value={"Cities"}
                 classNameImg="icon-inside-small-input"
                 fromPoints={true}
-                //onChange
+              //onChange
               />
             </div>
           )}
@@ -827,7 +961,7 @@ class CheckForUniversity extends React.Component {
                 value={"Universitires"}
                 classNameImg="icon-inside-small-input"
                 fromPoints={true}
-                //onChange
+              //onChange
               />
             </div>
           )}
@@ -870,7 +1004,7 @@ class CheckForOther extends React.Component {
                 value={"Other"}
                 classNameImg="icon-inside-small-input"
                 fromPoints={true}
-                //onChange
+              //onChange
               />
             </div>
           )}
@@ -891,7 +1025,7 @@ class SelectBox extends React.Component {
       fromPoints = false,
       placeholder = false,
       setModalFlightStatus,
-      onChange = (e) => {},
+      onChange = (e) => { },
       infoForFlight = false,
     } = this.props;
 
@@ -919,11 +1053,10 @@ class SelectBox extends React.Component {
           <img
             className={`
             editable-select-img-angle-down
-            ${
-              fromPoints
+            ${fromPoints
                 ? "editable-select-img-angle-down-for-selectedPoints"
                 : ""
-            }`}
+              }`}
             src={icons.angleDown}
             alt=""
           />
@@ -940,21 +1073,21 @@ class SelectBox extends React.Component {
             )}
             {Number(data)
               ? Array(data)
-                  .fill()
-                  .map((x, i) => {
-                    return (
-                      <option key={i} value={i + 1}>
-                        {`${i + 1}`}
-                      </option>
-                    );
-                  })
-              : data.map((d, i) => {
+                .fill()
+                .map((x, i) => {
                   return (
-                    <option key={i} value={d.value} id={d.id && d.id}>
-                      {d.value}
+                    <option key={i} value={i + 1}>
+                      {`${i + 1}`}
                     </option>
                   );
-                })}
+                })
+              : data.map((d, i) => {
+                return (
+                  <option key={i} value={d.value} id={d.id && d.id}>
+                    {d.value}
+                  </option>
+                );
+              })}
           </select>
         </div>
       </div>
@@ -965,16 +1098,17 @@ class SelectBox extends React.Component {
 class TextInput extends React.Component {
   render() {
     let {
-      value = "",
-      onChange = (e) => {},
       name = "",
-      title = "",
       icon = "",
-      placeholder = "",
       type = "",
+      value = "",
+      title = "",
+      placeholder = "",
+      isLoading = false,
       errorMessage = "",
       classNameImg = "",
       fromPoints = false,
+      onChange = (e) => { },
     } = this.props;
 
     return (
@@ -1000,6 +1134,8 @@ class TextInput extends React.Component {
             ${errorMessage ? "editable-error-input" : ""}
             ${fromPoints ? "input-selected-points" : ""}`}
           />
+
+          {isLoading && <Loading />}
         </div>
       </div>
     );
@@ -1009,16 +1145,15 @@ class TextInput extends React.Component {
 class DateInput extends React.Component {
   render() {
     let {
-      value = "",
-      onChange = (e) => {},
-      name = "",
-      title = "",
-      type = "",
       icon,
+      type = "",
+      name = "",
+      value = "",
+      title = "",
       classNameImg = "",
       fromPoints = false,
+      onChange = (e) => { },
     } = this.props;
-
     return (
       <div className="editable-form-control">
         <div className="editable-form-control-header">
@@ -1044,7 +1179,7 @@ class TextArea extends React.Component {
   render() {
     let {
       value = "",
-      onChange = (e) => {},
+      onChange = (e) => { },
       name = "",
       icon,
       placeholder = "",
@@ -1128,43 +1263,53 @@ class TimePicker extends React.Component {
           <ul className={"jrn-timepicker-dropdown-option"} name={name}>
             {name === "hour"
               ? options.map((item, i) => {
-                  return (
-                    <li
-                      onClick={(e) => this.selectValue(e, name)}
-                      className={`li ${
-                        Number(activeHour) === Number(item.value)
-                          ? "li-current"
-                          : ""
+                return (
+                  <li
+                    onClick={(e) => this.selectValue(e, name)}
+                    className={`li ${Number(activeHour) === Number(item.value)
+                      ? "li-current"
+                      : ""
                       }`}
-                      key={item.id}
-                      value={item.value}
-                      name={name}
-                    >
-                      {item.value}
-                    </li>
-                  );
-                })
+                    key={item.id}
+                    value={item.value}
+                    name={name}
+                  >
+                    {item.value}
+                  </li>
+                );
+              })
               : options.map((item, i) => {
-                  return (
-                    <li
-                      onClick={(e) => this.selectValue(e, name)}
-                      className={`li ${
-                        Number(activeMinute) === Number(item.value)
-                          ? "li-current"
-                          : ""
+                return (
+                  <li
+                    onClick={(e) => this.selectValue(e, name)}
+                    className={`li ${Number(activeMinute) === Number(item.value)
+                      ? "li-current"
+                      : ""
                       }`}
-                      key={item.id}
-                      value={item.value}
-                      name={name}
-                    >
-                      {item.value}
-                    </li>
-                  );
-                })}
+                    key={item.id}
+                    value={item.value}
+                    name={name}
+                  >
+                    {item.value}
+                  </li>
+                );
+              })}
           </ul>
         </div>
       </div>
     );
+  }
+}
+class Loading extends React.Component {
+  render() {
+    return (
+      <div className={"tmb-loading"}>
+        <div className={"tmb-loading-dot"}></div>
+        <div className={"tmb-loading-dot"}></div>
+        <div className={"tmb-loading-dot"}></div>
+        <div className={"tmb-loading-dot"}></div>
+      </div>
+    )
   }
 }
 //inside passenger details
@@ -1496,15 +1641,13 @@ class PassengerDetailsForm extends React.Component {
         </div>
         <div className="psg-column psg-first-column">
           <DetailsLi
-            title="Full Name"
-            icon={icons.user}
+            title="Full Name" icon={icons.user}
             className="fullname-img"
-            description={`${this.props.passengerDetails.firstname} ${
-              typeof this.props.passengerDetails.lastname === "string" &&
+            description={`${this.props.passengerDetails.firstname} ${typeof this.props.passengerDetails.lastname === "string" &&
               this.props.passengerDetails.lastname.length > 0
-                ? ` ${this.props.passengerDetails.lastname}`
-                : ""
-            }`}
+              ? ` ${this.props.passengerDetails.lastname}`
+              : ""
+              }`}
           />
           <DetailsLi
             title="Email"
@@ -1592,7 +1735,7 @@ class PassengerDetailsUpdateForm extends React.Component {
               Cancel
             </button>
             <button
-              onClick={loading ? () => {} : () => this.onSave()}
+              onClick={loading ? () => { } : () => this.onSave()}
               className="tmb-btn-primary-outlined fw_500 tmb-btn"
             >
               {loading ? "Loading .." : "Save"}
@@ -1759,12 +1902,16 @@ class JorneyDetailsUpdateForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pickUpPointInput: "",
+      pickUpPointInput: "", //in order to handleInput
       dropOffPointInput: "",
-      inputPickUpShowStatus: false,
-      addExtraPointTextPickUp: true,
+      pickUpSuggestions: [],
+      dropOffSuggestions: [],
+      inputPickUpShowStatus: false, //adding input if true
+      addExtraPointTextPickUp: true, //removing text if false
       inputDropOffShowStatus: false,
       addExtraPointTextDropOff: true,
+      getPickUpSuggestLoading: false,
+      getDropOffSuggestLoading: false,
     };
   }
   onCancel() {
@@ -1788,6 +1935,64 @@ class JorneyDetailsUpdateForm extends React.Component {
       });
     }
   }
+
+  fetchSuggestions(inpValue, index) {
+    this.setState(
+      index === 0 ? { getPickUpSuggestLoading: true } : { getDropOffSuggestLoading: true },
+      () => {
+        const url = `${__env.apiDomain}/api/v1/suggestions`;
+        const config = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            value: inpValue,
+            "session-token": "",
+          }),
+        };
+        fetch(url, config)
+          .then((res) => res.json())
+          .then((data) => {
+            if (index === 0) {
+              this.setState({
+                dropOffSuggestions: [],
+                getPickUpSuggestLoading: false,
+                getDropOffSuggestLoading: false,
+                pickUpSuggestions: [data.result],
+              })
+            } else {
+              this.setState({
+                pickUpSuggestions: [],
+                getPickUpSuggestLoading: false,
+                getDropOffSuggestLoading: false,
+                dropOffSuggestions: [data.result],
+              })
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+            this.setState({ getDropOffSuggestLoading: false, getPickUpSuggestLoading })
+          }
+          );
+      })
+  }
+
+  onchangeHandlerGetSuggestion(e) {
+    let inpName = e.target.name
+    let inpValue = e.target.value
+    this.setState({ [inpName]: inpValue })
+
+    if (inpValue.length < 3) this.setState({ dropOffSuggestions: [], pickUpSuggestions: [] })
+
+    if (inpValue.length > 2) {
+      if (inpName === 'pickUpPointInput') {
+        this.fetchSuggestions(inpValue, 0)
+      } else {
+        this.fetchSuggestions(inpValue, 1)
+      }
+    }
+  }
   render() {
     // let { loading } = this.state;
     let {
@@ -1796,12 +2001,27 @@ class JorneyDetailsUpdateForm extends React.Component {
       postCodeAddress,
       imageTypesObject,
       setModalCarStatus,
+      namePlaceTypesObject,
       setModalFlightStatus,
+      objectDetailStatuses,
       selectedPickupPoints,
       selectedDropoffPoints,
-      objectDetailStatuses,
     } = this.props;
+    let {
+      pickUpPointInput,
+      dropOffPointInput,
+      pickUpSuggestions,
+      dropOffSuggestions,
+      inputPickUpShowStatus,
+      inputDropOffShowStatus,
+      addExtraPointTextPickUp,
+      getPickUpSuggestLoading,
+      getDropOffSuggestLoading,
+      addExtraPointTextDropOff,
+    } = this.state;
     let loading = false;
+
+
 
     return (
       <div className="editable-jrn-details">
@@ -1816,15 +2036,16 @@ class JorneyDetailsUpdateForm extends React.Component {
               Cancel
             </button>
             <button
-              onClick={loading ? () => {} : () => this.onSave()}
+              onClick={loading ? () => { } : () => this.onSave()}
               className=" tmb-btn-primary-outlined fw_500 tmb-btn"
             >
               Save
             </button>
           </div>
         </div>
-        {/* selected points  */}
+
         <div className="editable-jrn-points-container">
+          {/* //*pickups section-left  */}
           <div className="editable-jrn-points-container-box">
             <div className="editable-jrn-points-container-box-header">
               Pick ups
@@ -1838,22 +2059,31 @@ class JorneyDetailsUpdateForm extends React.Component {
               setModalFlightStatus={setModalFlightStatus} //when click to info
               objectDetailStatuses={objectDetailStatuses}
             />
-            {this.state.inputPickUpShowStatus && (
+            {inputPickUpShowStatus && (
               <div className="add-extra-input-div-status">
                 <TextInput
-                  value={this.state.pickUpPointInput}
-                  classNameImg="email-icon-input"
-                  name="pickUpPointInput"
+                  title=""
                   type="text"
                   errorMessage={""}
-                  // onChange={(e) => this.onchangeHandler(e)}
-                  title=""
+                  name="pickUpPointInput"
                   icon={icons.mapLocation}
+                  value={pickUpPointInput}
                   placeholder="City or Airport"
+                  classNameImg="email-icon-input"
+                  isLoading={getPickUpSuggestLoading}
+                  onChange={(e) => this.onchangeHandlerGetSuggestion(e)}
+                />
+
+                <HandleSearchResults
+                  pickOrDrop={"pickupPoints"}
+                  imageTypesObject={imageTypesObject}
+                  pickOrDropItems={pickUpSuggestions}
+                  namePlaceTypesObject={namePlaceTypesObject}
+                  objectDetailStatuses={objectDetailStatuses}
                 />
               </div>
             )}
-            {this.state.addExtraPointTextPickUp && (
+            {addExtraPointTextPickUp && (
               <div
                 onClick={(e) => this.addExtraInputForJourney(e, 0)}
                 className="editable-jrn-points-container-box-add-extra-fly"
@@ -1863,6 +2093,8 @@ class JorneyDetailsUpdateForm extends React.Component {
               </div>
             )}
           </div>
+
+          {/* //*dropOff section-right  */}
           <div className="editable-jrn-points-container-box">
             <div className="editable-jrn-points-container-box-header">
               Dropp Offs
@@ -1874,41 +2106,46 @@ class JorneyDetailsUpdateForm extends React.Component {
               selectedItems={selectedDropoffPoints}
               objectDetailStatuses={objectDetailStatuses}
             />
-            {this.state.inputDropOffShowStatus && (
+            {inputDropOffShowStatus && (
               <div className="add-extra-input-div-status">
                 <TextInput
-                  value={this.state.dropOffPointInput}
-                  classNameImg="email-icon-input"
-                  name="dropOffPointInput"
+                  title=""
                   type="text"
                   errorMessage={""}
-                  // onChange={(e) => this.onchangeHandler(e)}
-                  title=""
+                  name="dropOffPointInput"
                   icon={icons.mapLocation}
+                  value={dropOffPointInput}
                   placeholder="City or Airport"
+                  classNameImg="email-icon-input"
+                  isLoading={getDropOffSuggestLoading}
+                  onChange={(e) => this.onchangeHandlerGetSuggestion(e)}
+                />
+                <HandleSearchResults
+                  pickOrDrop={"dropoffPoints"}
+                  imageTypesObject={imageTypesObject}
+                  pickOrDropItems={dropOffSuggestions}
+                  namePlaceTypesObject={namePlaceTypesObject}
+                  objectDetailStatuses={objectDetailStatuses}
                 />
               </div>
             )}
-            {this.state.addExtraPointTextDropOff && (
-              <div
-                onClick={(e) => this.addExtraInputForJourney(e, 1)}
-                className="editable-jrn-points-container-box-add-extra-fly"
-              >
+            {addExtraPointTextDropOff && (
+              <div onClick={(e) => this.addExtraInputForJourney(e, 1)} className="editable-jrn-points-container-box-add-extra-fly">
                 <img src={icons.plus} alt="" />
                 <p>Add Extra Point</p>
               </div>
             )}
           </div>
         </div>
+
         {/* dateInput timehour getQuotationBtn */}
         <div className="editable-jrn-date-hour-minute-div">
           <div className="editable-jrn-departing-date">
             <DateInput
-              title={`${
-                selectedPickupPoints[0].pcatId === 1
-                  ? "Flight Landing Date"
-                  : "Pick Up Date"
-              }`}
+              title={`${selectedPickupPoints[0].pcatId === 1
+                ? "Flight Landing Date"
+                : "Pick Up Date"
+                }`}
               name="DeparuteDate"
               //dateTimeStringFunc()?.split(" ")[0]
               min="2022-09-20"
@@ -1923,20 +2160,18 @@ class JorneyDetailsUpdateForm extends React.Component {
           <div className="editable-jrn-detparting-time">
             <TimePicker
               name="hour"
-              title={`${
-                selectedPickupPoints[0].pcatId === 1
-                  ? "Landing Hour"
-                  : "Pick Up Hour"
-              }`}
+              title={`${selectedPickupPoints[0].pcatId === 1
+                ? "Landing Hour"
+                : "Pick Up Hour"
+                }`}
               options={hourss}
             />
             <TimePicker
               name="minute"
-              title={`${
-                selectedPickupPoints[0].pcatId === 1
-                  ? "Landing Minute"
-                  : "Pick Up Minute"
-              }`}
+              title={`${selectedPickupPoints[0].pcatId === 1
+                ? "Landing Minute"
+                : "Pick Up Minute"
+                }`}
               options={minutes}
             />
           </div>
@@ -1946,6 +2181,7 @@ class JorneyDetailsUpdateForm extends React.Component {
             </button>
           </div>
         </div>
+
         {/* special request  */}
         <TextArea
           value="Special Request "
@@ -1956,14 +2192,14 @@ class JorneyDetailsUpdateForm extends React.Component {
           fromBooking={true}
           classNameImg=""
         />
+
         {/*quotation results*/}
-        <div className="jrn-quotation-results">
-          <QuotationCardItem
-            quotations={quotations}
-            carsTypesObject={carsTypesObject}
-            setModalCarStatus={setModalCarStatus}
-          />
-        </div>
+        <QuotationCardItem
+          quotations={quotations}
+          carsTypesObject={carsTypesObject}
+          setModalCarStatus={setModalCarStatus}
+        />
+
         <div class="informative-subcharges-div">
           <img src={__env.infoAlert} alt="" />
           <div class="informative-subcharge-price-info ">
@@ -2003,9 +2239,8 @@ class SelectedLists extends React.Component {
               <div className="editable-jrn-points-container-box-card-header">
                 <span>{i + 1}</span>
                 <img
-                  src={`https://api.london-tech.com${
-                    imageTypesObject[item.pcatId]
-                  }`}
+                  src={`https://api.london-tech.com${imageTypesObject[item.pcatId]
+                    }`}
                   alt={item.address}
                 />
                 <p>{item.address}</p>
@@ -2088,6 +2323,10 @@ class ReservationDetails extends React.Component {
       {},
       ...carsTypes.map((obj) => ({ [obj.id]: obj }))
     );
+    let namePlaceTypesObject = Object.assign(
+      {},
+      ...pointTypeCategories.map((obj) => ({ [obj.id]: obj.categoryName }))
+    );
     let imageTypesObject = Object.assign(
       {},
       ...pointTypeCategories.map((obj) => ({ [obj.id]: obj.image }))
@@ -2104,8 +2343,6 @@ class ReservationDetails extends React.Component {
       paymentDetails,
       transferDetails,
       passengerDetails,
-      pickUpSuggestions,
-      dropOffSuggestions,
       reservationDetails,
       selectedPickupPoints,
       selectedDropoffPoints,
@@ -2163,9 +2400,8 @@ class ReservationDetails extends React.Component {
               postCodeAddress={postCodeAddress}
               imageTypesObject={imageTypesObject}
               setModalCar={this.state.setModalCar}
-              pickUpSuggestions={pickUpSuggestions}
-              dropOffSuggestions={dropOffSuggestions}
               setModalFlight={this.state.setModalFlight}
+              namePlaceTypesObject={namePlaceTypesObject}
               objectDetailStatuses={objectDetailStatuses}
               selectedPickupPoints={selectedPickupPoints}
               selectedDropoffPoints={selectedDropoffPoints}
@@ -2250,8 +2486,6 @@ class ManageBooking extends React.Component {
       quotations: [],
       showState: false,
       postCodeAddress: [],
-      pickUpSuggestions: [],
-      dropOffSuggestions: [],
       reservation: JSON.parse(localStorage["reservation"]), // {},
     };
   }
@@ -2275,7 +2509,7 @@ class ManageBooking extends React.Component {
         localStorage["reservation"] = JSON.stringify(reservation);
         this.setState({ reservation, isAuth: true });
       },
-      saveNewPassengerDetails: async (params = {}, callback = () => {}) => {
+      saveNewPassengerDetails: async (params = {}, callback = () => { }) => {
         let { passengerDetails, transferDetails } = params;
         let { reservation } = this.state;
         reservation.passengerDetails = {
@@ -2379,8 +2613,6 @@ class ManageBooking extends React.Component {
       quotations,
       reservation,
       postCodeAddress,
-      pickUpSuggestions,
-      dropOffSuggestions,
     } = this.state;
 
     return (
@@ -2417,8 +2649,6 @@ class ManageBooking extends React.Component {
             quotations={quotations}
             reservation={reservation}
             postCodeAddress={postCodeAddress}
-            pickUpSuggestions={pickUpSuggestions}
-            dropOffSuggestions={dropOffSuggestions}
           />
         ) : (
           <BookingLogin />
