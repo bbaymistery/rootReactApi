@@ -4,6 +4,8 @@ const __env = {
   infoAlert: "https://heathrow-gatwick-transfers.com/images/infoLittle.png",
 };
 const icons = {
+  circleClose:
+    "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMjU2IDhDMTE5IDggOCAxMTkgOCAyNTZzMTExIDI0OCAyNDggMjQ4IDI0OC0xMTEgMjQ4LTI0OFMzOTMgOCAyNTYgOHptMTIxLjYgMzEzLjFjNC43IDQuNyA0LjcgMTIuMyAwIDE3TDMzOCAzNzcuNmMtNC43IDQuNy0xMi4zIDQuNy0xNyAwTDI1NiAzMTJsLTY1LjEgNjUuNmMtNC43IDQuNy0xMi4zIDQuNy0xNyAwTDEzNC40IDMzOGMtNC43LTQuNy00LjctMTIuMyAwLTE3bDY1LjYtNjUtNjUuNi02NS4xYy00LjctNC43LTQuNy0xMi4zIDAtMTdsMzkuNi0zOS42YzQuNy00LjcgMTIuMy00LjcgMTcgMGw2NSA2NS43IDY1LjEtNjUuNmM0LjctNC43IDEyLjMtNC43IDE3IDBsMzkuNiAzOS42YzQuNyA0LjcgNC43IDEyLjMgMCAxN0wzMTIgMjU2bDY1LjYgNjUuMXoiLz48L3N2Zz4",
   info: "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMjAgNDI0LjIyOWgyMFYyNzkuNzcxSDIwYy0xMS4wNDYgMC0yMC04Ljk1NC0yMC0yMFYyMTJjMC0xMS4wNDYgOC45NTQtMjAgMjAtMjBoMTEyYzExLjA0NiAwIDIwIDguOTU0IDIwIDIwdjIxMi4yMjloMjBjMTEuMDQ2IDAgMjAgOC45NTQgMjAgMjBWNDkyYzAgMTEuMDQ2LTguOTU0IDIwLTIwIDIwSDIwYy0xMS4wNDYgMC0yMC04Ljk1NC0yMC0yMHYtNDcuNzcxYzAtMTEuMDQ2IDguOTU0LTIwIDIwLTIwek05NiAwQzU2LjIzNSAwIDI0IDMyLjIzNSAyNCA3MnMzMi4yMzUgNzIgNzIgNzIgNzItMzIuMjM1IDcyLTcyUzEzNS43NjQgMCA5NiAweiIvPjwvc3ZnPg==",
   suitcase:
     "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMTI4IDQ4MGgyNTZWODBjMC0yNi41LTIxLjUtNDgtNDgtNDhIMTc2Yy0yNi41IDAtNDggMjEuNS00OCA0OHY0MDB6bTY0LTM4NGgxMjh2MzJIMTkyVjk2em0zMjAgODB2MjU2YzAgMjYuNS0yMS41IDQ4LTQ4IDQ4aC00OFYxMjhoNDhjMjYuNSAwIDQ4IDIxLjUgNDggNDh6TTk2IDQ4MEg0OGMtMjYuNSAwLTQ4LTIxLjUtNDgtNDhWMTc2YzAtMjYuNSAyMS41LTQ4IDQ4LTQ4aDQ4djM1MnoiLz48L3N2Zz4=",
@@ -49,172 +51,8 @@ const icons = {
     "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMTkwLjUgNjYuOWwyMi4yLTIyLjJjOS40LTkuNCAyNC42LTkuNCAzMy45IDBMNDQxIDIzOWM5LjQgOS40IDkuNCAyNC42IDAgMzMuOUwyNDYuNiA0NjcuM2MtOS40IDkuNC0yNC42IDkuNC0zMy45IDBsLTIyLjItMjIuMmMtOS41LTkuNS05LjMtMjUgLjQtMzQuM0wzMTEuNCAyOTZIMjRjLTEzLjMgMC0yNC0xMC43LTI0LTI0di0zMmMwLTEzLjMgMTAuNy0yNCAyNC0yNGgyODcuNEwxOTAuOSAxMDEuMmMtOS44LTkuMy0xMC0yNC44LS40LTM0LjN6Ii8+PC9zdmc+",
   close: "",
 };
-const icons2 = {
-  circleClose:
-    "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InNjYWxlKDEpIiBmaWxsPSIjMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tIEZvbnQgQXdlc29tZSBGcmVlIDUuMTUuMiBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIChJY29uczogQ0MgQlkgNC4wLCBGb250czogU0lMIE9GTCAxLjEsIENvZGU6IE1JVCBMaWNlbnNlKSAtLT48cGF0aCBkPSJNMjU2IDhDMTE5IDggOCAxMTkgOCAyNTZzMTExIDI0OCAyNDggMjQ4IDI0OC0xMTEgMjQ4LTI0OFMzOTMgOCAyNTYgOHptMTIxLjYgMzEzLjFjNC43IDQuNyA0LjcgMTIuMyAwIDE3TDMzOCAzNzcuNmMtNC43IDQuNy0xMi4zIDQuNy0xNyAwTDI1NiAzMTJsLTY1LjEgNjUuNmMtNC43IDQuNy0xMi4zIDQuNy0xNyAwTDEzNC40IDMzOGMtNC43LTQuNy00LjctMTIuMyAwLTE3bDY1LjYtNjUtNjUuNi02NS4xYy00LjctNC43LTQuNy0xMi4zIDAtMTdsMzkuNi0zOS42YzQuNy00LjcgMTIuMy00LjcgMTcgMGw2NSA2NS43IDY1LjEtNjUuNmM0LjctNC43IDEyLjMtNC43IDE3IDBsMzkuNiAzOS42YzQuNyA0LjcgNC43IDEyLjMgMCAxN0wzMTIgMjU2bDY1LjYgNjUuMXoiLz48L3N2Zz4",
-};
-
-const hourss = [
-  {
-    value: "00",
-    id: 1,
-  },
-
-  {
-    id: 2,
-    value: "01",
-  },
-
-  {
-    id: 3,
-    value: "02",
-  },
-
-  {
-    id: 4,
-    value: "03",
-  },
-  {
-    id: 5,
-    value: "04",
-  },
-
-  {
-    id: 6,
-    value: "05",
-  },
-  {
-    id: 7,
-    value: "06",
-  },
-  {
-    id: 8,
-    value: "07",
-  },
-  {
-    id: 9,
-    value: "08",
-  },
-  {
-    id: 10,
-    value: "09",
-  },
-  {
-    id: 11,
-    value: "10",
-  },
-  {
-    id: 12,
-    value: "11",
-  },
-  {
-    id: 13,
-    value: "12",
-  },
-  {
-    id: 14,
-    value: "13",
-  },
-  {
-    id: 15,
-    value: "14",
-  },
-  {
-    id: 16,
-    value: "15",
-  },
-  {
-    id: 17,
-    value: "16",
-  },
-  {
-    id: 18,
-    value: "17",
-  },
-  {
-    id: 19,
-    value: "18",
-  },
-  {
-    id: 20,
-    value: "19",
-  },
-  {
-    id: 21,
-    value: "20",
-  },
-  {
-    id: 22,
-    value: "21",
-  },
-  {
-    id: 23,
-    value: "22",
-  },
-  {
-    id: 24,
-    value: "23",
-  },
-  // {
-  //   id: 25,
-  //   value: "00",
-  // },
-];
-const minutes = [
-  {
-    value: "00",
-    id: 1,
-  },
-
-  {
-    id: 2,
-    value: "05",
-  },
-
-  {
-    id: 3,
-    value: "10",
-  },
-
-  {
-    id: 4,
-    value: "15",
-  },
-  {
-    id: 5,
-    value: "20",
-  },
-
-  {
-    id: 6,
-    value: "25",
-  },
-
-  {
-    id: 7,
-    value: "30",
-  },
-  {
-    id: 8,
-    value: "35",
-  },
-  {
-    id: 9,
-    value: "40",
-  },
-  {
-    id: 10,
-    value: "45",
-  },
-  {
-    id: 11,
-    value: "50",
-  },
-  {
-    id: 12,
-    value: "55",
-  },
-];
+const hourss = Array.from(new Array(24)).map((m, i) => ({ id: i + 1, value: i < 10 ? `0${i}` : String(i) }))
+const minutes = Array.from(new Array(12)).map((m, i) => ({ id: i, value: ((i + 1 - 1) * 5) }))
 const waitingMinutes = [
   {
     value: "0 minutes after flight has landed",
@@ -293,13 +131,23 @@ const waitingMinutes = [
     value: "150 minutes after flight has landed",
   },
 ];
+const dateTimeStringFunc = () => {
+  let tmpDt = new Date(Date.now() + 1000 * 60 * 60 * 6); //6
+  let year = tmpDt.getFullYear();
+  let month = tmpDt.getMonth() + 1 < 10 ? `0${tmpDt.getMonth() + 1}` : " ";
+  let date = tmpDt.getDate() < 10 ? `0${tmpDt.getDate()}` : tmpDt.getDate();
+  let hours = tmpDt.getHours() < 10 ? `0${tmpDt.getHours()}` : tmpDt.getHours();
+  let minute = "00";
+  let currentDate = `${year}-${month}-${date} ${hours}:${minute}`;
+  return currentDate;
+};
 
 class NoResults extends React.Component {
   render() {
     return (
       <ul className="tmb-noResults">
         <li className={"tmb-noResults-li"}>
-          <img src={icons2.circleClose} className="circle-close-icon" alt="" />
+          <img src={icons.circleClose} className="circle-close-icon" alt="" />
           <div>
           </div>
           <p>
@@ -317,10 +165,13 @@ class HandleSearchResults extends React.Component {
     let objKeyss = []
     let noresult = false
     let {
+      type,
+      index,
+      objectDetailss,
       pickOrDropItems,
       imageTypesObject,
       namePlaceTypesObject,
-      objectDetailStatuses,
+      handleAddItemToSelectList
     } = this.props;
 
     //arranging objects in order to show items correctly
@@ -351,13 +202,13 @@ class HandleSearchResults extends React.Component {
     } else {
       noresult = false
     }
+
     return (
       <div className="tmb-hndl-results">
 
-        {noresult ?
-          <ul className="tmb-all-results-ul">
-            <NoResults />
-          </ul>
+        {noresult ? <ul className="tmb-all-results-ul">
+          <NoResults />
+        </ul>
           : ""}
 
         {
@@ -394,14 +245,10 @@ class HandleSearchResults extends React.Component {
                           </li>
                         )}
 
-                        <li>
+                        <li onClick={() => handleAddItemToSelectList(item, objectDetailss[item.pcatId], index, type)}>
                           {imageTypesObject && (
-                            <img
-                              src={`https://api.london-tech.com${imageTypesObject[item.pcatId]}`}
-                              alt=""
-                            />
+                            <img src={`https://api.london-tech.com${imageTypesObject[item.pcatId]}`} alt="" />
                           )}
-
                           <p href="/location/londiani-188981">
                             {item.address}
                             {`   ${item.postcode ? `-  ${item.postcode}` : ""}`}
@@ -450,14 +297,21 @@ class ModalInfo extends React.Component {
 }
 class QuotationCardItem extends React.Component {
   render() {
-    let { quotations, carsTypesObject, setModalCarStatus } = this.props;
+    let {
+      quotation,
+      quotations,
+      selectQuotation,
+      carsTypesObject,
+      quotationLoading,
+      setModalCarStatus
+    } = this.props;
 
     return (
       <div className="jrn-quotation-results">
         <div className="jrn-quotation-results-items">
           {quotations.map((item, i) => {
             return (
-              <div className="jrn-quotation-card-item">
+              <div className="jrn-quotation-card-item" onClick={(e) => selectQuotation(e, item)}>
                 <div className="jrn-quotation-card-item-content">
                   <div className={"item_main"}>
                     <div className={"main_left"}>
@@ -545,7 +399,6 @@ class QuotationCardItem extends React.Component {
                         No charge for flight delays
                       </p>
                     </div>
-
                     <div className={"free_meet second"}>
                       <p className={"uzunad"}>
                         <span>
@@ -568,26 +421,19 @@ class QuotationCardItem extends React.Component {
                         No charge for flight delays
                       </p>
                     </div>
+                    <div className={"free_meet free_meet_price relative"}>
+                      <div className={"price"}> {quotationLoading ? "" : `£ ${item.price}`}</div>
+                      {quotationLoading ?
+                        <Loading />
+                        :
+                        (
+                          <button
 
-                    <div className={"free_meet free_meet_price"}>
-                      <div className={"price"}>£ {item.price}</div>
-                      <button
-                        className={`
-                          ${"button"}
-          }
-
-                          `}
-                      >
-                        Select
-                        {/* Selected
-                                      ${
-                            Number(selectedQuotation?.carId) ===
-                            Number(carsTypesObject[item.carId]id)
-                              ? selectedBtn
-                              : ""
-                           */}
-                      </button>
-                      <p className={"enjoy_travel"}>Enjoy Travel</p>
+                            className={`button ${Number(quotation.carId) === Number(carsTypesObject[item.carId].id) ? "selected-quotation-button" : ""}`}>
+                            {Number(quotation.carId) === Number(carsTypesObject[item.carId].id) ? "Selected" : "Select"}
+                          </button>
+                        )}
+                      <p className={"enjoy_travel"}> {quotationLoading ? "" : `Enjoy Travel`}</p>
                     </div>
                   </div>
                 </div>
@@ -777,14 +623,15 @@ class CheckingForPostcodes extends React.Component {
           <div className="editable-selected-inputs">
             {objectDetailStatuses[5].postCodeDetails.id.pickup === 1 && (
               <SelectBox
-                value={""}
                 // onChange={(e) => onchangeHandler(e, 0, 0)}
+                value={""}
                 name="id"
-                title="Postcode Address"
+                classNameImg="icon_selectedPoints_selectbox-post-code"
+                fromPoints={true}
                 icon={icons.thumbtack}
+                title="Postcode Address"
                 placeholder="add a new adress if not listed "
                 data={postcodes[0] ? postcodes[0].addresses : []}
-                fromPoints={true}
               />
             )}
             {this.state.postCodeDetails.id === 0
@@ -798,7 +645,6 @@ class CheckingForPostcodes extends React.Component {
                   icon={icons.idBadge}
                   errorMessage={""}
                   fromBooking={true}
-                  classNameImg="icon-inside-small-input"
                 />
               )
               : null}
@@ -810,13 +656,13 @@ class CheckingForPostcodes extends React.Component {
             {objectDetailStatuses[5].postCodeDetails.id.dropoff === 1 && (
               <SelectBox
                 value={""}
-                // onChange={(e) => onchangeHandler(e, 0, 0)}
                 name="id"
-                title="Postcode Address"
-                icon={icons.thumbtack}
-                placeholder="add a new adress if not listed "
-                data={postcodes[0] ? postcodes[0].addresses : []}
                 fromPoints={true}
+                icon={icons.thumbtack}
+                title="Postcode Address"
+                placeholder="add a new adress if not listed"
+                // onChange={(e) => onchangeHandler(e, 0, 0)}
+                data={postcodes[0] ? postcodes[0].addresses : []}
                 classNameImg="icon_selectedPoints_selectbox-post-code"
               />
             )}
@@ -825,12 +671,12 @@ class CheckingForPostcodes extends React.Component {
                 .dropoff === 1 && (
                 <TextArea
                   value="text"
-                  // onChange={(e) => onchangeHandler(e, 0, 0)}
-                  title="Adress Description *"
-                  name="postCodeAddress"
-                  icon={icons.idBadge}
                   errorMessage={""}
                   fromBooking={true}
+                  icon={icons.idBadge}
+                  name="postCodeAddress"
+                  title="Adress Description *"
+                // onChange={(e) => onchangeHandler(e, 0, 0)}
                 />
               )
               : null}
@@ -856,7 +702,7 @@ class CheckPlaceOfInterest extends React.Component {
                 name="address-description"
                 icon={icons.idBadge}
                 value={"Place interest"}
-                classNameImg="icon-inside-small-input"
+                classNameImg="icon-inside-small-input-place-interest"
                 fromPoints={true}
               />
             )}
@@ -873,7 +719,7 @@ class CheckPlaceOfInterest extends React.Component {
                 name="address-description"
                 icon={icons.idBadge}
                 value={"Trains"}
-                classNameImg="icon-inside-small-input"
+                classNameImg="icon-inside-small-input-place-interest"
                 fromPoints={true}
               //onChange
               />
@@ -894,13 +740,13 @@ class CheckForCitites extends React.Component {
           <div className="editable-selected-inputs">
             {objectDetailStatuses[8]["address-description"].pickup === 2 && (
               <TextInput
-                title="Cities"
                 type="text"
-                name="address-description"
-                icon={icons.mapLocation}
+                title="Cities"
                 value={"cities"}
-                classNameImg="icon-inside-small-input"
                 fromPoints={true}
+                icon={icons.mapLocation}
+                name="address-description"
+                classNameImg="icon-inside-small-input-place-interest"
               />
             )}
           </div>
@@ -911,13 +757,13 @@ class CheckForCitites extends React.Component {
           objectDetailStatuses[8]["address-description"].dropoff === 2 && (
             <div className="editable-selected-inputs">
               <TextInput
-                title="Cities"
                 type="text"
-                name="address-description"
-                icon={icons.mapLocation}
+                title="Cities"
                 value={"Cities"}
-                classNameImg="icon-inside-small-input"
                 fromPoints={true}
+                icon={icons.mapLocation}
+                name="address-description"
+                classNameImg="icon-inside-small-input-place-interest"
               //onChange
               />
             </div>
@@ -937,13 +783,13 @@ class CheckForUniversity extends React.Component {
           <div className="editable-selected-inputs">
             {objectDetailStatuses[9]["address-description"].pickup === 2 && (
               <TextInput
-                title="Universities And Colleges"
                 type="text"
-                name="address-description"
+                fromPoints={true}
                 icon={icons.building}
                 value={"UNIVERSITIES"}
-                classNameImg="icon-inside-small-input"
-                fromPoints={true}
+                name="address-description"
+                title="Universities And Colleges"
+                classNameImg="icon-inside-small-input-place-interest"
               />
             )}
           </div>
@@ -954,13 +800,13 @@ class CheckForUniversity extends React.Component {
           objectDetailStatuses[9]["address-description"].dropoff === 2 && (
             <div className="editable-selected-inputs">
               <TextInput
-                title="Universities And Colleges"
                 type="text"
-                name="address-description"
+                fromPoints={true}
                 icon={icons.building}
                 value={"Universitires"}
-                classNameImg="icon-inside-small-input"
-                fromPoints={true}
+                name="address-description"
+                title="Universities And Colleges"
+                classNameImg="icon-inside-small-input-place-interest"
               //onChange
               />
             </div>
@@ -984,7 +830,7 @@ class CheckForOther extends React.Component {
                 type="text"
                 name="address-description"
                 icon={icons.locationArrow}
-                value={"Other"}
+                value={""}
                 classNameImg="icon-inside-small-input"
                 fromPoints={true}
               />
@@ -1001,7 +847,7 @@ class CheckForOther extends React.Component {
                 type="text"
                 name="address-description"
                 icon={icons.locationArrow}
-                value={"Other"}
+                value={""}
                 classNameImg="icon-inside-small-input"
                 fromPoints={true}
               //onChange
@@ -1221,24 +1067,17 @@ class TimePicker extends React.Component {
     super(props);
     this.state = {
       dropdownActive: false,
-      activeHour: "01",
-      activeMinute: "05",
     };
   }
 
   statusDropDown() {
     this.setState({ dropdownActive: !this.state.dropdownActive });
   }
-  selectValue(e, name) {
-    if (name === "hour") {
-      this.setState({ activeHour: e.target.innerText });
-    } else {
-      this.setState({ activeMinute: e.target.innerText });
-    }
-  }
+
+
   render() {
-    let { title, name, options } = this.props;
-    let { activeHour, activeMinute, dropdownActive } = this.state;
+    let { dropdownActive, } = this.state;
+    let { title, name, options, hour, minute, } = this.props;
     return (
       <div
         className={`
@@ -1257,7 +1096,7 @@ class TimePicker extends React.Component {
             `}
           >
             <p className={"jrn-timepicker-holder"}>
-              {name === "hour" ? activeHour : activeMinute}
+              {name === "hour" ? hour : minute}
             </p>
           </div>
           <ul className={"jrn-timepicker-dropdown-option"} name={name}>
@@ -1265,14 +1104,13 @@ class TimePicker extends React.Component {
               ? options.map((item, i) => {
                 return (
                   <li
-                    onClick={(e) => this.selectValue(e, name)}
-                    className={`li ${Number(activeHour) === Number(item.value)
+                    onClick={(e) => this.props.setHourOrMinute(e, "hour")}
+                    className={`li ${Number(hour) === Number(item.value)
                       ? "li-current"
                       : ""
                       }`}
                     key={item.id}
                     value={item.value}
-                    name={name}
                   >
                     {item.value}
                   </li>
@@ -1281,14 +1119,13 @@ class TimePicker extends React.Component {
               : options.map((item, i) => {
                 return (
                   <li
-                    onClick={(e) => this.selectValue(e, name)}
-                    className={`li ${Number(activeMinute) === Number(item.value)
+                    onClick={(e) => this.props.setHourOrMinute(e, "minute")}
+                    className={`li ${Number(minute) === Number(item.value)
                       ? "li-current"
                       : ""
                       }`}
                     key={item.id}
                     value={item.value}
-                    name={name}
                   >
                     {item.value}
                   </li>
@@ -1676,11 +1513,11 @@ class PassengerDetailsUpdateForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: this.props.passengerDetails.firstname,
+      loading: false,
       email: this.props.passengerDetails.email,
       phone: this.props.passengerDetails.phone,
+      firstname: this.props.passengerDetails.firstname,
       passengersNumber: this.props.transferDetails.passengersNumber,
-      loading: false,
     };
   }
   onCancel() {
@@ -1912,6 +1749,15 @@ class JorneyDetailsUpdateForm extends React.Component {
       addExtraPointTextDropOff: true,
       getPickUpSuggestLoading: false,
       getDropOffSuggestLoading: false,
+      quotation: this.props.quotation,
+      currentPrice: this.props.previousPrice,//it is the current price which when quotation will change it will change
+      previousPrice: this.props.previousPrice,
+      specialRequests: this.props.specialRequests,
+      selectedPickupPoints: this.props.selectedPickupPoints,
+      selectedDropoffPoints: this.props.selectedDropoffPoints,
+      transferDateTimeString: this.props.transferDateTimeString,
+      hour: this.props.transferDateTimeString.split(" ")[1].split(":")[0],
+      minute: this.props.transferDateTimeString.split(" ")[1].split(":")[1],
     };
   }
   onCancel() {
@@ -1978,6 +1824,7 @@ class JorneyDetailsUpdateForm extends React.Component {
       })
   }
 
+  //lhr => suggestion comes
   onchangeHandlerGetSuggestion(e) {
     let inpName = e.target.name
     let inpValue = e.target.value
@@ -1993,25 +1840,161 @@ class JorneyDetailsUpdateForm extends React.Component {
       }
     }
   }
+
+  onChangeDateSpecialRequest(e) {
+    let { name, value } = e.target;
+    let { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString } = this.state
+    if (name === "transferDateTimeString") {
+      let minute = transferDateTimeString.split(" ")[1].split(":")[1]; //00   15 20 25
+      let hour = transferDateTimeString.split(" ")[1].split(":")[0]; //1 2 3 4 5 6
+      transferDateTimeString = `${value} ${hour}:${minute}`
+      let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
+      window.manageBookingDispatch.getQuotationAfterAddItem(params)
+      this.setState({ transferDateTimeString })
+    } else {
+      this.setState({ [name]: value });
+    }
+
+  }
+  //has sended to timePicker comp as a props
+  setHourOrMinute = (e, name) => {
+    let value = e.target.innerText
+    let { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString } = this.state
+    let date = transferDateTimeString.split(" ")[0]; //2022-04-18
+    let minute = transferDateTimeString.split(" ")[1].split(":")[1]; //00   15 20 25
+    let hour = transferDateTimeString.split(" ")[1].split(":")[0]; //1 2 3 4 5 6
+    if (name === 'hour') {
+      transferDateTimeString = `${date} ${value}:${minute}`
+      this.setState({ hour: value, transferDateTimeString })
+    } else {
+      transferDateTimeString = `${date} ${hour}:${value}`;
+      this.setState({ minute: value, transferDateTimeString })
+    }
+    let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
+    window.manageBookingDispatch.getQuotationAfterAddItem(params)
+  }
+
+  //!Step2
+  addItemToListPart2(point, index, type) {
+    let { selectedPickupPoints, selectedDropoffPoints } = this.state;
+    if (index === 0) selectedPickupPoints = [...selectedPickupPoints, point];
+    if (index === 1) selectedDropoffPoints = [...selectedDropoffPoints, point];
+    //when ever we update points It will update quotations
+    let { transferDateTimeString } = this.state;
+    let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
+    window.manageBookingDispatch.getQuotationAfterAddItem(params)
+    this.setState({ selectedPickupPoints, selectedDropoffPoints });
+  }
+  //has sended to handleSearch comp as a props //!Staep1
+  handleAddItemToSelectList = (item, objDetails, index, type) => {
+    const method = "POST"
+    const headers = { "Content-Type": "application/json", }
+
+    if (item.pcatId === 10) {
+      const body = JSON.stringify({ point: item })
+      const url = `${__env.apiDomain}/api/v1/google-places`;
+      const config = { method, headers, body };
+      //request for google place and add item to the list
+      fetch(url, config)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 200) {
+            let point = { ...data.point, ...objDetails };
+            this.addItemToListPart2(point, index, type)
+            window.journeyDetailsUpdateFormDispatch.removeAddInputField(index)
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    if (item.pcatId === 5) {
+      const url = `${__env.apiDomain}/api/v1/postcode-address`;
+      const body = JSON.stringify({ postcodes: [item.postcode] })
+      const config = { method, headers, body };
+      //request forpost codes
+      fetch(url, config)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status) window.manageBookingDispatch.setSelectedPostCode(data.results[0]);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      let point = { ...item, ...objDetails };
+      this.addItemToListPart2(point, index, type)
+      window.journeyDetailsUpdateFormDispatch.removeAddInputField(index)
+    }
+    if (item.pcatId !== 10 && item.pcatId !== 5) {
+      let point = { ...item, ...objDetails };
+      this.addItemToListPart2(point, index, type)
+      window.journeyDetailsUpdateFormDispatch.removeAddInputField(index)
+    }
+  }
+
+  deleteItemFromList = (pickOrDropPoint, indexOfCurrentItem) => {
+    let { selectedPickupPoints, selectedDropoffPoints } = this.state;
+    if (pickOrDropPoint === 0) selectedPickupPoints.splice(indexOfCurrentItem, 1);
+    if (pickOrDropPoint === 1) selectedDropoffPoints.splice(indexOfCurrentItem, 1);
+    let { transferDateTimeString } = this.state;
+    let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
+    window.manageBookingDispatch.getQuotationAfterAddItem(params)
+    this.setState({ selectedPickupPoints, selectedDropoffPoints });
+  }
+
+  //
+  selectQuotation = (e, item) => this.setState({ quotation: item, currentPrice: item.price })
+
+  componentDidMount() {
+    window.journeyDetailsUpdateFormDispatch = {
+      removeAddInputField: (index) => {
+        if (index === 0) {
+          this.setState({
+            pickUpPointInput: "",
+            pickUpSuggestions: [],
+            inputPickUpShowStatus: false,
+            addExtraPointTextPickUp: true,
+          })
+        }
+        if (index === 1) {
+          this.setState({
+            dropOffPointInput: "",
+            dropOffSuggestions: [],
+            inputDropOffShowStatus: false,
+            addExtraPointTextDropOff: true,
+          })
+
+        }
+      },
+    }
+  }
   render() {
     // let { loading } = this.state;
     let {
       quotations,
+      paymentType,
+      objectDetailss,
       carsTypesObject,
       postCodeAddress,
       imageTypesObject,
+      quotationLoading,
       setModalCarStatus,
       namePlaceTypesObject,
       setModalFlightStatus,
       objectDetailStatuses,
-      selectedPickupPoints,
-      selectedDropoffPoints,
     } = this.props;
     let {
+      hour,
+      minute,
+      quotation,
+      currentPrice,
+      previousPrice,
       pickUpPointInput,
       dropOffPointInput,
       pickUpSuggestions,
       dropOffSuggestions,
+      selectedPickupPoints,
+      selectedDropoffPoints,
       inputPickUpShowStatus,
       inputDropOffShowStatus,
       addExtraPointTextPickUp,
@@ -2020,7 +2003,19 @@ class JorneyDetailsUpdateForm extends React.Component {
       addExtraPointTextDropOff,
     } = this.state;
     let loading = false;
-
+    //replacing slahs with  -  11/03/2022  => change to  2022-03-11
+    let date = null
+    if (this.state.transferDateTimeString.includes("/")) {
+      date = (this.state.transferDateTimeString
+        .split(" ")[0]
+        .replace(/\//g, "-")
+        .split(" ")[0]
+        .replace(/(\d+)\-(\d+)-(\d+)/, "$3-$2-$1"))
+    } else {
+      date = this.state.transferDateTimeString.split(" ")[0]
+    }
+    console.log(currentPrice, "currentPrice");
+    console.log(previousPrice, "previous");
 
 
     return (
@@ -2051,16 +2046,20 @@ class JorneyDetailsUpdateForm extends React.Component {
               Pick ups
             </div>
 
-            <SelectedLists
-              pickOrDrop={0}
-              postCodeAddress={postCodeAddress}
-              imageTypesObject={imageTypesObject}
-              selectedItems={selectedPickupPoints}
-              setModalFlightStatus={setModalFlightStatus} //when click to info
-              objectDetailStatuses={objectDetailStatuses}
-            />
-            {inputPickUpShowStatus && (
-              <div className="add-extra-input-div-status">
+            {
+              selectedPickupPoints.length > 0 ?
+                <SelectedLists
+                  pickOrDrop={0}
+                  postCodeAddress={postCodeAddress}
+                  imageTypesObject={imageTypesObject}
+                  selectedItems={selectedPickupPoints}
+                  setModalFlightStatus={setModalFlightStatus} //when click to info
+                  objectDetailStatuses={objectDetailStatuses}
+                  deleteItemFromList={this.deleteItemFromList}
+                /> : ""
+            }
+            <div className="add-extra-input-div-status">
+              {selectedPickupPoints.length === 0 && (
                 <TextInput
                   title=""
                   type="text"
@@ -2073,16 +2072,31 @@ class JorneyDetailsUpdateForm extends React.Component {
                   isLoading={getPickUpSuggestLoading}
                   onChange={(e) => this.onchangeHandlerGetSuggestion(e)}
                 />
-
-                <HandleSearchResults
-                  pickOrDrop={"pickupPoints"}
-                  imageTypesObject={imageTypesObject}
-                  pickOrDropItems={pickUpSuggestions}
-                  namePlaceTypesObject={namePlaceTypesObject}
-                  objectDetailStatuses={objectDetailStatuses}
+              )}
+              {inputPickUpShowStatus && (
+                <TextInput
+                  title=""
+                  type="text"
+                  errorMessage={""}
+                  name="pickUpPointInput"
+                  icon={icons.mapLocation}
+                  value={pickUpPointInput}
+                  placeholder="City or Airport"
+                  classNameImg="email-icon-input"
+                  isLoading={getPickUpSuggestLoading}
+                  onChange={(e) => this.onchangeHandlerGetSuggestion(e)}
                 />
-              </div>
-            )}
+              )}
+              <HandleSearchResults
+                index={0}
+                type={"pickup"}
+                objectDetailss={objectDetailss}
+                pickOrDropItems={pickUpSuggestions}
+                imageTypesObject={imageTypesObject}
+                namePlaceTypesObject={namePlaceTypesObject}
+                handleAddItemToSelectList={this.handleAddItemToSelectList}
+              />
+            </div>
             {addExtraPointTextPickUp && (
               <div
                 onClick={(e) => this.addExtraInputForJourney(e, 0)}
@@ -2099,15 +2113,20 @@ class JorneyDetailsUpdateForm extends React.Component {
             <div className="editable-jrn-points-container-box-header">
               Dropp Offs
             </div>
-            <SelectedLists
-              pickOrDrop={1}
-              postCodeAddress={postCodeAddress}
-              imageTypesObject={imageTypesObject}
-              selectedItems={selectedDropoffPoints}
-              objectDetailStatuses={objectDetailStatuses}
-            />
-            {inputDropOffShowStatus && (
-              <div className="add-extra-input-div-status">
+            {
+              selectedDropoffPoints.length > 0 ?
+                <SelectedLists
+                  pickOrDrop={1}
+                  postCodeAddress={postCodeAddress}
+                  imageTypesObject={imageTypesObject}
+                  selectedItems={selectedDropoffPoints}
+                  objectDetailStatuses={objectDetailStatuses}
+                  deleteItemFromList={this.deleteItemFromList}
+                /> : ""
+            }
+
+            <div className="add-extra-input-div-status">
+              {selectedDropoffPoints.length === 0 && (
                 <TextInput
                   title=""
                   type="text"
@@ -2120,15 +2139,33 @@ class JorneyDetailsUpdateForm extends React.Component {
                   isLoading={getDropOffSuggestLoading}
                   onChange={(e) => this.onchangeHandlerGetSuggestion(e)}
                 />
-                <HandleSearchResults
-                  pickOrDrop={"dropoffPoints"}
-                  imageTypesObject={imageTypesObject}
-                  pickOrDropItems={dropOffSuggestions}
-                  namePlaceTypesObject={namePlaceTypesObject}
-                  objectDetailStatuses={objectDetailStatuses}
+              )}
+              {inputDropOffShowStatus && (
+                <TextInput
+                  title=""
+                  type="text"
+                  errorMessage={""}
+                  name="dropOffPointInput"
+                  icon={icons.mapLocation}
+                  value={dropOffPointInput}
+                  placeholder="City or Airport"
+                  classNameImg="email-icon-input"
+                  isLoading={getDropOffSuggestLoading}
+                  onChange={(e) => this.onchangeHandlerGetSuggestion(e)}
                 />
-              </div>
-            )}
+              )}
+
+
+              <HandleSearchResults
+                index={1}
+                type={"drop"}
+                objectDetailss={objectDetailss}
+                imageTypesObject={imageTypesObject}
+                pickOrDropItems={dropOffSuggestions}
+                namePlaceTypesObject={namePlaceTypesObject}
+                handleAddItemToSelectList={this.handleAddItemToSelectList}
+              />
+            </div>
             {addExtraPointTextDropOff && (
               <div onClick={(e) => this.addExtraInputForJourney(e, 1)} className="editable-jrn-points-container-box-add-extra-fly">
                 <img src={icons.plus} alt="" />
@@ -2142,37 +2179,42 @@ class JorneyDetailsUpdateForm extends React.Component {
         <div className="editable-jrn-date-hour-minute-div">
           <div className="editable-jrn-departing-date">
             <DateInput
-              title={`${selectedPickupPoints[0].pcatId === 1
-                ? "Flight Landing Date"
-                : "Pick Up Date"
-                }`}
-              name="DeparuteDate"
-              //dateTimeStringFunc()?.split(" ")[0]
-              min="2022-09-20"
-              icon={icons.calendar}
               type="date"
+              value={date}
+              name="transferDateTimeString"
+              icon={icons.calendar}
               classNameImg="icon-inside-small-input"
-              // onChange={(e) => onchangeHandler(e, "date", 0)}
-              //here we sending 2022-0422   part of
-              value={"2022-10-26"}
+              min={dateTimeStringFunc().split(" ")[0]}
+              onChange={(e) => this.onChangeDateSpecialRequest(e)}
+              title={`
+               ${selectedPickupPoints.length > 0 && selectedPickupPoints[0].pcatId === 1
+                  ? "Flight Landing Date"
+                  : "Pick Up Date"
+                }`}
             />
           </div>
           <div className="editable-jrn-detparting-time">
             <TimePicker
+              hour={hour}
               name="hour"
-              title={`${selectedPickupPoints[0].pcatId === 1
-                ? "Landing Hour"
-                : "Pick Up Hour"
-                }`}
               options={hourss}
+              setHourOrMinute={this.setHourOrMinute}
+              title={`
+              ${selectedPickupPoints.length > 0 && selectedPickupPoints[0].pcatId === 1
+                  ? "Landing Hour"
+                  : "Pick Up Hour"
+                }`}
             />
             <TimePicker
               name="minute"
-              title={`${selectedPickupPoints[0].pcatId === 1
-                ? "Landing Minute"
-                : "Pick Up Minute"
-                }`}
+              minute={minute}
               options={minutes}
+              setHourOrMinute={this.setHourOrMinute}
+              title={`
+              ${selectedPickupPoints.length > 0 && selectedPickupPoints[0].pcatId === 1
+                  ? "Landing Minute"
+                  : "Pick Up Minute"
+                }`}
             />
           </div>
           <div className="editable-jrn-departing-btn">
@@ -2184,36 +2226,44 @@ class JorneyDetailsUpdateForm extends React.Component {
 
         {/* special request  */}
         <TextArea
-          value="Special Request "
-          // onChange={(e) => onchangeHandler(e, 0, 0)}
-          title="Special Request"
-          name="specialRequest"
-          icon={icons.idBadge}
-          fromBooking={true}
           classNameImg=""
+          fromBooking={true}
+          icon={icons.idBadge}
+          name="specialRequests"
+          title="Special Requests"
+          value={this.state.specialRequests}
+          onChange={(e) => this.onChangeDateSpecialRequest(e)}
         />
 
         {/*quotation results*/}
         <QuotationCardItem
+          quotation={quotation}
           quotations={quotations}
           carsTypesObject={carsTypesObject}
+          quotationLoading={quotationLoading}
           setModalCarStatus={setModalCarStatus}
+          selectQuotation={this.selectQuotation}
         />
 
-        <div class="informative-subcharges-div">
-          <img src={__env.infoAlert} alt="" />
-          <div class="informative-subcharge-price-info ">
-            <p id="informationMessage">Due to the amendments you have made;</p>
-            <p id="informationMessage">Previous journey price : £ 59</p>
-            <p id="informationMessage">Price difference : £17</p>
-            <p id="informationMessage">New Journey price : £76</p>
-          </div>
-        </div>
-        <div className="jrn-py-btn-div">
-          <button className="tmb-btn tmb-button-primary-outlined-hover ">
-            Pay By Card
-          </button>
-        </div>
+        {/* if it is  cahs payment then we dont dont need to charge cubcharge */}
+        {paymentType !== 1 ? "" : Number(currentPrice) - Number(previousPrice) > 0 &&
+          <div class="informative-subcharges-div">
+            <img src={__env.infoAlert} alt="" />
+            <div class="informative-subcharge-price-info ">
+              <p id="informationMessage">Due to the amendments you have made;</p>
+              <p id="informationMessage">Previous journey price : £ {`${previousPrice}.00`}</p>
+              <p id="informationMessage">Price difference : £ {`${+currentPrice - +previousPrice}.00`}</p>
+              <p id="informationMessage">New Journey price : £ {currentPrice}</p>
+            </div>
+          </div>}
+        {/* if it is  cahs payment then we dont need to make it visible cause he is gonna pay all by card */}
+        {paymentType !== 1 ? "" : Number(currentPrice) - Number(previousPrice) > 0 &&
+          <div className="jrn-py-btn-div">
+            <button className="tmb-btn tmb-button-primary-outlined-hover ">
+              Pay By Card
+            </button>
+          </div>}
+
       </div>
     );
   }
@@ -2227,13 +2277,14 @@ class SelectedLists extends React.Component {
       selectedItems,
       postCodeAddress,
       imageTypesObject,
+      deleteItemFromList,
       objectDetailStatuses,
       setModalFlightStatus,
     } = this.props;
 
     return (
       <div>
-        {selectedItems.map((item, i) => {
+        {selectedItems.length > 0 ? selectedItems.map((item, i) => {
           return (
             <div className="editable-jrn-points-container-box-card">
               <div className="editable-jrn-points-container-box-card-header">
@@ -2244,7 +2295,9 @@ class SelectedLists extends React.Component {
                   alt={item.address}
                 />
                 <p>{item.address}</p>
-                <div className="editable-jrn-points-container-box-card-trash">
+                <div
+                  className="editable-jrn-points-container-box-card-trash"
+                  onClick={(e) => deleteItemFromList(this.props.pickOrDrop, i)}>
                   x
                 </div>
               </div>
@@ -2296,7 +2349,7 @@ class SelectedLists extends React.Component {
               />
             </div>
           );
-        })}
+        }) : ""}
       </div>
     );
   }
@@ -2312,13 +2365,16 @@ class ReservationDetails extends React.Component {
     };
   }
 
+
   render() {
     let {
       quotations,
       reservation,
       postCodeAddress,
+      quotationLoading,
       resources: { carsTypes, pointTypeCategories },
     } = this.props;
+
     let carsTypesObject = Object.assign(
       {},
       ...carsTypes.map((obj) => ({ [obj.id]: obj }))
@@ -2331,10 +2387,18 @@ class ReservationDetails extends React.Component {
       {},
       ...pointTypeCategories.map((obj) => ({ [obj.id]: obj.image }))
     );
+    //inside selected list Inorder to handle search mandatory or not
     let objectDetailStatuses = Object.assign(
       {},
       ...pointTypeCategories.map((obj) => ({
         [obj.id]: JSON.parse(obj.detailsStatus),
+      }))
+    );
+    //for hansdle search adding item  =>flightDetails:flightNumber:""waitingPickupTime:0
+    let objectDetailss = Object.assign(
+      {},
+      ...pointTypeCategories.map((obj) => ({
+        [obj.id]: JSON.parse(obj.objectDetails),
       }))
     );
 
@@ -2346,6 +2410,7 @@ class ReservationDetails extends React.Component {
       reservationDetails,
       selectedPickupPoints,
       selectedDropoffPoints,
+      transferDetails: { specialRequests, transferDateTimeString }
     } = reservation;
     return (
       <div className="rsv-section">
@@ -2395,23 +2460,30 @@ class ReservationDetails extends React.Component {
           {/* //!journey details */}
           {this.state.journeyEditStatus ? (
             <JorneyDetailsUpdateForm
-              quotations={quotations}
-              carsTypesObject={carsTypesObject}
-              postCodeAddress={postCodeAddress}
-              imageTypesObject={imageTypesObject}
-              setModalCar={this.state.setModalCar}
-              setModalFlight={this.state.setModalFlight}
-              namePlaceTypesObject={namePlaceTypesObject}
-              objectDetailStatuses={objectDetailStatuses}
-              selectedPickupPoints={selectedPickupPoints}
-              selectedDropoffPoints={selectedDropoffPoints}
-              onSave={(e) => this.setState({ journeyEditStatus: false })}
-              onCancel={(e) => this.setState({ journeyEditStatus: false })}
+              quotation={quotation}//to quotationCardItem
+              quotations={quotations}//to quotationCardItem
+              objectDetailss={objectDetailss}//to HandleSearch
+              carsTypesObject={carsTypesObject} //to quotationCardItem
+              postCodeAddress={postCodeAddress}//to SelectedList
+              specialRequests={specialRequests}//to TextArea
+              imageTypesObject={imageTypesObject}//to SelectedList
+              quotationLoading={quotationLoading} //to quotationCardItem
+              setModalCar={this.state.setModalCar}//state . to  quotationCardItem
+              previousPrice={paymentDetails.price}//to inner     at the outset it is current previous When change quotation it will be previous one
+              paymentType={paymentDetails.paymentType} //in order to make visible  py by card
+              setModalFlight={this.state.setModalFlight}//state . to   selectedList=> CheckForFlight
+              namePlaceTypesObject={namePlaceTypesObject}// to HandleSearch
+              objectDetailStatuses={objectDetailStatuses}//to SelectedList
+              selectedPickupPoints={selectedPickupPoints}//to SelectedList
+              selectedDropoffPoints={selectedDropoffPoints}//to selectedList
+              transferDateTimeString={transferDateTimeString} //to date input and to timepicker
+              onSave={(e) => this.setState({ journeyEditStatus: false })}//to inner OnSave function of JorneyDetailsUpdateForm
+              onCancel={(e) => this.setState({ journeyEditStatus: false })}//to inner onCancel function of JorneyDetailsUpdateForm
               setModalCarStatus={(e) =>
-                this.setState({ setModalCar: !this.state.setModalCar })
+                this.setState({ setModalCar: !this.state.setModalCar }) //to quotationCardItem
               }
               setModalFlightStatus={(e) =>
-                this.setState({ setModalFlight: !this.state.setModalFlight })
+                this.setState({ setModalFlight: !this.state.setModalFlight }) //to selectedList=> CheckForFlight
               }
             />
           ) : (
@@ -2431,6 +2503,7 @@ class ReservationDetails extends React.Component {
             {/* payByCardBtn here */}
             <div className={"rsv-payment-details-header"}>
               <div className={"rsv-payment-details-left"}>
+                {/* if he  before paid with card Then it is not gonna be visible   */}
                 {paymentDetails.paymentType !== 1 ? (
                   ""
                 ) : (
@@ -2485,6 +2558,7 @@ class ManageBooking extends React.Component {
       isAuth: false,
       quotations: [],
       showState: false,
+      quotationLoading: false,
       postCodeAddress: [],
       reservation: JSON.parse(localStorage["reservation"]), // {},
     };
@@ -2497,13 +2571,10 @@ class ManageBooking extends React.Component {
     } = this.state.reservation;
     this.getResources();
 
-    //next time when we will try use this function again (We wil pass params into it in order to get quotations)
-    this.getQuotations(
-      selectedPickupPoints,
-      selectedDropoffPoints,
-      transferDateTimeString
-    );
+    let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
+    this.getQuotations(params);
     this.getPostCodeAdresses();
+
     window.manageBookingDispatch = {
       onSuccessLogin: (reservation) => {
         localStorage["reservation"] = JSON.stringify(reservation);
@@ -2531,7 +2602,21 @@ class ManageBooking extends React.Component {
         console.log(fetchRes, typeof callback);
         if (fetchRes.status === 200) callback(fetchRes);
       },
+      setSelectedPostCode: (results) => {
+        let { postCodeAddress } = this.state
+        let newpostcodeAdress = postCodeAddress;
+        if (results.addresses.length > 0) {
+          newpostcodeAdress.push(results)
+          this.setState({ postCodeAddress: newpostcodeAdress })
+        }
+      },
+      getQuotationAfterAddItem: (params = {}) => {
+        let { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString } = params
+        let paramsFinal = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
+        this.getQuotations(paramsFinal)
+      }
     };
+
   }
   getResources() {
     const url = `${__env.apiDomain}/app/en`;
@@ -2554,7 +2639,7 @@ class ManageBooking extends React.Component {
   }
   getPostCodeAdresses() {
     const url = `${__env.apiDomain}/api/v1/postcode-address`;
-    let postCodes = ["UB9 4AP"];
+    let postCodes = [];
     //filtering
     [
       ...this.state.reservation.selectedPickupPoints,
@@ -2576,34 +2661,41 @@ class ManageBooking extends React.Component {
     fetch(url, config)
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ postCodeAddress: data.results });
+        if (data.status) this.setState({ postCodeAddress: data.results });
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  getQuotations(
-    selectedPickupPoints,
-    selectedDropoffPoints,
-    transferDateTimeString
-  ) {
-    const url = `${__env.apiDomain}/api/v1/quotation`;
-    const method = "POST";
-    const headers = { "Content-Type": "application/json" };
-    const body = JSON.stringify({
-      selectedPickupPoints,
-      selectedDropoffPoints,
-      transferDateTimeString,
-    });
-    const configTransfer = { method, headers, body };
-    fetch(url, configTransfer)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === 200)
-          this.setState({ quotations: data.quotationOptions });
-      })
-      .catch((error) => console.log(error));
+  getQuotations(params = {}) {
+    let { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString } = params
+
+    this.setState({ quotationLoading: true }, () => {
+      const url = `${__env.apiDomain}/api/v1/quotation`;
+      const method = "POST";
+      const headers = { "Content-Type": "application/json" };
+      const body = JSON.stringify({
+        selectedPickupPoints,
+        selectedDropoffPoints,
+        transferDateTimeString,
+      });
+      const configTransfer = { method, headers, body };
+      fetch(url, configTransfer)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 200) {
+            this.setState({ quotations: data.quotationOptions })
+          } else {
+            this.setState({ quotations: [] })
+          }
+          this.setState({ quotationLoading: false });
+        })
+        .catch((error) => {
+          this.setState({ quotationLoading: false });
+          window.alertMessageDispatch.alertMessage("", error.message);
+        });
+    })
   }
   render() {
     let {
@@ -2613,8 +2705,8 @@ class ManageBooking extends React.Component {
       quotations,
       reservation,
       postCodeAddress,
+      quotationLoading,
     } = this.state;
-
     return (
       <div className="tool-manage-booking" mode="dark">
         <div
@@ -2645,10 +2737,9 @@ class ManageBooking extends React.Component {
         </div>
         {isAuth ? (
           <ReservationDetails
-            resources={resources}
-            quotations={quotations}
-            reservation={reservation}
-            postCodeAddress={postCodeAddress}
+            quotationLoading={quotationLoading}
+            resources={resources} quotations={quotations}
+            reservation={reservation} postCodeAddress={postCodeAddress}
           />
         ) : (
           <BookingLogin />

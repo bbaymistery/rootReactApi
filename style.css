@@ -826,7 +826,7 @@ a {
 }
 
 .editable-jrn-points-container-box-add-extra-fly {
-  padding: 7px 16px;
+  padding: 11px 16px;
   align-items: center;
   display: flex;
   cursor: pointer;
@@ -834,7 +834,7 @@ a {
   font-weight: 500;
   letter-spacing: 0.6px;
   margin-bottom: 1rem;
-  margin-top: -6px;
+  margin-top: 0px;
   color: var(--gray-text-color);
 }
 
@@ -1651,6 +1651,11 @@ a {
   z-index: 999;
 }
 
+.icon-inside-small-input-place-interest {
+  width: 11px !important;
+  top: 32px !important;
+}
+
 .select-selected-points {
   color: var(--gray-text-color);
 }
@@ -1672,6 +1677,59 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: transparent;
   background: transparent;
   user-select: none;
+}
+
+input::-webkit-date-and-time-value {
+  text-align: left;
+  background-color: rgb(255, 255, 255) !important;
+}
+
+input[type="date"]::-webkit-datetime-edit,
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-clear-button {
+  color: rgb(253, 253, 253);
+  position: relative;
+
+  left: -0px;
+  text-align: left;
+}
+
+input[type="date"]::-webkit-datetime-edit-year-field {
+  position: absolute !important;
+  border-left: 1px solid #8c8c8c2f;
+  padding: 2px 7px;
+  color: #000;
+  left: 56px;
+
+
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field {
+  position: absolute !important;
+  border-left: 1px solid #8c8c8c2f;
+  padding: 2px 7px;
+  color: rgb(0, 0, 0);
+  left: 26px;
+
+}
+
+
+input[type="date"]::-webkit-datetime-edit-day-field {
+  position: absolute !important;
+  color: #000;
+
+  padding: 2px 0px;
+  left: 4px;
+
+}
+
+input::-webkit-datetime-edit-day-field:focus,
+input::-webkit-datetime-edit-month-field:focus,
+input::-webkit-datetime-edit-year-field:focus {
+  background-color: var(--main-color);
+
+  color: white;
+  outline: none;
 }
 
 .date-input-div {
@@ -1843,6 +1901,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-radius: 10px;
   box-shadow: 0 2px 5px -1px rgb(50 50 93 / 25%),
     0 1px 3px -1px rgb(0 0 0 / 30%);
+  cursor: pointer;
 }
 
 .jrn-quotation-card-item-outer-icon {
@@ -2276,6 +2335,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   white-space: nowrap;
   margin-top: 0.5rem;
   color: var(--gray-text-color);
+}
+
+.selected-quotation-button {
+  background-color: var(--main-color) !important;
+  color: white !important;
 }
 
 /* informative-subcharge -div */

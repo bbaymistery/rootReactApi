@@ -136,117 +136,26 @@
 //   })
 //   .catch((e) => console.log(e.message));
 // }
-{/* {0 === 0 && (
-              <li key={0} className={0 === 0 ? "tmb-search-groupname" : ""}>
-                {9 === 10 ? (
-                  <img
-                    src="https://api.london-tech.com/media/g-google.svg"
-                    alt=""
-                  />
-                ) : (
-                  // imgObj && (
-                  //   <img
-                  //     src={`https://api.london-tech.com${imgObj[item.pcatId]}`}
-                  //     alt=""
-                  //   />
-                  // )
-                  true && (
-                    <img
-                      src={
-                        "https://api.london-tech.com/media/mglafg5zqlrsocfwodwj.svg"
-                      }
-                      alt=""
-                    />
-                  )
-                )}
+/*
 
-                <a>Airports</a>
-                {10 === 10 && (
-                  <img
-                    src={
-                      "https://api.london-tech.com/media/mglafg5zqlrsocfwodwj.svg"
-                    }
-                    alt=""
-                    className={"tmb-search-groupname-google-image"}
-                  />
-                )}
-              </li>
-            )} */}
+date.split(" ")[0].replace(/\//g, "-")
 
-{/* <li>
-              {imgObj && (
-                <img
-                  src={`https://api.london-tech.com${imgObj[item.pcatId]}`}
-                  alt=""
-                />
-              )}
-              <p href="/location/londiani-188981">
-                {item.address}
-                {`   ${item?.postcode ? `-  ${item?.postcode}` : ""}`}
-              </p>
-            </li> */}
+      setSelectedPoints: (point, index, type) => {
+        let { reservation } = this.state;
+        let selectedPickupPoints = reservation.selectedPickupPoints;
+        let selectedDropoffPoints = reservation.selectedDropoffPoints;
 
-<li>
-  {true && (
-    <img
-      // src={`https://api.london-tech.com${imgObj[item.pcatId]}`}
-      src={
-        "https://api.london-tech.com/media/mglafg5zqlrsocfwodwj.svg"
-      }
-      alt=""
-    />
-  )}
-  <p href="#">
-    {"item.address heath gregs"}
-    {/* {`   ${item?.postcode ? `-  ${item?.postcode}` : ""}`} */}
-    {"T2gt-56"}
-  </p>
-</li>
+        if (index === 0) selectedPickupPoints = [...selectedPickupPoints, point];
+        if (index === 1) selectedDropoffPoints = [...selectedDropoffPoints, point];
+
+        reservation[
+          type === "pickup" ? "selectedPickupPoints" : "selectedDropoffPoints"
+        ] = type === "pickup" ? selectedPickupPoints : selectedDropoffPoints;
 
 
-// *************************************
-
-
-
-  <div key={i}>
-            {i === 0 && (
-              <li key={0} className={i === 0 ? "tmb-search-groupname" : ""}>
-                {item.pcatId === 10 ? (
-                  <img
-                    src="https://api.london-tech.com/media/g-google.svg"
-                    alt=""
-                  />
-                ) : (
-                  imgObj && (
-                    <img
-                      src={`https://api.london-tech.com${imgObj[item.pcatId]}`}
-                      alt=""
-                    />
-                  )
-
-                )}
-                <a>  {namePlaceOfObj && namePlaceOfObj[item.pcatId]}</a>
-                {10 === 10 && (
-                  <img
-                    src={
-                      "https://api.london-tech.com/media/mglafg5zqlrsocfwodwj.svg"
-                    }
-                    alt=""
-                    className={"tmb-search-groupname-google-image"}
-                  />
-                )}
-              </li>
-            )}
-            <li>
-              {imgObj && (
-                <img
-                  src={`https://api.london-tech.com${imgObj[item.pcatId]}`}
-                  alt=""
-                />
-              )}
-              <p href="/location/londiani-188981">
-                {item.address}
-                {`   ${item?.postcode ? `-  ${item?.postcode}` : ""}`}
-              </p>
-            </li>
-          </div>
+        //when ever we update points It will update quotations
+        let { transferDetails: { transferDateTimeString }, } = reservation;
+        let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
+        this.getQuotations(params)
+        this.setState({ reservation });
+      },
