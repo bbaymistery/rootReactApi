@@ -455,23 +455,32 @@ class CheckForFlight extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      whichItemSelected: this.props.whichItemSelected,
-      flightNumber: this.props.item.pcatId === 1 && this.props.item.flightDetails.flightNumber,
-      waitingPickupTime: this.props.item.pcatId === 1 && this.props.item.flightDetails.waitingPickupTime,
+      whichItemSelected:
+        this.props.whichItemSelected,
+      flightNumber:
+        this.props.item.pcatId === 1 && this.props.item.flightDetails.flightNumber,
+      waitingPickupTime:
+        this.props.item.pcatId === 1 && this.props.item.flightDetails.waitingPickupTime,
     };
   }
-  onchangeHandler(e, pickUpOrDropOff) {
+
+  onchangeHandlerInput = (e, pickOrDrop) => {
     let { name, value } = e.target
-    if (e.target.name === "waitingPickupTime") {
+    let { flightNumber, waitingPickupTime, whichItemSelected } = this.state
+    let flightDetails = { flightNumber, waitingPickupTime }
+
+    if (name === "waitingPickupTime") {
       this.setState({ [name]: Number(e.target.value.split(" ")[0]) })
+      flightDetails = { ...flightDetails, waitingPickupTime: Number(e.target.value.split(" ")[0]) }
     } else {
       this.setState({ [name]: value })
+      flightDetails = { ...flightDetails, flightNumber: value }
     }
-  };
+    window.journeyDetailsUpdateFormDispatch.onchangeItemDetails(flightDetails, pickOrDrop, whichItemSelected, 1)
+  }
 
   render() {
     let { item, index, objectDetailStatuses, setModalFlightStatus } = this.props;
-    console.log(this.state);
 
     return (
       <div>
@@ -488,7 +497,8 @@ class CheckForFlight extends React.Component {
                   name="flightNumber"
                   icon={icons.planeDeparture}
                   classNameImg="icon-inside-small-input"
-                  onChange={(e) => this.onchangeHandler(e, 0,)}
+                  onChange={(e) => this.onchangeHandlerInput(e, 0)}
+                  errorMessage={!this.state.flightNumber ? "required" : ""}
                 />
               )}
             {objectDetailStatuses[1].flightDetails.waitingPickupTime.pickup ===
@@ -497,11 +507,11 @@ class CheckForFlight extends React.Component {
                   fromPoints={true}
                   infoForFlight={true}
                   data={waitingMinutes}
-                  placeholder={`${this.state.waitingPickupTime} minutes after flight has landed`}
-                  value={this.state.waitingPickupTime}
+                  // placeholder={this.state.waitingPickupTime > 0 && `${this.state.waitingPickupTime} minutes after flight has landed`}
+                  defaultValue={this.state.waitingPickupTime}
                   name="waitingPickupTime"
                   icon={icons.planeArrival}
-                  onChange={(e) => this.onchangeHandler(e, 0,)}
+                  onChange={(e) => this.onchangeHandlerInput(e, 0)}
                   setModalFlightStatus={setModalFlightStatus}
                   title="When should the driver pick you up?"
                   classNameImg="icon_selectedPoints_selectbox"
@@ -520,7 +530,7 @@ class CheckForFlight extends React.Component {
                 fromPoints={true}
                 name="flightNumber"
                 icon={icons.planeArrival}
-                onChange={(e) => this.onchangeHandler(e, 1,)}
+                onChange={(e) => this.onchangeHandlerInput(e, 1)}
                 value={this.state.flightNumber}
                 classNameImg="icon-inside-small-input"
               />
@@ -531,6 +541,23 @@ class CheckForFlight extends React.Component {
   }
 }
 class CheckForCruises extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      whichItemSelected: this.props.whichItemSelected,
+      cruiseNumber: this.props.item.pcatId === 2 && this.props.item.cruiseNumber,
+    };
+  }
+
+  onchangeHandlerInput = (e, pickOrDrop) => {
+    let { name, value } = e.target
+    let { cruiseNumber, whichItemSelected } = this.state
+    let valueToSend = cruiseNumber
+    this.setState({ [name]: value })
+    valueToSend = value
+    window.journeyDetailsUpdateFormDispatch.onchangeItemDetails(valueToSend, pickOrDrop, whichItemSelected, 2)
+  }
+
   render() {
     let { item, index, objectDetailStatuses } = this.props;
 
@@ -541,13 +568,14 @@ class CheckForCruises extends React.Component {
           <div className="editable-selected-inputs">
             {objectDetailStatuses[2].cruiseNumber.pickup === 1 && (
               <TextInput
-                title="Cruise Name"
                 type="text"
+                title="Cruise Name"
                 name="cruiseNumber"
                 icon={icons.ship}
-                value={"Cruise"}
-                classNameImg="icon-inside-small-input"
                 fromPoints={true}
+                value={this.state.cruiseNumber}
+                classNameImg="icon-inside-small-input"
+                onChange={(e) => onchangeHandlerInput(e, 0)}
               />
             )}
           </div>
@@ -558,14 +586,15 @@ class CheckForCruises extends React.Component {
           objectDetailStatuses[2].cruiseNumber.dropoff === 2 && (
             <div className="editable-selected-inputs">
               <TextInput
-                title="Cruise Name"
                 type="text"
-                name="cruiseNumber"
                 icon={icons.ship}
-                value={"dsadas"}
-                classNameImg="icon-inside-small-input"
                 fromPoints={true}
-              //onChange
+                title="Cruise Name"
+                name="cruiseNumber"
+                value={this.state.cruiseNumber}
+                classNameImg="icon-inside-small-input"
+                onChange={(e) => onchangeHandlerInput(e, 0)}
+                errorMessage={!this.state.cruiseNumber ? "required" : ""}
               />
             </div>
           )}
@@ -589,7 +618,7 @@ class CheckForTrain extends React.Component {
                 name="trainNumber"
                 icon={icons.train}
                 value={"Train"}
-                classNameImg="icon-inside-small-input"
+                classNameImg="icon-inside0inp-train"
                 fromPoints={true}
               />
             )}
@@ -606,7 +635,7 @@ class CheckForTrain extends React.Component {
                 name="trainNumber"
                 icon={icons.train}
                 value={"Trains"}
-                classNameImg="icon-inside-small-input"
+                classNameImg="icon-inside0inp-train"
                 fromPoints={true}
               //onChange
               />
@@ -620,13 +649,30 @@ class CheckingForPostcodes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      postCodeDetails: {
-        id: 0,
-        postCodeAddress: "",
-      },
+      whichItemSelected:
+        this.props.whichItemSelected,
+      id:
+        this.props.item.pcatId === 5 && this.props.item.postCodeDetails.id,
+      postCodeAddress:
+        this.props.item.pcatId === 5 && this.props.item.postCodeDetails.postCodeAddress,
     };
   }
 
+  onchangeHandlerInput = (e, pickOrDrop) => {
+    let { name, value } = e.target
+    let { id, postCodeAddress, whichItemSelected } = this.state
+    let postCodeDetails = { id, postCodeAddress }
+
+    if (name === "id") {
+      let id = Number(e.target.options[e.target.selectedIndex].getAttribute("id"))
+      this.setState({ id, postCodeAddress: value })
+      postCodeDetails = { ...postCodeDetails, id, postCodeAddress: value }
+    } else {
+      this.setState({ postCodeAddress: value, id: 0 })
+      postCodeDetails = { ...postCodeDetails, postCodeAddress: value, id: 0 }
+    }
+    window.journeyDetailsUpdateFormDispatch.onchangeItemDetails(postCodeDetails, pickOrDrop, whichItemSelected, 5)
+  }
   render() {
     let postcodes = [];
     let { item, index, objectDetailStatuses, postCodeAddress } = this.props;
@@ -642,28 +688,29 @@ class CheckingForPostcodes extends React.Component {
           <div className="editable-selected-inputs">
             {objectDetailStatuses[5].postCodeDetails.id.pickup === 1 && (
               <SelectBox
-                // onChange={(e) => onchangeHandler(e, 0, 0)}
-                value={""}
                 name="id"
-                classNameImg="icon_selectedPoints_selectbox-post-code"
+                value={""}
                 fromPoints={true}
                 icon={icons.thumbtack}
                 title="Postcode Address"
+                defaultValue={this.state.id}
                 placeholder="add a new adress if not listed "
                 data={postcodes[0] ? postcodes[0].addresses : []}
+                onChange={(e) => this.onchangeHandlerInput(e, 0)}
+                classNameImg="icon_selectedPoints_selectbox-post-code"
               />
             )}
-            {this.state.postCodeDetails.id === 0
+            {this.state.id === 0
               ? objectDetailStatuses[5].postCodeDetails.postCodeAddress
                 .pickup === 1 && (
                 <TextArea
-                  value="text"
-                  // onChange={(e) => onchangeHandler(e, 0, 0)}
-                  title="Adress Description *"
-                  name="postCodeAddress"
                   icon={icons.idBadge}
-                  errorMessage={""}
                   fromBooking={true}
+                  name="postCodeAddress"
+                  title="Adress Description *"
+                  value={this.state.postCodeAddress}
+                  onChange={(e) => this.onchangeHandlerInput(e, 0)}
+                  errorMessage={!this.state.postCodeAddress ? "required" : ""}
                 />
               )
               : null}
@@ -674,28 +721,29 @@ class CheckingForPostcodes extends React.Component {
           <div className="editable-selected-inputs">
             {objectDetailStatuses[5].postCodeDetails.id.dropoff === 1 && (
               <SelectBox
-                value={""}
                 name="id"
                 fromPoints={true}
                 icon={icons.thumbtack}
                 title="Postcode Address"
+                defaultValue={this.state.id}
                 placeholder="add a new adress if not listed"
-                // onChange={(e) => onchangeHandler(e, 0, 0)}
                 data={postcodes[0] ? postcodes[0].addresses : []}
+                onChange={(e) => this.onchangeHandlerInput(e, 1)}
                 classNameImg="icon_selectedPoints_selectbox-post-code"
               />
             )}
-            {this.state.postCodeDetails.id === 0
+            {this.state.id === 0
               ? objectDetailStatuses[5].postCodeDetails.postCodeAddress
                 .dropoff === 1 && (
                 <TextArea
-                  value="text"
-                  errorMessage={""}
                   fromBooking={true}
                   icon={icons.idBadge}
                   name="postCodeAddress"
                   title="Adress Description *"
-                // onChange={(e) => onchangeHandler(e, 0, 0)}
+                  value={this.state.postCodeAddress}
+                  onChange={(e) => this.onchangeHandlerInput(e, 1)}
+                  errorMessage={!this.state.postCodeAddress ? "required" : ""}
+
                 />
               )
               : null}
@@ -877,7 +925,6 @@ class CheckForOther extends React.Component {
     );
   }
 }
-// ;
 class SelectBox extends React.Component {
   render() {
     let {
@@ -885,7 +932,7 @@ class SelectBox extends React.Component {
       name = "",
       icon = "",
       title = "",
-      value = "",
+      defaultValue = "" || Number(),
       classNameImg = "",
       fromPoints = false,
       placeholder = false,
@@ -894,24 +941,21 @@ class SelectBox extends React.Component {
       infoForFlight = false,
     } = this.props;
 
+
     return (
       <div className="editable-form-control">
-        <div className="editable-form-control-header display-flex">
-          <p className="editable-form-control-header-label">{title}</p>
-          {infoForFlight ? (
-            <span
-              onClick={() => setModalFlightStatus()}
-              className="info-for-flight"
-            >
-              <img
-                src={icons.info}
-                className="circle-info-quotation-card-icon"
-                alt=""
-              />
-            </span>
-          ) : (
-            " "
-          )}
+        <div className="editable-form-control-header">
+          <p className="editable-form-control-header-label  display-flex">
+            {title}
+            {infoForFlight ? (
+              <span onClick={() => setModalFlightStatus()} className="info-for-flight" >
+                <img src={icons.info} className="circle-info-quotation-card-icon" alt="" />
+              </span>
+            ) : (
+              " "
+            )}
+          </p>
+
         </div>
         <div className="editable-select-div">
           <img className={classNameImg} src={icon} alt="" />
@@ -929,7 +973,7 @@ class SelectBox extends React.Component {
             name={name}
             onChange={onChange}
             className={fromPoints ? "select-selected-points" : ""}
-            defaultValue={value}
+
           >
             {placeholder && (
               <option value="" id={0}>
@@ -948,7 +992,16 @@ class SelectBox extends React.Component {
                 })
               : data.map((d, i) => {
                 return (
-                  <option key={i} value={d.value} id={d.id && d.id}>
+                  <option
+                    key={i}
+                    selected={
+                      Number(d.value.split(" ")[0]) === Number(defaultValue)
+                      ||
+                      Number(d.id) === Number(defaultValue)
+                    }
+                    value={d.value}
+                    id={d.id && d.id}
+                  >
                     {d.value}
                   </option>
                 );
@@ -1985,6 +2038,31 @@ class JorneyDetailsUpdateForm extends React.Component {
 
         }
       },
+      onchangeItemDetails: (updatedValues, pickOrDrop, whichItem, pcatId) => {
+        let { selectedPickupPoints, selectedDropoffPoints } = this.state
+
+        if (pickOrDrop === 0) {
+          if (pcatId === 1) {
+            selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], flightDetails: updatedValues }
+          }
+          if (pcatId === 5) {
+            selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], postCodeDetails: updatedValues }
+          }
+
+        }
+
+
+        if (pickOrDrop === 1) {
+          if (pcatId === 1) {
+            selectedDropoffPoints[whichItem] = { ...selectedDropoffPoints[whichItem], flightDetails: updatedValues }
+          }
+          if (pcatId === 5) {
+            selectedDropoffPoints[whichItem] = { ...selectedDropoffPoints[whichItem], postCodeDetails: updatedValues }
+          }
+
+        }
+        this.setState({ selectedPickupPoints, selectedDropoffPoints })
+      }
     }
   }
   render() {
@@ -2034,6 +2112,8 @@ class JorneyDetailsUpdateForm extends React.Component {
       date = this.state.transferDateTimeString.split(" ")[0]
     }
 
+    console.log(this.state.selectedPickupPoints, " selectedPick up  pointt ");
+    console.log(this.state.selectedDropoffPoints, " selected dropppppp ");
 
 
     return (
@@ -2289,6 +2369,7 @@ class JorneyDetailsUpdateForm extends React.Component {
 
 //it is inside JourneyDetailsUpdateForm     .Which is gonna show all selected points
 class SelectedLists extends React.Component {
+
   render() {
     let {
       pickOrDrop,
@@ -2299,7 +2380,6 @@ class SelectedLists extends React.Component {
       objectDetailStatuses,
       setModalFlightStatus,
     } = this.props;
-    // console.log(selectedItems);
 
     return (
       <div>
@@ -2316,6 +2396,7 @@ class SelectedLists extends React.Component {
                   x
                 </div>
               </div>
+              {/* done */}
               <CheckForFlight
                 item={item}
                 index={pickOrDrop}
@@ -2326,40 +2407,50 @@ class SelectedLists extends React.Component {
               <CheckForCruises
                 item={item}
                 index={pickOrDrop}
+                whichItemSelected={i}
                 objectDetailStatuses={objectDetailStatuses}
               />
               <CheckForTrain
                 item={item}
                 index={pickOrDrop}
+                whichItemSelected={i}
                 objectDetailStatuses={objectDetailStatuses}
               />
+
+
+              {/* done  */}
               <CheckingForPostcodes
                 item={item}
                 index={pickOrDrop}
+                whichItemSelected={i}
                 postCodeAddress={postCodeAddress}
                 objectDetailStatuses={objectDetailStatuses}
               />
               <CheckPlaceOfInterest
                 item={item}
                 index={pickOrDrop}
+                whichItemSelected={i}
                 postCodeAddress={postCodeAddress}
                 objectDetailStatuses={objectDetailStatuses}
               />
               <CheckForCitites
                 item={item}
                 index={pickOrDrop}
+                whichItemSelected={i}
                 postCodeAddress={postCodeAddress}
                 objectDetailStatuses={objectDetailStatuses}
               />
               <CheckForUniversity
                 item={item}
                 index={pickOrDrop}
+                whichItemSelected={i}
                 postCodeAddress={postCodeAddress}
                 objectDetailStatuses={objectDetailStatuses}
               />
               <CheckForOther
                 item={item}
                 index={pickOrDrop}
+                whichItemSelected={i}
                 postCodeAddress={postCodeAddress}
                 objectDetailStatuses={objectDetailStatuses}
               />

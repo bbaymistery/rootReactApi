@@ -138,24 +138,14 @@
 // }
 /*
 
-date.split(" ")[0].replace(/\//g, "-")
-
-      setSelectedPoints: (point, index, type) => {
-        let { reservation } = this.state;
-        let selectedPickupPoints = reservation.selectedPickupPoints;
-        let selectedDropoffPoints = reservation.selectedDropoffPoints;
-
-        if (index === 0) selectedPickupPoints = [...selectedPickupPoints, point];
-        if (index === 1) selectedDropoffPoints = [...selectedDropoffPoints, point];
-
-        reservation[
-          type === "pickup" ? "selectedPickupPoints" : "selectedDropoffPoints"
-        ] = type === "pickup" ? selectedPickupPoints : selectedDropoffPoints;
-
-
-        //when ever we update points It will update quotations
-        let { transferDetails: { transferDateTimeString }, } = reservation;
-        let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
-        this.getQuotations(params)
-        this.setState({ reservation });
-      },
+  constructor(props) {
+    super(props);
+    this.state = {
+      whichItemSelected:
+        this.props.whichItemSelected,
+      id:
+        this.props.item.pcatId === 5 && this.props.item.postCodeDetails.id,
+      postCodeAddress:
+        this.props.item.pcatId === 5 && this.props.item.postCodeDetails.postCodeAddress,
+    };
+  }

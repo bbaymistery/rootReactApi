@@ -1400,7 +1400,7 @@ a {
   width: 100%;
 }
 
-.editable-form-control-heaeder {
+.editable-form-control-header {
   display: flex;
   justify-content: space-between;
 }
@@ -1452,6 +1452,18 @@ a {
 /* ?icons image scssss */
 .email-icon-input {
   width: 12px;
+  top: 34px !important;
+}
+
+.icon-inside0inp-train {
+  width: 12px !important;
+  position: absolute;
+  top: 47px !important;
+  left: 15px !important;
+  color: #5d646d;
+  font-size: 14px;
+  filter: invert(38%) sepia(10%) saturate(469%) hue-rotate(174deg) brightness(94%) contrast(84%);
+  z-index: 999;
 }
 
 .user-icon-input {
@@ -1489,7 +1501,6 @@ a {
   padding: 3px 5px;
   border-radius: 50%;
   cursor: pointer;
-  margin-top: 11px;
 }
 
 .info-for-flight img {
@@ -1518,6 +1529,8 @@ a {
 /*  */
 .editable-form-control-header-message {
   color: red;
+  margin-bottom: 4px;
+  font-size: 14px;
 }
 
 .editable-phone-subtitle {
@@ -1529,7 +1542,7 @@ a {
 }
 
 .editable-error-input {
-  color: red;
+  border: 1px solid red !important;
 }
 
 /* ?selectComponent */
@@ -1561,6 +1574,13 @@ a {
   appearance: none;
   background: #fff;
   line-height: 28px;
+}
+
+.editable-form-control-header-textarea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
 }
 
 .editable-form-control-textarea-div {
@@ -1643,7 +1663,7 @@ a {
   /* for input  */
   width: 15px;
   position: absolute;
-  top: 32px !important;
+  top: 47px !important;
   left: 15px !important;
   color: #5d646d;
   font-size: 14px;
@@ -1653,7 +1673,7 @@ a {
 
 .icon-inside-small-input-place-interest {
   width: 11px !important;
-  top: 32px !important;
+  top: 45px !important;
 }
 
 .select-selected-points {
