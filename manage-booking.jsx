@@ -773,6 +773,24 @@ class CheckingForPostcodes extends React.Component {
   }
 }
 class CheckPlaceOfInterest extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      whichItemSelected: this.props.whichItemSelected,
+      "address-description": this.props.item.pcatId === 7 ? this.props.item["address-description"] : "",
+    };
+  }
+
+  onchangeHandlerInput = (e, pickOrDrop) => {
+    let { name, value } = e.target
+    let { whichItemSelected } = this.state
+    let addresDescription = this.state["address-description"]
+    let valueToSend = addresDescription
+    this.setState({ [name]: value })
+    valueToSend = value
+    window.journeyDetailsUpdateFormDispatch.onchangeItemDetails(valueToSend, pickOrDrop, whichItemSelected, 7)
+  }
+
   render() {
     let { item, index, objectDetailStatuses } = this.props;
 
@@ -783,13 +801,14 @@ class CheckPlaceOfInterest extends React.Component {
           <div className="editable-selected-inputs">
             {objectDetailStatuses[7]["address-description"].pickup === 2 && (
               <TextInput
-                title="Places of Interest"
                 type="text"
-                name="address-description"
-                icon={icons.idBadge}
-                value={"Place interest"}
-                classNameImg="icon-inside-small-input-place-interest"
                 fromPoints={true}
+                icon={icons.idBadge}
+                title="Places of Interest"
+                name="address-description"
+                value={this.state["address-description"]}
+                onChange={(e) => this.onchangeHandlerInput(e, 0)}
+                classNameImg="icon-inside-small-input-place-interest"
               />
             )}
           </div>
@@ -800,14 +819,14 @@ class CheckPlaceOfInterest extends React.Component {
           objectDetailStatuses[7]["address-description"].dropoff === 2 && (
             <div className="editable-selected-inputs">
               <TextInput
-                title="Places of Interest"
                 type="text"
-                name="address-description"
-                icon={icons.idBadge}
-                value={"Trains"}
-                classNameImg="icon-inside-small-input-place-interest"
                 fromPoints={true}
-              //onChange
+                icon={icons.idBadge}
+                title="Places of Interest"
+                name="address-description"
+                value={this.state["address-description"]}
+                onChange={(e) => this.onchangeHandlerInput(e, 1)}
+                classNameImg="icon-inside-small-input-place-interest"
               />
             </div>
           )}
@@ -816,6 +835,23 @@ class CheckPlaceOfInterest extends React.Component {
   }
 }
 class CheckForCitites extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      whichItemSelected: this.props.whichItemSelected,
+      "address-description": this.props.item.pcatId === 8 ? this.props.item["address-description"] : "",
+    };
+  }
+
+  onchangeHandlerInput = (e, pickOrDrop) => {
+    let { name, value } = e.target
+    let { whichItemSelected } = this.state
+    let addresDescription = this.state["address-description"]
+    let valueToSend = addresDescription
+    this.setState({ [name]: value })
+    valueToSend = value
+    window.journeyDetailsUpdateFormDispatch.onchangeItemDetails(valueToSend, pickOrDrop, whichItemSelected, 8)
+  }
   render() {
     let { item, index, objectDetailStatuses } = this.props;
 
@@ -828,10 +864,11 @@ class CheckForCitites extends React.Component {
               <TextInput
                 type="text"
                 title="Cities"
-                value={"cities"}
                 fromPoints={true}
                 icon={icons.mapLocation}
                 name="address-description"
+                value={this.state["address-description"]}
+                onChange={(e) => this.onchangeHandlerInput(e, 0)}
                 classNameImg="icon-inside-small-input-place-interest"
               />
             )}
@@ -845,12 +882,12 @@ class CheckForCitites extends React.Component {
               <TextInput
                 type="text"
                 title="Cities"
-                value={"Cities"}
                 fromPoints={true}
                 icon={icons.mapLocation}
                 name="address-description"
+                value={this.state["address-description"]}
+                onChange={(e) => this.onchangeHandlerInput(e, 1)}
                 classNameImg="icon-inside-small-input-place-interest"
-              //onChange
               />
             </div>
           )}
@@ -859,6 +896,23 @@ class CheckForCitites extends React.Component {
   }
 }
 class CheckForUniversity extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      whichItemSelected: this.props.whichItemSelected,
+      "address-description": this.props.item.pcatId === 9 ? this.props.item["address-description"] : "",
+    };
+  }
+
+  onchangeHandlerInput = (e, pickOrDrop) => {
+    let { name, value } = e.target
+    let { whichItemSelected } = this.state
+    let addresDescription = this.state["address-description"]
+    let valueToSend = addresDescription
+    this.setState({ [name]: value })
+    valueToSend = value
+    window.journeyDetailsUpdateFormDispatch.onchangeItemDetails(valueToSend, pickOrDrop, whichItemSelected, 9)
+  }
   render() {
     let { item, index, objectDetailStatuses } = this.props;
 
@@ -872,9 +926,10 @@ class CheckForUniversity extends React.Component {
                 type="text"
                 fromPoints={true}
                 icon={icons.building}
-                value={"UNIVERSITIES"}
                 name="address-description"
                 title="Universities And Colleges"
+                value={this.state["address-description"]}
+                onChange={(e) => this.onchangeHandlerInput(e, 0)}
                 classNameImg="icon-inside-small-input-place-interest"
               />
             )}
@@ -889,9 +944,10 @@ class CheckForUniversity extends React.Component {
                 type="text"
                 fromPoints={true}
                 icon={icons.building}
-                value={"Universitires"}
                 name="address-description"
                 title="Universities And Colleges"
+                value={this.state["address-description"]}
+                onChange={(e) => this.onchangeHandlerInput(e, 1)}
                 classNameImg="icon-inside-small-input-place-interest"
               //onChange
               />
@@ -902,8 +958,26 @@ class CheckForUniversity extends React.Component {
   }
 }
 class CheckForOther extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      whichItemSelected: this.props.whichItemSelected,
+      "address-description": this.props.item.pcatId === 10 ? this.props.item["address-description"] : "",
+    };
+  }
+
+  onchangeHandlerInput = (e, pickOrDrop) => {
+    let { name, value } = e.target
+    let { whichItemSelected } = this.state
+    let addresDescription = this.state["address-description"]
+    let valueToSend = addresDescription
+    this.setState({ [name]: value })
+    valueToSend = value
+    window.journeyDetailsUpdateFormDispatch.onchangeItemDetails(valueToSend, pickOrDrop, whichItemSelected, 10)
+  }
   render() {
     let { item, index, objectDetailStatuses } = this.props;
+
 
     return (
       <div>
@@ -912,13 +986,14 @@ class CheckForOther extends React.Component {
           <div className="editable-selected-inputs">
             {objectDetailStatuses[10]["address-description"].pickup === 2 && (
               <TextInput
-                title="Description "
                 type="text"
+                fromPoints={true}
+                title="Description "
                 name="address-description"
                 icon={icons.locationArrow}
-                value={""}
                 classNameImg="icon-inside-small-input"
-                fromPoints={true}
+                value={this.state["address-description"]}
+                onChange={(e) => this.onchangeHandlerInput(e, 0)}
               />
             )}
           </div>
@@ -929,13 +1004,14 @@ class CheckForOther extends React.Component {
           objectDetailStatuses[10]["address-description"].dropoff === 2 && (
             <div className="editable-selected-inputs">
               <TextInput
-                title="Description "
                 type="text"
+                title="Description "
+                fromPoints={true}
                 name="address-description"
                 icon={icons.locationArrow}
-                value={""}
                 classNameImg="icon-inside-small-input"
-                fromPoints={true}
+                value={this.state["address-description"]}
+                onChange={(e) => this.onchangeHandlerInput(e, 1)}
               //onChange
               />
             </div>
@@ -2028,9 +2104,9 @@ class JorneyDetailsUpdateForm extends React.Component {
     if (pickOrDropPoint === 0) selectedPickupPoints.splice(indexOfCurrentItem, 1);
     if (pickOrDropPoint === 1) selectedDropoffPoints.splice(indexOfCurrentItem, 1);
     let { transferDateTimeString } = this.state;
+    this.setState({ selectedPickupPoints, selectedDropoffPoints });
     let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
     window.manageBookingDispatch.getQuotationAfterAddItem(params)
-    this.setState({ selectedPickupPoints, selectedDropoffPoints });
   }
 
   //
@@ -2059,7 +2135,6 @@ class JorneyDetailsUpdateForm extends React.Component {
       },
       onchangeItemDetails: (updatedValues, pickOrDrop, whichItem, pcatId) => {
         let { selectedPickupPoints, selectedDropoffPoints } = this.state
-
         if (pickOrDrop === 0) {
           if (pcatId === 1) {
             selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], flightDetails: updatedValues }
@@ -2072,6 +2147,18 @@ class JorneyDetailsUpdateForm extends React.Component {
           }
           if (pcatId === 5) {
             selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], postCodeDetails: updatedValues }
+          }
+          if (pcatId === 7) {
+            selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], ["address-description"]: updatedValues }
+          }
+          if (pcatId === 8) {
+            selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], ["address-description"]: updatedValues }
+          }
+          if (pcatId === 9) {
+            selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], ["address-description"]: updatedValues }
+          }
+          if (pcatId === 10) {
+            selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], ["address-description"]: updatedValues }
           }
         }
 
@@ -2088,6 +2175,9 @@ class JorneyDetailsUpdateForm extends React.Component {
           }
           if (pcatId === 5) {
             selectedDropoffPoints[whichItem] = { ...selectedDropoffPoints[whichItem], postCodeDetails: updatedValues }
+          }
+          if (pcatId === 7 || pcatId === 8 || pcatId === 9 || pcatId === 10) {
+            selectedDropoffPoints[whichItem] = { ...selectedDropoffPoints[whichItem], ["address-description"]: updatedValues }
           }
         }
         this.setState({ selectedPickupPoints, selectedDropoffPoints })
@@ -2457,6 +2547,7 @@ class SelectedLists extends React.Component {
                 postCodeAddress={postCodeAddress}
                 objectDetailStatuses={objectDetailStatuses}
               />
+              {/* done */}
               <CheckPlaceOfInterest
                 item={item}
                 index={pickOrDrop}
