@@ -2687,7 +2687,7 @@ input::-webkit-datetime-edit-year-field:focus {
   display: flex;
   position: absolute;
   right: 9px;
-  top: 50%;
+  top: 64%;
   transform: translate(0%, -50%);
 }
 

@@ -575,7 +575,9 @@ class CheckForCruises extends React.Component {
                 fromPoints={true}
                 value={this.state.cruiseNumber}
                 classNameImg="icon-inside-small-input"
-                onChange={(e) => onchangeHandlerInput(e, 0)}
+                onChange={(e) => this.onchangeHandlerInput(e, 0)}
+                errorMessage={!this.state.cruiseNumber ? "required" : ""}
+
               />
             )}
           </div>
@@ -593,8 +595,7 @@ class CheckForCruises extends React.Component {
                 name="cruiseNumber"
                 value={this.state.cruiseNumber}
                 classNameImg="icon-inside-small-input"
-                onChange={(e) => onchangeHandlerInput(e, 0)}
-                errorMessage={!this.state.cruiseNumber ? "required" : ""}
+                onChange={(e) => this.onchangeHandlerInput(e, 1)}
               />
             </div>
           )}
@@ -603,6 +604,23 @@ class CheckForCruises extends React.Component {
   }
 }
 class CheckForTrain extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      whichItemSelected: this.props.whichItemSelected,
+      trainNumber: this.props.item.pcatId === 3 && this.props.item.trainNumber,
+    };
+  }
+
+  onchangeHandlerInput = (e, pickOrDrop) => {
+    let { name, value } = e.target
+    let { trainNumber, whichItemSelected } = this.state
+    let valueToSend = trainNumber
+    this.setState({ [name]: value })
+    valueToSend = value
+    window.journeyDetailsUpdateFormDispatch.onchangeItemDetails(valueToSend, pickOrDrop, whichItemSelected, 3)
+  }
+
   render() {
     let { item, index, objectDetailStatuses } = this.props;
 
@@ -613,13 +631,14 @@ class CheckForTrain extends React.Component {
           <div className="editable-selected-inputs">
             {objectDetailStatuses[3].trainNumber.pickup === 2 && (
               <TextInput
-                title="Train Number"
                 type="text"
+                title="Train Number"
                 name="trainNumber"
-                icon={icons.train}
-                value={"Train"}
-                classNameImg="icon-inside0inp-train"
                 fromPoints={true}
+                icon={icons.train}
+                value={this.state.trainNumber}
+                classNameImg="icon-inside0inp-train"
+                onChange={(e) => this.onchangeHandlerInput(e, 0)}
               />
             )}
           </div>
@@ -630,14 +649,14 @@ class CheckForTrain extends React.Component {
           objectDetailStatuses[3].trainNumber.dropoff === 2 && (
             <div className="editable-selected-inputs">
               <TextInput
-                title="Train Number"
                 type="text"
+                fromPoints={true}
                 name="trainNumber"
                 icon={icons.train}
-                value={"Trains"}
+                title="Train Number"
+                value={this.state.trainNumber}
                 classNameImg="icon-inside0inp-train"
-                fromPoints={true}
-              //onChange
+                onChange={(e) => this.onchangeHandlerInput(e, 1)}
               />
             </div>
           )}
@@ -1199,7 +1218,7 @@ class TimePicker extends React.Component {
                     key={item.id}
                     value={item.value}
                   >
-                    {item.value}
+                    {item.value < 10 ? `0${item.value}` : String(item.value)}
                   </li>
                 );
               })}
@@ -2045,10 +2064,15 @@ class JorneyDetailsUpdateForm extends React.Component {
           if (pcatId === 1) {
             selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], flightDetails: updatedValues }
           }
+          if (pcatId === 2) {
+            selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], cruiseNumber: updatedValues }
+          }
+          if (pcatId === 3) {
+            selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], trainNumber: updatedValues }
+          }
           if (pcatId === 5) {
             selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], postCodeDetails: updatedValues }
           }
-
         }
 
 
@@ -2056,10 +2080,15 @@ class JorneyDetailsUpdateForm extends React.Component {
           if (pcatId === 1) {
             selectedDropoffPoints[whichItem] = { ...selectedDropoffPoints[whichItem], flightDetails: updatedValues }
           }
+          if (pcatId === 2) {
+            selectedDropoffPoints[whichItem] = { ...selectedDropoffPoints[whichItem], cruiseNumber: updatedValues }
+          }
+          if (pcatId === 3) {
+            selectedDropoffPoints[whichItem] = { ...selectedDropoffPoints[whichItem], trainNumber: updatedValues }
+          }
           if (pcatId === 5) {
             selectedDropoffPoints[whichItem] = { ...selectedDropoffPoints[whichItem], postCodeDetails: updatedValues }
           }
-
         }
         this.setState({ selectedPickupPoints, selectedDropoffPoints })
       }
@@ -2404,12 +2433,14 @@ class SelectedLists extends React.Component {
                 setModalFlightStatus={setModalFlightStatus}
                 objectDetailStatuses={objectDetailStatuses}
               />
+              {/* done */}
               <CheckForCruises
                 item={item}
                 index={pickOrDrop}
                 whichItemSelected={i}
                 objectDetailStatuses={objectDetailStatuses}
               />
+              {/* done */}
               <CheckForTrain
                 item={item}
                 index={pickOrDrop}
