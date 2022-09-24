@@ -451,9 +451,27 @@ class QuotationCardItem extends React.Component {
   }
 }
 class CheckForFlight extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      whichItemSelected: this.props.whichItemSelected,
+      flightNumber: this.props.item.pcatId === 1 && this.props.item.flightDetails.flightNumber,
+      waitingPickupTime: this.props.item.pcatId === 1 && this.props.item.flightDetails.waitingPickupTime,
+    };
+  }
+  onchangeHandler(e, pickUpOrDropOff) {
+    let { name, value } = e.target
+    if (e.target.name === "waitingPickupTime") {
+      this.setState({ [name]: Number(e.target.value.split(" ")[0]) })
+    } else {
+      this.setState({ [name]: value })
+    }
+  };
+
   render() {
-    let { item, index, objectDetailStatuses, setModalFlightStatus } =
-      this.props;
+    let { item, index, objectDetailStatuses, setModalFlightStatus } = this.props;
+    console.log(this.state);
 
     return (
       <div>
@@ -464,24 +482,26 @@ class CheckForFlight extends React.Component {
               1 && (
                 <TextInput
                   type="text"
-                  value={"dasdas"}
+                  value={this.state.flightNumber}
                   fromPoints={true}
                   title="Flight No"
                   name="flightNumber"
                   icon={icons.planeDeparture}
                   classNameImg="icon-inside-small-input"
+                  onChange={(e) => this.onchangeHandler(e, 0,)}
                 />
               )}
             {objectDetailStatuses[1].flightDetails.waitingPickupTime.pickup ===
               1 && (
                 <SelectBox
-                  // valuw
-                  //onChange
                   fromPoints={true}
                   infoForFlight={true}
                   data={waitingMinutes}
+                  placeholder={`${this.state.waitingPickupTime} minutes after flight has landed`}
+                  value={this.state.waitingPickupTime}
                   name="waitingPickupTime"
                   icon={icons.planeArrival}
+                  onChange={(e) => this.onchangeHandler(e, 0,)}
                   setModalFlightStatus={setModalFlightStatus}
                   title="When should the driver pick you up?"
                   classNameImg="icon_selectedPoints_selectbox"
@@ -496,14 +516,13 @@ class CheckForFlight extends React.Component {
             <div className="editable-selected-inputs">
               <TextInput
                 type="text"
-                value={"dsadas"}
                 title="Flight No"
                 fromPoints={true}
                 name="flightNumber"
                 icon={icons.planeArrival}
+                onChange={(e) => this.onchangeHandler(e, 1,)}
+                value={this.state.flightNumber}
                 classNameImg="icon-inside-small-input"
-
-              //onChange
               />
             </div>
           )}
@@ -2014,8 +2033,7 @@ class JorneyDetailsUpdateForm extends React.Component {
     } else {
       date = this.state.transferDateTimeString.split(" ")[0]
     }
-    console.log(currentPrice, "currentPrice");
-    console.log(previousPrice, "previous");
+
 
 
     return (
@@ -2281,6 +2299,7 @@ class SelectedLists extends React.Component {
       objectDetailStatuses,
       setModalFlightStatus,
     } = this.props;
+    // console.log(selectedItems);
 
     return (
       <div>
@@ -2289,11 +2308,7 @@ class SelectedLists extends React.Component {
             <div className="editable-jrn-points-container-box-card">
               <div className="editable-jrn-points-container-box-card-header">
                 <span>{i + 1}</span>
-                <img
-                  src={`https://api.london-tech.com${imageTypesObject[item.pcatId]
-                    }`}
-                  alt={item.address}
-                />
+                <img src={`https://api.london-tech.com${imageTypesObject[item.pcatId]}`} alt={item.address} />
                 <p>{item.address}</p>
                 <div
                   className="editable-jrn-points-container-box-card-trash"
@@ -2304,6 +2319,7 @@ class SelectedLists extends React.Component {
               <CheckForFlight
                 item={item}
                 index={pickOrDrop}
+                whichItemSelected={i}
                 setModalFlightStatus={setModalFlightStatus}
                 objectDetailStatuses={objectDetailStatuses}
               />
