@@ -164,4 +164,7 @@
 
 
 
-      //Bruichl=> city  || Sussex Üniversitesi, Falmer, Brighton, UK => universities  || Europcar Bournemouth New Site, =>place of interest
+      //!Bruichl=> city
+      //* Sussex Üniversitesi, Falmer, Brighton, UK => universities
+      //? Europcar Bournemouth New Site, =>place of interest
+

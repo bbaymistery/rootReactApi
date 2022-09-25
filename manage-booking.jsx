@@ -455,32 +455,39 @@ class CheckForFlight extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      whichItemSelected:
-        this.props.whichItemSelected,
-      flightNumber:
-        this.props.item.pcatId === 1 && this.props.item.flightDetails.flightNumber,
-      waitingPickupTime:
-        this.props.item.pcatId === 1 && this.props.item.flightDetails.waitingPickupTime,
+      flightNumber: "",
+      waitingPickupTime: "",
+      whichItemSelected: this.props.whichItemSelected
     };
   }
 
-  onchangeHandlerInput = (e, pickOrDrop) => {
+  onchangeHandlerInput = (e, pickOrDrop, item) => {
     let { name, value } = e.target
     let { flightNumber, waitingPickupTime, whichItemSelected } = this.state
     let flightDetails = { flightNumber, waitingPickupTime }
 
     if (name === "waitingPickupTime") {
       this.setState({ [name]: Number(e.target.value.split(" ")[0]) })
-      flightDetails = { ...flightDetails, waitingPickupTime: Number(e.target.value.split(" ")[0]) }
+      flightDetails = {
+        ...flightDetails,
+        flightNumber: item.flightDetails.flightNumber,
+        waitingPickupTime: Number(e.target.value.split(" ")[0])
+      }
     } else {
       this.setState({ [name]: value })
-      flightDetails = { ...flightDetails, flightNumber: value }
+      flightDetails = {
+        ...flightDetails,
+        flightNumber: value,
+        waitingPickupTime: item.flightDetails.waitingPickupTime,
+      }
     }
     window.journeyDetailsUpdateFormDispatch.onchangeItemDetails(flightDetails, pickOrDrop, whichItemSelected, 1)
   }
 
   render() {
     let { item, index, objectDetailStatuses, setModalFlightStatus } = this.props;
+    let { flightNumber, waitingPickupTime } = this.state;
+
 
     return (
       <div>
@@ -491,14 +498,14 @@ class CheckForFlight extends React.Component {
               1 && (
                 <TextInput
                   type="text"
-                  value={this.state.flightNumber}
                   fromPoints={true}
                   title="Flight No"
                   name="flightNumber"
                   icon={icons.planeDeparture}
                   classNameImg="icon-inside-small-input"
-                  onChange={(e) => this.onchangeHandlerInput(e, 0)}
-                  errorMessage={!this.state.flightNumber ? "required" : ""}
+                  onChange={(e) => this.onchangeHandlerInput(e, 0, item)}
+                  value={flightNumber ? flightNumber : item.flightDetails.flightNumber}
+                  errorMessage={item.flightDetails.flightNumber ? "" : !flightNumber ? "required" : ""}
                 />
               )}
             {objectDetailStatuses[1].flightDetails.waitingPickupTime.pickup ===
@@ -508,13 +515,13 @@ class CheckForFlight extends React.Component {
                   infoForFlight={true}
                   data={waitingMinutes}
                   // placeholder={this.state.waitingPickupTime > 0 && `${this.state.waitingPickupTime} minutes after flight has landed`}
-                  defaultValue={this.state.waitingPickupTime}
                   name="waitingPickupTime"
                   icon={icons.planeArrival}
-                  onChange={(e) => this.onchangeHandlerInput(e, 0)}
+                  onChange={(e) => this.onchangeHandlerInput(e, 0, item)}
                   setModalFlightStatus={setModalFlightStatus}
                   title="When should the driver pick you up?"
                   classNameImg="icon_selectedPoints_selectbox"
+                  defaultValue={waitingPickupTime > 0 ? waitingPickupTime : item.flightDetails.waitingPickupTime}
                 />
               )}
           </div>
@@ -530,9 +537,9 @@ class CheckForFlight extends React.Component {
                 fromPoints={true}
                 name="flightNumber"
                 icon={icons.planeArrival}
-                onChange={(e) => this.onchangeHandlerInput(e, 1)}
-                value={this.state.flightNumber}
                 classNameImg="icon-inside-small-input"
+                onChange={(e) => this.onchangeHandlerInput(e, 1)}
+                value={flightNumber ? flightNumber : item.flightDetails.flightNumber}
               />
             </div>
           )}
@@ -544,8 +551,8 @@ class CheckForCruises extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      cruiseNumber: "",
       whichItemSelected: this.props.whichItemSelected,
-      cruiseNumber: this.props.item.pcatId === 2 && this.props.item.cruiseNumber,
     };
   }
 
@@ -559,7 +566,9 @@ class CheckForCruises extends React.Component {
   }
 
   render() {
+    let { cruiseNumber } = this.state
     let { item, index, objectDetailStatuses } = this.props;
+
 
     return (
       <div>
@@ -573,11 +582,10 @@ class CheckForCruises extends React.Component {
                 name="cruiseNumber"
                 icon={icons.ship}
                 fromPoints={true}
-                value={this.state.cruiseNumber}
                 classNameImg="icon-inside-small-input"
                 onChange={(e) => this.onchangeHandlerInput(e, 0)}
-                errorMessage={!this.state.cruiseNumber ? "required" : ""}
-
+                value={cruiseNumber ? cruiseNumber : item.cruiseNumber}
+                errorMessage={item.cruiseNumber ? "" : !cruiseNumber ? "required" : ""}
               />
             )}
           </div>
@@ -593,9 +601,9 @@ class CheckForCruises extends React.Component {
                 fromPoints={true}
                 title="Cruise Name"
                 name="cruiseNumber"
-                value={this.state.cruiseNumber}
                 classNameImg="icon-inside-small-input"
                 onChange={(e) => this.onchangeHandlerInput(e, 1)}
+                value={cruiseNumber ? cruiseNumber : item.cruiseNumber}
               />
             </div>
           )}
@@ -607,8 +615,8 @@ class CheckForTrain extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      trainNumber: "",
       whichItemSelected: this.props.whichItemSelected,
-      trainNumber: this.props.item.pcatId === 3 && this.props.item.trainNumber,
     };
   }
 
@@ -622,6 +630,7 @@ class CheckForTrain extends React.Component {
   }
 
   render() {
+    let { trainNumber } = this.state
     let { item, index, objectDetailStatuses } = this.props;
 
     return (
@@ -636,9 +645,9 @@ class CheckForTrain extends React.Component {
                 name="trainNumber"
                 fromPoints={true}
                 icon={icons.train}
-                value={this.state.trainNumber}
                 classNameImg="icon-inside0inp-train"
                 onChange={(e) => this.onchangeHandlerInput(e, 0)}
+                value={trainNumber ? trainNumber : item.trainNumber}
               />
             )}
           </div>
@@ -654,9 +663,9 @@ class CheckForTrain extends React.Component {
                 name="trainNumber"
                 icon={icons.train}
                 title="Train Number"
-                value={this.state.trainNumber}
                 classNameImg="icon-inside0inp-train"
                 onChange={(e) => this.onchangeHandlerInput(e, 1)}
+                value={trainNumber ? trainNumber : item.trainNumber}
               />
             </div>
           )}
@@ -668,12 +677,9 @@ class CheckingForPostcodes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      whichItemSelected:
-        this.props.whichItemSelected,
-      id:
-        this.props.item.pcatId === 5 && this.props.item.postCodeDetails.id,
-      postCodeAddress:
-        this.props.item.pcatId === 5 && this.props.item.postCodeDetails.postCodeAddress,
+      id: 0,
+      postCodeAddress: "",
+      whichItemSelected: this.props.whichItemSelected,
     };
   }
 
@@ -727,9 +733,18 @@ class CheckingForPostcodes extends React.Component {
                   fromBooking={true}
                   name="postCodeAddress"
                   title="Adress Description *"
-                  value={this.state.postCodeAddress}
                   onChange={(e) => this.onchangeHandlerInput(e, 0)}
-                  errorMessage={!this.state.postCodeAddress ? "required" : ""}
+                  value={
+                    this.state.postCodeAddress
+                      ? this.state.postCodeAddress
+                      : item.postCodeDetails.postCodeAddress
+                  }
+                  errorMessage={
+                    item.postCodeDetails.postCodeAddress ?
+                      ""
+                      :
+                      !this.state.postCodeAddress ? "required" : ""
+                  }
                 />
               )
               : null}
@@ -759,10 +774,19 @@ class CheckingForPostcodes extends React.Component {
                   icon={icons.idBadge}
                   name="postCodeAddress"
                   title="Adress Description *"
-                  value={this.state.postCodeAddress}
                   onChange={(e) => this.onchangeHandlerInput(e, 1)}
-                  errorMessage={!this.state.postCodeAddress ? "required" : ""}
 
+                  value={
+                    this.state.postCodeAddress
+                      ? this.state.postCodeAddress
+                      : item.postCodeDetails.postCodeAddress
+                  }
+                  errorMessage={
+                    item.postCodeDetails.postCodeAddress ?
+                      ""
+                      :
+                      !this.state.postCodeAddress ? "required" : ""
+                  }
                 />
               )
               : null}
@@ -776,8 +800,8 @@ class CheckPlaceOfInterest extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      "address-description": "",
       whichItemSelected: this.props.whichItemSelected,
-      "address-description": this.props.item.pcatId === 7 ? this.props.item["address-description"] : "",
     };
   }
 
@@ -806,7 +830,13 @@ class CheckPlaceOfInterest extends React.Component {
                 icon={icons.idBadge}
                 title="Places of Interest"
                 name="address-description"
-                value={this.state["address-description"]}
+                value={
+                  this.state["address-description"]
+                    ?
+                    this.state["address-description"]
+                    :
+                    item["address-description"]
+                }
                 onChange={(e) => this.onchangeHandlerInput(e, 0)}
                 classNameImg="icon-inside-small-input-place-interest"
               />
@@ -824,7 +854,13 @@ class CheckPlaceOfInterest extends React.Component {
                 icon={icons.idBadge}
                 title="Places of Interest"
                 name="address-description"
-                value={this.state["address-description"]}
+                value={
+                  this.state["address-description"]
+                    ?
+                    this.state["address-description"]
+                    :
+                    item["address-description"]
+                }
                 onChange={(e) => this.onchangeHandlerInput(e, 1)}
                 classNameImg="icon-inside-small-input-place-interest"
               />
@@ -838,8 +874,8 @@ class CheckForCitites extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      "address-description": "",
       whichItemSelected: this.props.whichItemSelected,
-      "address-description": this.props.item.pcatId === 8 ? this.props.item["address-description"] : "",
     };
   }
 
@@ -867,7 +903,13 @@ class CheckForCitites extends React.Component {
                 fromPoints={true}
                 icon={icons.mapLocation}
                 name="address-description"
-                value={this.state["address-description"]}
+                value={
+                  this.state["address-description"]
+                    ?
+                    this.state["address-description"]
+                    :
+                    item["address-description"]
+                }
                 onChange={(e) => this.onchangeHandlerInput(e, 0)}
                 classNameImg="icon-inside-small-input-place-interest"
               />
@@ -885,7 +927,13 @@ class CheckForCitites extends React.Component {
                 fromPoints={true}
                 icon={icons.mapLocation}
                 name="address-description"
-                value={this.state["address-description"]}
+                value={
+                  this.state["address-description"]
+                    ?
+                    this.state["address-description"]
+                    :
+                    item["address-description"]
+                }
                 onChange={(e) => this.onchangeHandlerInput(e, 1)}
                 classNameImg="icon-inside-small-input-place-interest"
               />
@@ -899,8 +947,8 @@ class CheckForUniversity extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      "address-description": "",
       whichItemSelected: this.props.whichItemSelected,
-      "address-description": this.props.item.pcatId === 9 ? this.props.item["address-description"] : "",
     };
   }
 
@@ -928,7 +976,13 @@ class CheckForUniversity extends React.Component {
                 icon={icons.building}
                 name="address-description"
                 title="Universities And Colleges"
-                value={this.state["address-description"]}
+                value={
+                  this.state["address-description"]
+                    ?
+                    this.state["address-description"]
+                    :
+                    item["address-description"]
+                }
                 onChange={(e) => this.onchangeHandlerInput(e, 0)}
                 classNameImg="icon-inside-small-input-place-interest"
               />
@@ -946,7 +1000,13 @@ class CheckForUniversity extends React.Component {
                 icon={icons.building}
                 name="address-description"
                 title="Universities And Colleges"
-                value={this.state["address-description"]}
+                value={
+                  this.state["address-description"]
+                    ?
+                    this.state["address-description"]
+                    :
+                    item["address-description"]
+                }
                 onChange={(e) => this.onchangeHandlerInput(e, 1)}
                 classNameImg="icon-inside-small-input-place-interest"
               //onChange
@@ -961,8 +1021,8 @@ class CheckForOther extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      "address-description": "",
       whichItemSelected: this.props.whichItemSelected,
-      "address-description": this.props.item.pcatId === 10 ? this.props.item["address-description"] : "",
     };
   }
 
@@ -992,7 +1052,13 @@ class CheckForOther extends React.Component {
                 name="address-description"
                 icon={icons.locationArrow}
                 classNameImg="icon-inside-small-input"
-                value={this.state["address-description"]}
+                value={
+                  this.state["address-description"]
+                    ?
+                    this.state["address-description"]
+                    :
+                    item["address-description"]
+                }
                 onChange={(e) => this.onchangeHandlerInput(e, 0)}
               />
             )}
@@ -1010,7 +1076,13 @@ class CheckForOther extends React.Component {
                 name="address-description"
                 icon={icons.locationArrow}
                 classNameImg="icon-inside-small-input"
-                value={this.state["address-description"]}
+                value={
+                  this.state["address-description"]
+                    ?
+                    this.state["address-description"]
+                    :
+                    item["address-description"]
+                }
                 onChange={(e) => this.onchangeHandlerInput(e, 1)}
               //onChange
               />
@@ -2099,7 +2171,7 @@ class JorneyDetailsUpdateForm extends React.Component {
     }
   }
 
-  deleteItemFromList = (pickOrDropPoint, indexOfCurrentItem) => {
+  deleteItemFromList = (pickOrDropPoint, indexOfCurrentItem, item) => {
     let { selectedPickupPoints, selectedDropoffPoints } = this.state;
     if (pickOrDropPoint === 0) selectedPickupPoints.splice(indexOfCurrentItem, 1);
     if (pickOrDropPoint === 1) selectedDropoffPoints.splice(indexOfCurrentItem, 1);
@@ -2135,6 +2207,7 @@ class JorneyDetailsUpdateForm extends React.Component {
       },
       onchangeItemDetails: (updatedValues, pickOrDrop, whichItem, pcatId) => {
         let { selectedPickupPoints, selectedDropoffPoints } = this.state
+
         if (pickOrDrop === 0) {
           if (pcatId === 1) {
             selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], flightDetails: updatedValues }
@@ -2148,16 +2221,7 @@ class JorneyDetailsUpdateForm extends React.Component {
           if (pcatId === 5) {
             selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], postCodeDetails: updatedValues }
           }
-          if (pcatId === 7) {
-            selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], ["address-description"]: updatedValues }
-          }
-          if (pcatId === 8) {
-            selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], ["address-description"]: updatedValues }
-          }
-          if (pcatId === 9) {
-            selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], ["address-description"]: updatedValues }
-          }
-          if (pcatId === 10) {
+          if (pcatId === 7 || pcatId === 8 || pcatId === 9 || pcatId === 10) {
             selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], ["address-description"]: updatedValues }
           }
         }
@@ -2511,7 +2575,7 @@ class SelectedLists extends React.Component {
                 <p>{item.address}</p>
                 <div
                   className="editable-jrn-points-container-box-card-trash"
-                  onClick={(e) => deleteItemFromList(this.props.pickOrDrop, i)}>
+                  onClick={(e) => deleteItemFromList(this.props.pickOrDrop, i, item)}>
                   x
                 </div>
               </div>
