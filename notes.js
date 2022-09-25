@@ -164,7 +164,48 @@
 
 
 
-      //!Bruichl=> city
-      //* Sussex Üniversitesi, Falmer, Brighton, UK => universities
-      //? Europcar Bournemouth New Site, =>place of interest
+//!Bruichl=> city
+//* Sussex Üniversitesi, Falmer, Brighton, UK => universities
+//? Europcar Bournemouth New Site, =>place of interest
 
+{
+  quotations.lenght > 0 ? quotations.length > 0 : ""
+}
+const payByStripe = (id) => {
+  let quotations =
+    Number(journeyType) === 0
+      ? [selectedQuotTransfer]
+      : [selectedQuotTransfer, returnQuot];
+  if (!iframeStripeInCaseItIsDirectlyPayment) {
+    try {
+      let config = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          quotations,
+          type: id,
+          language: "en",
+          passengerEmail: emailTransfer,
+          mode: "sandbox",
+        }),
+      };
+      let url = "https://api.london-tech.com/api/v1/payment/stripe/create";
+      fetch(url, config)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setDataTokenForWebSocket(data); //in order to a tag of pop up window
+          setStatusTokenInCaseItDirectlyPayment(data.webSocketToken); //it will trigger interval and will make request
+          setiframeStripeInCaseItIsDirectlyPayment(data?.href);
+          //  dispatch(setPayment(5, resp.data.token, router));
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+};

@@ -131,6 +131,8 @@ const waitingMinutes = [
     value: "150 minutes after flight has landed",
   },
 ];
+
+// this for collect minimum date into DatePicker
 const dateTimeStringFunc = () => {
   let tmpDt = new Date(Date.now() + 1000 * 60 * 60 * 6); //6
   let year = tmpDt.getFullYear();
@@ -141,7 +143,7 @@ const dateTimeStringFunc = () => {
   let currentDate = `${year}-${month}-${date} ${hours}:${minute}`;
   return currentDate;
 };
-
+//it when sygeestions doesnt come it will come up
 class NoResults extends React.Component {
   render() {
     return (
@@ -424,7 +426,7 @@ class QuotationCardItem extends React.Component {
                     <div className={"free_meet free_meet_price relative"}>
                       <div className={"price"}> {quotationLoading ? "" : `£ ${item.price}`}</div>
                       {quotationLoading ?
-                        <Loading />
+                        <Loading loadCenter={false} />
                         :
                         (
                           <button
@@ -1220,7 +1222,7 @@ class TextInput extends React.Component {
             ${fromPoints ? "input-selected-points" : ""}`}
           />
 
-          {isLoading && <Loading />}
+          {isLoading && <Loading loadCenter={false} />}
         </div>
       </div>
     );
@@ -1378,8 +1380,9 @@ class TimePicker extends React.Component {
 }
 class Loading extends React.Component {
   render() {
+    let { loadCenter } = this.props
     return (
-      <div className={"tmb-loading"}>
+      <div className={`${loadCenter ? "tmb-loading-center" : "tmb-loading"}`}>
         <div className={"tmb-loading-dot"}></div>
         <div className={"tmb-loading-dot"}></div>
         <div className={"tmb-loading-dot"}></div>
@@ -1804,10 +1807,7 @@ class PassengerDetailsUpdateForm extends React.Component {
         <div className="editable-psg-header">
           <h3>Customer Details</h3>
           <div className="editable-buttons">
-            <button
-              onClick={() => this.onCancel()}
-              className="tmb-cancel-btn tmb-btn-primary-outlined fw_500 tmb-btn"
-            >
+            <button onClick={() => this.onCancel()} className="tmb-cancel-btn tmb-btn-primary-outlined fw_500 tmb-btn" >
               Cancel
             </button>
             <button
@@ -1938,7 +1938,7 @@ class JourneyDetailsForm extends React.Component {
 
           <DetailsGridLi
             title="Price"
-            description={`£${this.props.paymentDetails.price}`}
+            description={`£${this.props.quotation.price}`}
             className={false}
             icon={icons.circle}
           />
@@ -1978,10 +1978,12 @@ class JorneyDetailsUpdateForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      quotations: [],
       pickUpPointInput: "", //in order to handleInput
       dropOffPointInput: "",
       pickUpSuggestions: [],
       dropOffSuggestions: [],
+      quotationLoading: false,
       inputPickUpShowStatus: false, //adding input if true
       addExtraPointTextPickUp: true, //removing text if false
       inputDropOffShowStatus: false,
@@ -1989,6 +1991,7 @@ class JorneyDetailsUpdateForm extends React.Component {
       getPickUpSuggestLoading: false,
       getDropOffSuggestLoading: false,
       quotation: this.props.quotation,
+      paymentType: this.props.paymentType,
       currentPrice: this.props.previousPrice,//it is the current price which when quotation will change it will change
       previousPrice: this.props.previousPrice,
       specialRequests: this.props.specialRequests,
@@ -2005,6 +2008,44 @@ class JorneyDetailsUpdateForm extends React.Component {
     }
   }
   onSave() {
+    let isUpdatedInCaseItIsCash = false;
+    let {
+      quotation: quot,
+      specialRequests: requuest,
+      transferDateTimeString: date,
+      selectedPickupPoints: pickUps,
+      selectedDropoffPoints: dropOff,
+    } = this.props
+
+    let {
+      quotation,
+      paymentType,
+      specialRequests,
+      transferDateTimeString,
+      selectedDropoffPoints,
+      selectedPickupPoints,
+    } = this.state
+
+    let propsValues = JSON.stringify({
+      quotatin: quot,
+      specialRequests: requuest,
+      transferDateTimeString: date,
+      selectedDropOffPoints: dropOff,
+      selectedPickUpPoints: pickUps
+    })
+    let stateValues = JSON.stringify({
+      quotation,
+      specialRequests,
+      transferDateTimeString,
+      selectedDropoffPoints,
+      selectedPickupPoints,
+    })
+    //if paymnet type 1 It means cash
+    //so it should be updated firstly on screeen then he /she should go for pay by card in order to make it permanent
+    if (propsValues !== stateValues && paymentType === 1) isUpdatedInCaseItIsCash = true;
+    if (isUpdatedInCaseItIsCash) {
+      window.manageBookingDispatch.saveJourneyOnScreenInCaseItIsCash(JSON.parse(stateValues));
+    }
     this.props.onSave();
   }
   addExtraInputForJourney(e, pickOrDrop) {
@@ -2020,7 +2061,6 @@ class JorneyDetailsUpdateForm extends React.Component {
       });
     }
   }
-
   fetchSuggestions(inpValue, index) {
     this.setState(
       index === 0 ? { getPickUpSuggestLoading: true } : { getDropOffSuggestLoading: true },
@@ -2062,7 +2102,6 @@ class JorneyDetailsUpdateForm extends React.Component {
           );
       })
   }
-
   //lhr => suggestion comes
   onchangeHandlerGetSuggestion(e) {
     let inpName = e.target.name
@@ -2079,7 +2118,6 @@ class JorneyDetailsUpdateForm extends React.Component {
       }
     }
   }
-
   onChangeDateSpecialRequest(e) {
     let { name, value } = e.target;
     let { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString } = this.state
@@ -2088,7 +2126,7 @@ class JorneyDetailsUpdateForm extends React.Component {
       let hour = transferDateTimeString.split(" ")[1].split(":")[0]; //1 2 3 4 5 6
       transferDateTimeString = `${value} ${hour}:${minute}`
       let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
-      window.manageBookingDispatch.getQuotationAfterAddItem(params)
+      this.getQuotations(params)
       this.setState({ transferDateTimeString })
     } else {
       this.setState({ [name]: value });
@@ -2110,7 +2148,7 @@ class JorneyDetailsUpdateForm extends React.Component {
       this.setState({ minute: value, transferDateTimeString })
     }
     let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
-    window.manageBookingDispatch.getQuotationAfterAddItem(params)
+    this.getQuotations(params)
   }
 
   //!Step2
@@ -2118,11 +2156,12 @@ class JorneyDetailsUpdateForm extends React.Component {
     let { selectedPickupPoints, selectedDropoffPoints } = this.state;
     if (index === 0) selectedPickupPoints = [...selectedPickupPoints, point];
     if (index === 1) selectedDropoffPoints = [...selectedDropoffPoints, point];
-    //when ever we update points It will update quotations
+    //update automatically quotation
     let { transferDateTimeString } = this.state;
     let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
-    window.manageBookingDispatch.getQuotationAfterAddItem(params)
+    this.getQuotations(params)
     this.setState({ selectedPickupPoints, selectedDropoffPoints });
+
   }
   //has sended to handleSearch comp as a props //!Staep1
   handleAddItemToSelectList = (item, objDetails, index, type) => {
@@ -2170,21 +2209,49 @@ class JorneyDetailsUpdateForm extends React.Component {
       window.journeyDetailsUpdateFormDispatch.removeAddInputField(index)
     }
   }
-
-  deleteItemFromList = (pickOrDropPoint, indexOfCurrentItem, item) => {
+  deleteItemFromList = (pickOrDropPoint, indexOfCurrentItem) => {
     let { selectedPickupPoints, selectedDropoffPoints } = this.state;
     if (pickOrDropPoint === 0) selectedPickupPoints.splice(indexOfCurrentItem, 1);
     if (pickOrDropPoint === 1) selectedDropoffPoints.splice(indexOfCurrentItem, 1);
     let { transferDateTimeString } = this.state;
     this.setState({ selectedPickupPoints, selectedDropoffPoints });
+    //update automatically quotation
     let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
-    window.manageBookingDispatch.getQuotationAfterAddItem(params)
+    this.getQuotations(params)
   }
-
-  //
   selectQuotation = (e, item) => this.setState({ quotation: item, currentPrice: item.price })
 
+  getQuotations(params = {}) {
+    let { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString } = params
+    this.setState({ quotationLoading: true }, () => {
+      const url = `${__env.apiDomain}/api/v1/quotation`;
+      const method = "POST";
+      const headers = { "Content-Type": "application/json" };
+      const body = JSON.stringify({ selectedPickupPoints, selectedDropoffPoints, transferDateTimeString, });
+      const configTransfer = { method, headers, body };
+      fetch(url, configTransfer)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 200) {
+            this.setState({ quotations: data.quotationOptions })
+            let selectedQuotaion = data.quotationOptions.filter((quot) => quot.carId === this.state.quotation.carId)[0]
+            this.selectQuotation("", selectedQuotaion)
+          } else {
+            this.setState({ quotations: [] })
+          }
+          this.setState({ quotationLoading: false });
+        })
+        .catch((error) => {
+          this.setState({ quotationLoading: false });
+          window.alertMessageDispatch.alertMessage("", error.message);
+        });
+    })
+  }
   componentDidMount() {
+    let { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString } = this.state;
+    let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
+    this.getQuotations(params);
+
     window.journeyDetailsUpdateFormDispatch = {
       removeAddInputField: (index) => {
         if (index === 0) {
@@ -2246,18 +2313,19 @@ class JorneyDetailsUpdateForm extends React.Component {
         }
         this.setState({ selectedPickupPoints, selectedDropoffPoints })
       }
+      // getQuotationAfterAddItem: (params = {}) => {
+      //   // let { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString } = params
+      //   // let paramsFinal = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
+      //   // this.getQuotations(paramsFinal)
+      // },
     }
   }
   render() {
-    // let { loading } = this.state;
     let {
-      quotations,
-      paymentType,
       objectDetailss,
       carsTypesObject,
       postCodeAddress,
       imageTypesObject,
-      quotationLoading,
       setModalCarStatus,
       namePlaceTypesObject,
       setModalFlightStatus,
@@ -2267,9 +2335,12 @@ class JorneyDetailsUpdateForm extends React.Component {
       hour,
       minute,
       quotation,
+      quotations,
+      paymentType,
       currentPrice,
       previousPrice,
       pickUpPointInput,
+      quotationLoading,
       dropOffPointInput,
       pickUpSuggestions,
       dropOffSuggestions,
@@ -2295,31 +2366,22 @@ class JorneyDetailsUpdateForm extends React.Component {
       date = this.state.transferDateTimeString.split(" ")[0]
     }
 
-    console.log(this.state.selectedPickupPoints, " selectedPick up  pointt ");
-    console.log(this.state.selectedDropoffPoints, " selected dropppppp ");
-
-
     return (
       <div className="editable-jrn-details">
         {/* header */}
         <div className="editable-jrn-header">
           <h3>Journey Details</h3>
-          <div className="editable-buttons">
-            <button
-              onClick={() => this.onCancel()}
-              className="tmb-cancel-btn tmb-btn-primary-outlined fw_500 tmb-btn"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={loading ? () => { } : () => this.onSave()}
-              className=" tmb-btn-primary-outlined fw_500 tmb-btn"
-            >
-              Save
-            </button>
-          </div>
+          {quotations.length > 0 ? (
+            <div className="editable-buttons">
+              <button onClick={() => this.onCancel()} className="tmb-cancel-btn tmb-btn-primary-outlined fw_500 tmb-btn" >
+                Cancel
+              </button>
+              <button onClick={loading ? () => { } : () => this.onSave()} className=" tmb-btn-primary-outlined fw_500 tmb-btn" >
+                Save
+              </button>
+            </div>
+          ) : ""}
         </div>
-
         <div className="editable-jrn-points-container">
           {/* //*pickups section-left  */}
           <div className="editable-jrn-points-container-box">
@@ -2515,26 +2577,30 @@ class JorneyDetailsUpdateForm extends React.Component {
           value={this.state.specialRequests}
           onChange={(e) => this.onChangeDateSpecialRequest(e)}
         />
-
-        {/*quotation results*/}
-        <QuotationCardItem
-          quotation={quotation}
-          quotations={quotations}
-          carsTypesObject={carsTypesObject}
-          quotationLoading={quotationLoading}
-          setModalCarStatus={setModalCarStatus}
-          selectQuotation={this.selectQuotation}
-        />
-
-        {/* if it is  cahs payment then we dont dont need to charge cubcharge */}
+        {
+          quotations.length > 0 ?
+            <QuotationCardItem
+              quotation={quotation}
+              quotations={quotations}
+              carsTypesObject={carsTypesObject}
+              quotationLoading={quotationLoading}
+              setModalCarStatus={setModalCarStatus}
+              selectQuotation={this.selectQuotation}
+            />
+            :
+            <div className="quotaion-card-div-items">
+              <Loading loadCenter={true} />
+            </div>
+        }
+        {/* if it is  cahs payment then we  dont need to charge cubcharge */}
         {paymentType !== 1 ? "" : Number(currentPrice) - Number(previousPrice) > 0 &&
           <div class="informative-subcharges-div">
             <img src={__env.infoAlert} alt="" />
             <div class="informative-subcharge-price-info ">
               <p id="informationMessage">Due to the amendments you have made;</p>
-              <p id="informationMessage">Previous journey price : £ {`${previousPrice}.00`}</p>
-              <p id="informationMessage">Price difference : £ {`${+currentPrice - +previousPrice}.00`}</p>
               <p id="informationMessage">New Journey price : £ {currentPrice}</p>
+              <p id="informationMessage">Previous journey price : £ {`${previousPrice}.00`}</p>
+              <p id="informationMessage" className="difference-price">Price difference : £ {`${+currentPrice - +previousPrice}.00`}</p>
             </div>
           </div>}
         {/* if it is  cahs payment then we dont need to make it visible cause he is gonna pay all by card */}
@@ -2655,43 +2721,71 @@ class ReservationDetails extends React.Component {
       setModalFlight: false,
       journeyEditStatus: false,
       passengerEditStatus: false,
+      payStripeIframeInCaseCash: "",
+      payStripeLoadingInCaseCash: false,
+      reservation: this.props.reservation,
     };
   }
 
-
+  payByStripe(type) {
+    //get quotaion from state after clicking to save button
+    let { reservation, payStripeIframeInCaseCash } = this.state
+    let { quotation, passengerDetails: { email } } = reservation
+    let method = "POST"
+    let quotations = [quotation]
+    let headers = { "Content-Type": "application/json", }
+    let body = JSON.stringify({ quotations, type, language: "en", passengerEmail: email, mode: "sandbox" })
+    let config = { method, headers, body };
+    let url = "https://api.london-tech.com/api/v1/payment/stripe/create";
+    try {
+      if (!payStripeIframeInCaseCash) {
+        this.setState({ payStripeLoadingInCaseCash: true }, () => {
+          fetch(url, config)
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data);
+              if (data.status === 200) {
+                this.setState({ payStripeLoadingInCaseCash: false, payStripeIframeInCaseCash: data.href })
+              }
+            })
+            .catch((error) => {
+              console.log(error.message);
+            });
+        })
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(reservation);
+  }
   render() {
-    let {
-      quotations,
-      reservation,
-      postCodeAddress,
-      quotationLoading,
-      resources: { carsTypes, pointTypeCategories },
-    } = this.props;
-
+    let { payStripeLoadingInCaseCash, payStripeIframeInCaseCash } = this.state
+    let { reservation, postCodeAddress, resources: { carsTypes, pointTypeCategories } } = this.props;
     let carsTypesObject = Object.assign(
       {},
       ...carsTypes.map((obj) => ({ [obj.id]: obj }))
     );
-    let namePlaceTypesObject = Object.assign(
-      {},
-      ...pointTypeCategories.map((obj) => ({ [obj.id]: obj.categoryName }))
-    );
     let imageTypesObject = Object.assign(
       {},
       ...pointTypeCategories.map((obj) => ({ [obj.id]: obj.image }))
+    );
+    //for hansdle search adding item
+    //=>flightDetails:flightNumber:""waitingPickupTime:0
+    let objectDetailss = Object.assign(
+      {},
+      ...pointTypeCategories.map((obj) => ({
+        [obj.id]: JSON.parse(obj.objectDetails),
+      }))
+    );
+    let namePlaceTypesObject = Object.assign(
+      {},
+      ...pointTypeCategories.map((obj) => ({ [obj.id]: obj.categoryName }))
     );
     //inside selected list Inorder to handle search mandatory or not
     let objectDetailStatuses = Object.assign(
       {},
       ...pointTypeCategories.map((obj) => ({
         [obj.id]: JSON.parse(obj.detailsStatus),
-      }))
-    );
-    //for hansdle search adding item  =>flightDetails:flightNumber:""waitingPickupTime:0
-    let objectDetailss = Object.assign(
-      {},
-      ...pointTypeCategories.map((obj) => ({
-        [obj.id]: JSON.parse(obj.objectDetails),
       }))
     );
 
@@ -2705,6 +2799,7 @@ class ReservationDetails extends React.Component {
       selectedDropoffPoints,
       transferDetails: { specialRequests, transferDateTimeString }
     } = reservation;
+
     return (
       <div className="rsv-section">
         {this.state.setModalCar ? (
@@ -2754,13 +2849,11 @@ class ReservationDetails extends React.Component {
           {this.state.journeyEditStatus ? (
             <JorneyDetailsUpdateForm
               quotation={quotation}//to quotationCardItem
-              quotations={quotations}//to quotationCardItem
               objectDetailss={objectDetailss}//to HandleSearch
               carsTypesObject={carsTypesObject} //to quotationCardItem
               postCodeAddress={postCodeAddress}//to SelectedList
               specialRequests={specialRequests}//to TextArea
               imageTypesObject={imageTypesObject}//to SelectedList
-              quotationLoading={quotationLoading} //to quotationCardItem
               setModalCar={this.state.setModalCar}//state . to  quotationCardItem
               previousPrice={paymentDetails.price}//to inner     at the outset it is current previous When change quotation it will be previous one
               paymentType={paymentDetails.paymentType} //in order to make visible  py by card
@@ -2781,6 +2874,7 @@ class ReservationDetails extends React.Component {
             />
           ) : (
             <JourneyDetailsForm
+              quotation={quotation}
               paymentDetails={paymentDetails}
               transferDetails={transferDetails}
               selectedPickupPoints={selectedPickupPoints}
@@ -2791,6 +2885,18 @@ class ReservationDetails extends React.Component {
             />
           )}
         </div>
+        {payStripeIframeInCaseCash ? (
+          <div className="iframe-rsv-container">
+            <div className="iframe-div-in-case-cash">
+              <iframe
+                src={payStripeIframeInCaseCash}
+                className={"iframe-in-case-cash"}
+                frameBorder="0"
+                allow="payment"
+              ></iframe>
+            </div>
+          </div>
+        ) : ""}
         {!this.state.journeyEditStatus && (
           <div className="rsv-payment-details">
             {/* payByCardBtn here */}
@@ -2800,12 +2906,13 @@ class ReservationDetails extends React.Component {
                 {paymentDetails.paymentType !== 1 ? (
                   ""
                 ) : (
-                  <div className={"rsv-payment-details-left-btn-div"}>
-                    <button className=" tmb-btn tmb-btn-primary">
-                      Pay by card
-                    </button>
-                    <br />
-                  </div>
+                  payStripeIframeInCaseCash ? "" :
+                    <div className={"rsv-payment-details-left-btn-div"}>
+                      <button className=" tmb-btn tmb-btn-primary" onClick={() => this.payByStripe(7)}>
+                        {payStripeLoadingInCaseCash ? "Loading.." : "Pay by card"}
+                      </button>
+                      <br />
+                    </div>
                 )}
                 <a
                   target="_blank"
@@ -2849,25 +2956,14 @@ class ManageBooking extends React.Component {
     this.state = {
       resources: {},
       isAuth: false,
-      quotations: [],
       showState: false,
-      quotationLoading: false,
       postCodeAddress: [],
       reservation: JSON.parse(localStorage["reservation"]), // {},
     };
   }
   componentDidMount() {
-    let {
-      selectedPickupPoints,
-      selectedDropoffPoints,
-      transferDetails: { transferDateTimeString },
-    } = this.state.reservation;
     this.getResources();
-
-    let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
-    this.getQuotations(params);
     this.getPostCodeAdresses();
-
     window.manageBookingDispatch = {
       onSuccessLogin: (reservation) => {
         localStorage["reservation"] = JSON.stringify(reservation);
@@ -2876,20 +2972,13 @@ class ManageBooking extends React.Component {
       saveNewPassengerDetails: async (params = {}, callback = () => { }) => {
         let { passengerDetails, transferDetails } = params;
         let { reservation } = this.state;
-        reservation.passengerDetails = {
-          ...reservation.passengerDetails,
-          ...passengerDetails,
-        };
-        reservation.transferDetails = {
-          ...reservation.transferDetails,
-          ...transferDetails,
-        };
+        reservation.transferDetails = { ...reservation.transferDetails, ...transferDetails };
+        reservation.passengerDetails = { ...reservation.passengerDetails, ...passengerDetails };
         let url = `${__env.apiDomain}/api/v1/reservation/edit`;
-        let bodyRequest = {
-          method: "POST",
-          body: JSON.stringify({ reservation: [reservation], ...this.props }),
-          headers: { "Content-Type": "application/json" },
-        };
+        let method = "POST"
+        let headers = { "Content-Type": "application/json" }
+        let body = JSON.stringify({ reservation: [reservation], ...this.props })
+        let bodyRequest = { method, body, headers, };
         let fetchReq = await fetch(url, bodyRequest);
         let fetchRes = await fetchReq.json();
         console.log(fetchRes, typeof callback);
@@ -2903,11 +2992,16 @@ class ManageBooking extends React.Component {
           this.setState({ postCodeAddress: newpostcodeAdress })
         }
       },
-      getQuotationAfterAddItem: (params = {}) => {
-        let { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString } = params
-        let paramsFinal = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
-        this.getQuotations(paramsFinal)
-      }
+      saveJourneyOnScreenInCaseItIsCash: async (params = {}) => {
+        let { quotation, specialRequests, selectedPickupPoints, selectedDropoffPoints, transferDateTimeString } = params;
+        let { reservation } = this.state;
+        reservation.quotation = quotation
+        reservation.selectedPickUpPoints = selectedPickupPoints
+        reservation.selectedDropoffPoints = selectedDropoffPoints
+        reservation.transferDetails = { ...reservation.transferDetails, transferDateTimeString, specialRequests }
+        this.setState(reservation)
+
+      },
     };
 
   }
@@ -2961,45 +3055,16 @@ class ManageBooking extends React.Component {
       });
   }
 
-  getQuotations(params = {}) {
-    let { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString } = params
 
-    this.setState({ quotationLoading: true }, () => {
-      const url = `${__env.apiDomain}/api/v1/quotation`;
-      const method = "POST";
-      const headers = { "Content-Type": "application/json" };
-      const body = JSON.stringify({
-        selectedPickupPoints,
-        selectedDropoffPoints,
-        transferDateTimeString,
-      });
-      const configTransfer = { method, headers, body };
-      fetch(url, configTransfer)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === 200) {
-            this.setState({ quotations: data.quotationOptions })
-          } else {
-            this.setState({ quotations: [] })
-          }
-          this.setState({ quotationLoading: false });
-        })
-        .catch((error) => {
-          this.setState({ quotationLoading: false });
-          window.alertMessageDispatch.alertMessage("", error.message);
-        });
-    })
-  }
   render() {
     let {
       isAuth,
       resources,
       showState,
-      quotations,
       reservation,
       postCodeAddress,
-      quotationLoading,
     } = this.state;
+
     return (
       <div className="tool-manage-booking" mode="dark">
         <div
@@ -3030,9 +3095,9 @@ class ManageBooking extends React.Component {
         </div>
         {isAuth ? (
           <ReservationDetails
-            quotationLoading={quotationLoading}
-            resources={resources} quotations={quotations}
-            reservation={reservation} postCodeAddress={postCodeAddress}
+            resources={resources}
+            reservation={reservation}
+            postCodeAddress={postCodeAddress}
           />
         ) : (
           <BookingLogin />
