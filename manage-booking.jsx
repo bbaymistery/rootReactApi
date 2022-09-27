@@ -161,12 +161,8 @@ class NoResults extends React.Component {
       <ul className="tmb-noResults">
         <li className={"tmb-noResults-li"}>
           <img src={icons.circleClose} className="circle-close-icon" alt="" />
-          <div>
-          </div>
-          <p>
-            No any result matched <br /> if you want a quotation, try to contact
-            with this phone number :{" "}
-            <a href="tel:0090 xxx xx xxx 55">0090 xxx xx xxx 55</a>
+          <p> No any result matched <br /> if you want a quotation, try to contact
+            with this phone number :{" "} <a href="tel:0090 xxx xx xxx 55">0090 xxx xx xxx 55</a>
           </p>
         </li>
       </ul>
@@ -177,16 +173,7 @@ class HandleSearchResults extends React.Component {
   render() {
     let objKeyss = []
     let noresult = false
-    let {
-      type,
-      index,
-      objectDetailss,
-      pickOrDropItems,
-      imageTypesObject,
-      namePlaceTypesObject,
-      handleAddItemToSelectList
-    } = this.props;
-
+    let { type, index, objectDetailss, pickOrDropItems, imageTypesObject, namePlaceTypesObject, handleAddItemToSelectList } = this.props;
     //arranging objects in order to show items correctly
     if (pickOrDropItems[0]) objKeyss = Object.keys(pickOrDropItems[0]);
     const moveZeroosToTheEnd = (nums) => {
@@ -218,12 +205,10 @@ class HandleSearchResults extends React.Component {
 
     return (
       <div className="tmb-hndl-results">
-
         {noresult ? <ul className="tmb-all-results-ul">
           <NoResults />
         </ul>
           : ""}
-
         {
           newFilteredItems.length && !noresult ? (
             <ul className="tmb-all-results-ul">
@@ -240,28 +225,14 @@ class HandleSearchResults extends React.Component {
                                 alt=""
                               />
                             ) : (
-                              imageTypesObject && (
-                                <img
-                                  src={`https://api.london-tech.com${imageTypesObject[item.pcatId]}`}
-                                  alt=""
-                                />
-                              )
+                              imageTypesObject && (<img src={`https://api.london-tech.com${imageTypesObject[item.pcatId]}`} alt="" />)
                             )}
                             <a>{namePlaceTypesObject && namePlaceTypesObject[item.pcatId]}</a>
-                            {item.pcatId === 10 && (
-                              <img
-                                src={"https://api.london-tech.com/media/powered-by-google.png"}
-                                alt=""
-                                className={"tmb-search-groupname-google-image"}
-                              />
-                            )}
+                            {item.pcatId === 10 && (<img src={"https://api.london-tech.com/media/powered-by-google.png"} alt="" className={"tmb-search-groupname-google-image"} />)}
                           </li>
                         )}
-
                         <li onClick={() => handleAddItemToSelectList(item, objectDetailss[item.pcatId], index, type)}>
-                          {imageTypesObject && (
-                            <img src={`https://api.london-tech.com${imageTypesObject[item.pcatId]}`} alt="" />
-                          )}
+                          {imageTypesObject && (<img src={`https://api.london-tech.com${imageTypesObject[item.pcatId]}`} alt="" />)}
                           <p href="/location/londiani-188981">
                             {item.address}
                             {`   ${item.postcode ? `-  ${item.postcode}` : ""}`}
@@ -269,7 +240,6 @@ class HandleSearchResults extends React.Component {
                         </li>
                       </div>
                     )
-
                   })
                 })
               }
@@ -277,29 +247,19 @@ class HandleSearchResults extends React.Component {
           ) :
             ("")
         }
-
       </div>
     );
   }
 }
 class ModalInfo extends React.Component {
   render() {
-    let { content, fromCar, setModalCarStatus, setModalFlightStatus } =
-      this.props;
+    let { content, fromCar, setModalCarStatus, setModalFlightStatus } = this.props;
     return (
       <div className={"tmb-modal"}>
         <div className={"tmb-modal_container"}>
           <p>{content}</p>
-
           <div className={"tmb-modal-button-di"}>
-            <button
-              onClick={
-                fromCar
-                  ? () => setModalCarStatus()
-                  : () => setModalFlightStatus()
-              }
-              className="tmb-btn-primary tmb-btn"
-            >
+            <button onClick={fromCar ? () => setModalCarStatus() : () => setModalFlightStatus()} className="tmb-btn-primary tmb-btn" >
               Okay
             </button>
           </div>
@@ -310,14 +270,7 @@ class ModalInfo extends React.Component {
 }
 class QuotationCardItem extends React.Component {
   render() {
-    let {
-      quotation,
-      quotations,
-      selectQuotation,
-      carsTypesObject,
-      quotationLoading,
-      setModalCarStatus
-    } = this.props;
+    let { quotation, quotations, selectQuotation, carsTypesObject, quotationLoading, setModalCarStatus } = this.props;
 
     return (
       <div className="jrn-quotation-results">
@@ -436,8 +389,7 @@ class QuotationCardItem extends React.Component {
                     </div>
                     <div className={"free_meet free_meet_price relative"}>
                       <div className={"price"}> {quotationLoading ? "" : `£ ${item.price}`}</div>
-                      {quotationLoading ?
-                        <Loading loadCenter={false} />
+                      {quotationLoading ? <Loading loadCenter={false} />
                         :
                         (
                           <button
@@ -2025,7 +1977,14 @@ class JorneyDetailsUpdateForm extends React.Component {
     };
   }
   onCancel() {
-    if (typeof this.props.onCancel === "function") this.props.onCancel();
+    if (typeof this.props.onCancel === "function") {
+      console.log(this.props.selectedPickupPoints,
+        this.props.selectedDropoffPoints,);
+      console.log(JSON.parse(localStorage.getItem("reservation")));
+
+      window.manageBookingDispatch.onCancelJourneyDetails(JSON.parse(localStorage.getItem("reservation")))
+      this.props.onCancel()
+    }
   }
 
   //!case 1 => wetherEffectedPriceButSTillDoesntChangeTheMethod
@@ -2151,15 +2110,9 @@ class JorneyDetailsUpdateForm extends React.Component {
   }
   addExtraInputForJourney(e, pickOrDrop) {
     if (pickOrDrop === 0) {
-      this.setState({
-        addExtraPointTextPickUp: false,
-        inputPickUpShowStatus: true,
-      });
+      this.setState({ addExtraPointTextPickUp: false, inputPickUpShowStatus: true, });
     } else {
-      this.setState({
-        addExtraPointTextDropOff: false,
-        inputDropOffShowStatus: true,
-      });
+      this.setState({ addExtraPointTextDropOff: false, inputDropOffShowStatus: true, });
     }
   }
   fetchSuggestions(inpValue, index) {
@@ -2321,7 +2274,8 @@ class JorneyDetailsUpdateForm extends React.Component {
     if (pickOrDropPoint === 0) selectedPickupPoints.splice(indexOfCurrentItem, 1);
     if (pickOrDropPoint === 1) selectedDropoffPoints.splice(indexOfCurrentItem, 1);
     let { transferDateTimeString } = this.state;
-    console.log(selectedPickupPoints);
+    console.log(this.state.selectedPickupPoints);
+    console.log(this.props.selectedPickupPoints);
 
     //update automatically quotation
     let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
@@ -2425,11 +2379,6 @@ class JorneyDetailsUpdateForm extends React.Component {
       setStripeIframeToNull: () => {
         this.setState({ stripeIframeAndTokenInCaseCash: "" })
       }
-      // getQuotationAfterAddItem: (params = {}) => {
-      //   // let { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString } = params
-      //   // let paramsFinal = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
-      //   // this.getQuotations(paramsFinal)
-      // },
     }
   }
 
@@ -3268,6 +3217,7 @@ class ManageBooking extends React.Component {
         if (fetchRes.status === 200) {
           callback(fetchRes);
           window.manageBookingDispatch.alertMessage("Passenger Details Updated", "")
+          localStorage["reservation"] = JSON.stringify(reservation);
         }
       },
 
@@ -3286,6 +3236,7 @@ class ManageBooking extends React.Component {
           callback(fetchRes);
           window.manageBookingDispatch.alertMessage("Passenger Details Updated", "")
           this.setState(reservation)
+          localStorage["reservation"] = JSON.stringify(reservation);
         } else {
           window.manageBookingDispatch.alertMessage("", "Something went wrong please contact with us")
         }
@@ -3315,14 +3266,15 @@ class ManageBooking extends React.Component {
           this.setState({ reservation })
           callback()
           window.manageBookingDispatch.alertMessage("Payment Updated Successfully", "")
+          localStorage["reservation"] = JSON.stringify(reservation);
         } else {
           window.manageBookingDispatch.alertMessage("", "Something went wrong please contact with us")
         }
         window.reaervationDetailsDispatch.setStripeIframeToNull()
       },
-      onCancelJourneyDetails: () => {
+      onCancelJourneyDetails: (reservation) => {
         console.log(this.state.reservation);
-
+        this.setState({ reservation })
       }
     };
   }

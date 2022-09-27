@@ -363,7 +363,6 @@ try {
 
 {
   paymentType !== 1 && Number(currentPrice) <= Number(previousPrice) ? (
-
     quotations.length > 0 ?
       <button
         onClick={
@@ -372,8 +371,6 @@ try {
         className=" tmb-btn-primary-outlined fw_500 tmb-btn" >
         {updatedLoading ? "Loading" : "Save"}
       </button> : ""
-
-
   ) : (
     quotations.length > 0 ?
       <button
@@ -386,3 +383,6 @@ try {
 
   )
 }
+
+localStorage.getItem('reservation') ? JSON.parse(localStorage["reservation"]) : {},
+    };
