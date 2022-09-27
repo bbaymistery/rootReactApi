@@ -209,3 +209,180 @@ const payByStripe = (id) => {
     }
   }
 };
+
+
+useEffect(() => {
+  const url = `https://api.london-tech.com/api/v1/payment/status`;
+  let interVal;
+  if (statusTokenInCaseDirectlyPayment) {
+    interVal = setInterval(async () => {
+      let config = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: statusTokenInCaseDirectlyPayment }),
+      };
+      try {
+        let requ = await fetch(url, config);
+        let resp = await requ.json();
+
+        if (resp?.status === 200) {
+          if (dataTokenForWebSocket?.href?.includes("stripe")) {
+            dispacth(setPayment(7, resp.data.token, ""));
+            setiframeStripeInCaseItIsDirectlyPayment("");
+            setStatusTokenInCaseItDirectlyPayment("");
+            setAlert({
+              alert: true,
+              message: "Reservation Updated",
+              close: false,
+            });
+          }
+          clearInterval(interVal);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }, 2000);
+  }
+
+  return () => clearInterval(interVal);
+}, [statusTokenInCaseDirectlyPayment]);
+
+
+
+onSave() {
+  let isUpdatedInCaseItIsCash = false;
+  let {
+    quotation: quot,
+    specialRequests: requuest,
+    transferDateTimeString: date,
+    selectedPickupPoints: pickUps,
+    selectedDropoffPoints: dropOff,
+  } = this.props
+
+  let {
+    quotation,
+    paymentType,
+    specialRequests,
+    transferDateTimeString,
+    selectedDropoffPoints,
+    selectedPickupPoints,
+  } = this.state
+
+  let propsValues = JSON.stringify({
+    quotatin: quot,
+    specialRequests: requuest,
+    transferDateTimeString: date,
+    selectedDropOffPoints: dropOff,
+    selectedPickUpPoints: pickUps
+  })
+  let stateValues = JSON.stringify({
+    quotation,
+    specialRequests,
+    transferDateTimeString,
+    selectedDropoffPoints,
+    selectedPickupPoints,
+  })
+  //if paymnet type 1 It means cash
+  //so it should be updated firstly on screeen then he /she should go for pay by card in order to make it permanent
+  if (propsValues !== stateValues && paymentType === 1) isUpdatedInCaseItIsCash = true;
+  if (isUpdatedInCaseItIsCash) {
+    window.manageBookingDispatch.saveJourneyOnScreenInCaseItIsCash(JSON.parse(stateValues));
+  }
+  this.props.onSave();
+}
+
+{/* {quotations.length > 0 ? (
+            <div className="editable-buttons">
+              <button onClick={() => this.onCancel()} className="tmb-cancel-btn tmb-btn-primary-outlined fw_500 tmb-btn" >
+                Cancel
+              </button>
+              <button onClick={loading ? () => { } : () => this.onSave()} className=" tmb-btn-primary-outlined fw_500 tmb-btn" >
+                Save
+              </button>
+
+              //if it is cash payment and updated effected to the price then we should  keep charge on that
+               onClick={loading ? () => { } : () => this.onSave()}
+              <button  className=" tmb-btn-primary-outlined fw_500 tmb-btn" >
+                wetherEffectedPriceButSTillWantsPayCash
+              </button>
+            </div>
+          ) : ""} */}
+
+
+{/* if it is  cahs payment then we  dont need to charge cubcharge */ }
+{/* {paymentType !== 1 ? "" : Number(currentPrice) - Number(previousPrice) > 0 &&
+          <div class="informative-subcharges-div">
+            <img src={__env.infoAlert} alt="" />
+            <div class="informative-subcharge-price-info ">
+              <p id="informationMessage">Due to the amendments you have made;</p>
+              <p id="informationMessage">New Journey price : £ {currentPrice}</p>
+              <p id="informationMessage">Previous journey price : £ {`${previousPrice}.00`}</p>
+              <p id="informationMessage" className="difference-price">Price difference : £ {`${+currentPrice - +previousPrice}.00`}</p>
+            </div>
+          </div>} */}
+{/* if it is  cahs payment then we dont need to make it visible cause he is gonna pay all by card */ }
+{/* {paymentType !== 1 ? "" : Number(currentPrice) - Number(previousPrice) > 0 &&
+          <div className="jrn-py-btn-div">
+            <button className="tmb-btn tmb-button-primary-outlined-hover ">
+              Pay By Card
+            </button>
+          </div>} */}
+
+
+try {
+
+
+  fetch(url, config)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(
+        data,
+        "this response coming from =>https://api.london-tech.com/api/v1/payment/stripe/charge"
+      );
+
+      setStatusToken(data.webSocketToken); //it will trigger interval and will make request
+      // setDataTokenForWebSocket(data.href);
+      setIframeStripe(data?.href);
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+} catch (error) {
+  console.log(error.message);
+}
+
+<ReservationDetails
+  eM={eM}
+  sM={sM}
+  resources={resources}
+  reservation={reservation}
+  postCodeAddress={postCodeAddress}
+/>
+
+{
+  paymentType !== 1 && Number(currentPrice) <= Number(previousPrice) ? (
+
+    quotations.length > 0 ?
+      <button
+        onClick={
+          updatedLoading ? () => { } :
+            () => this.wetherEffectedPriceButSTillDoesntChangeTheMethod()}
+        className=" tmb-btn-primary-outlined fw_500 tmb-btn" >
+        {updatedLoading ? "Loading" : "Save"}
+      </button> : ""
+
+
+  ) : (
+    quotations.length > 0 ?
+      <button
+        onClick={
+          updatedLoading ? () => { } :
+            () => this.wetherEffectedPriceButSTillDoesntChangeTheMethod()}
+        className=" tmb-btn-primary-outlined fw_500 tmb-btn" >
+        {updatedLoading ? "Loading" : "Save"}
+      </button> : ""
+
+  )
+}

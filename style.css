@@ -1320,7 +1320,7 @@ a {
 }
 
 .tmb-alert-container .tmb-alert-div-error {
-  background-color: var(--error-message) !important;
+  background-color: var(--error-message-color) !important;
 }
 
 .tmb-alert-container .tmb-showAlert {
