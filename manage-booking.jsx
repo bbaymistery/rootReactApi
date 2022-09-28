@@ -131,9 +131,9 @@ const waitingMinutes = [
     value: "150 minutes after flight has landed",
   },
 ];
-
 // this for collect minimum date into DatePicker
 const dateTimeStringFunc = () => {
+  //2022-09-28 funct
   let tmpDt = new Date(Date.now() + 1000 * 60 * 60 * 6); //6
   let year = tmpDt.getFullYear();
   let month = tmpDt.getMonth() + 1 < 10 ? `0${tmpDt.getMonth() + 1}` : " ";
@@ -154,6 +154,19 @@ const apiV1ReservationEdit = async (reservation, props) => {
   let fetchRes = await fetchReq.json();
   return fetchRes
 }
+const checking24hours = (bookDate) => {
+  //i receive from api 31/12/2022 02:15
+  //i replace it to 2022-31-12 then i compare
+  let date = bookDate.split(" ")[0].replace(/\//g, "-").split(" ")[0].replace(/(\d+)\-(\d+)-(\d+)/, "$3-$2-$1");
+  let hourMinute = bookDate.split(" ")[1]
+  let currentDateInMilliseconds = new Date().getTime();
+  let bookingDateInMillisecond = new Date(`${date} ${hourMinute}`).getTime();
+  let diff = bookingDateInMillisecond - currentDateInMilliseconds;
+  let oneDay = 1000 * 60 * 60 * 24;
+  if (oneDay > diff) {
+    return true;
+  } else { return false; }
+};
 //it when sygeestions doesnt come it will come up
 class NoResults extends React.Component {
   render() {
@@ -271,7 +284,6 @@ class ModalInfo extends React.Component {
 class QuotationCardItem extends React.Component {
   render() {
     let { quotation, quotations, selectQuotation, carsTypesObject, quotationLoading, setModalCarStatus } = this.props;
-
     return (
       <div className="jrn-quotation-results">
         <div className="jrn-quotation-results-items">
@@ -284,11 +296,7 @@ class QuotationCardItem extends React.Component {
                       <div className={"left_title"}>
                         {carsTypesObject[item.carId].name}
                         <span onClick={() => setModalCarStatus()}>
-                          <img
-                            src={icons.info}
-                            className="circle-info-quotation-card-icon"
-                            alt=""
-                          />
+                          <img src={icons.info} className="circle-info-quotation-card-icon" alt="" />
                         </span>
                       </div>
                       <div className={"left_subtitle"}>
@@ -296,50 +304,30 @@ class QuotationCardItem extends React.Component {
                       </div>
                       <ul className={"icon_details"}>
                         <li className={"icon_details_item"}>
-                          <img
-                            src={icons.users}
-                            className="users-quotation-card-icon"
-                            alt=""
-                          />
+                          <img src={icons.users} className="users-quotation-card-icon" alt="" />
                           {carsTypesObject[item.carId].suitcases}
                         </li>
                         <li className={"icon_details_item"}>
-                          <img
-                            src={icons.suitcase}
-                            alt=""
-                            className="suitcase-quotation-card-icon"
-                          />
+                          <img src={icons.suitcase} alt="" className="suitcase-quotation-card-icon" />
                           {carsTypesObject[item.carId].pax}
                         </li>
                       </ul>
                     </div>
                     <div className={"main_right"}>
-                      <img
-                        src={`https://api.london-tech.com${carsTypesObject[item.carId].image
-                          }`}
-                        alt="car"
-                      />
+                      <img src={`https://api.london-tech.com${carsTypesObject[item.carId].image}`} alt="car" />
                     </div>
                   </div>
                   <div className={"item_bottom"}>
                     <div className={"free_meet first"}>
                       <p>
                         <span>
-                          <img
-                            src={icons.check}
-                            className="check-quotation-card-icon"
-                            alt=""
-                          />
+                          <img src={icons.check} className="check-quotation-card-icon" alt="" />
                         </span>
                         Flight Tracking
                       </p>
                       <p>
                         <span>
-                          <img
-                            src={icons.check}
-                            className="check-quotation-card-icon"
-                            alt=""
-                          />
+                          <img src={icons.check} className="check-quotation-card-icon" alt="" />
                         </span>
                         Free Waiting Time
                       </p>
@@ -368,11 +356,7 @@ class QuotationCardItem extends React.Component {
                     <div className={"free_meet second"}>
                       <p className={"uzunad"}>
                         <span>
-                          <img
-                            src={icons.check}
-                            alt=""
-                            className="check-quotation-card-icon"
-                          />
+                          <img src={icons.check} alt="" className="check-quotation-card-icon" />
                         </span>
                         Free meet and greet
                       </p>
@@ -401,11 +385,7 @@ class QuotationCardItem extends React.Component {
                     </div>
                   </div>
                 </div>
-                <img
-                  src={icons.speed}
-                  className="jrn-quotation-card-item-outer-icon"
-                  alt=""
-                />
+                <img src={icons.speed} className="jrn-quotation-card-item-outer-icon" alt="" />
               </div>
             );
           })}
@@ -415,41 +395,24 @@ class QuotationCardItem extends React.Component {
   }
 }
 class CheckForFlight extends React.Component {
-
   constructor(props) {
     super(props);
-    this.state = {
-      flightNumber: "",
-      waitingPickupTime: "",
-      whichItemSelected: this.props.whichItemSelected
-    };
+    this.state = { flightNumber: "", waitingPickupTime: "", whichItemSelected: this.props.whichItemSelected };
   }
-
   onchangeHandlerInput = (e, pickOrDrop, item) => {
     let { name, value } = e.target
     let { flightNumber, waitingPickupTime, whichItemSelected } = this.state
     let flightDetails = { flightNumber, waitingPickupTime }
-    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) {
-      return
-    }
+    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) return
     if (name === "waitingPickupTime") {
       this.setState({ [name]: Number(e.target.value.split(" ")[0]) })
-      flightDetails = {
-        ...flightDetails,
-        flightNumber: item.flightDetails.flightNumber,
-        waitingPickupTime: Number(e.target.value.split(" ")[0])
-      }
+      flightDetails = { ...flightDetails, flightNumber: item.flightDetails.flightNumber, waitingPickupTime: Number(e.target.value.split(" ")[0]) }
     } else {
       this.setState({ [name]: value })
-      flightDetails = {
-        ...flightDetails,
-        flightNumber: value,
-        waitingPickupTime: item.flightDetails.waitingPickupTime,
-      }
+      flightDetails = { ...flightDetails, flightNumber: value, waitingPickupTime: item.flightDetails.waitingPickupTime, }
     }
     window.journeyDetailsUpdateFormDispatch.onchangeItemDetails(flightDetails, pickOrDrop, whichItemSelected, 1)
   }
-
   render() {
     let { item, index, objectDetailStatuses, setModalFlightStatus } = this.props;
     let { flightNumber, waitingPickupTime } = this.state;
@@ -478,7 +441,6 @@ class CheckForFlight extends React.Component {
                   fromPoints={true}
                   infoForFlight={true}
                   data={waitingMinutes}
-                  // placeholder={this.state.waitingPickupTime > 0 && `${this.state.waitingPickupTime} minutes after flight has landed`}
                   name="waitingPickupTime"
                   icon={icons.planeArrival}
                   onChange={(e) => this.onchangeHandlerInput(e, 0, item)}
@@ -512,29 +474,21 @@ class CheckForFlight extends React.Component {
 class CheckForCruises extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      cruiseNumber: "",
-      whichItemSelected: this.props.whichItemSelected,
-    };
+    this.state = { cruiseNumber: "", whichItemSelected: this.props.whichItemSelected, };
   }
-
   onchangeHandlerInput = (e, pickOrDrop) => {
     let { name, value } = e.target
-    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) {
-      return
-    }
+    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) return
+
     let { cruiseNumber, whichItemSelected } = this.state
     let valueToSend = cruiseNumber
     this.setState({ [name]: value })
     valueToSend = value
     window.journeyDetailsUpdateFormDispatch.onchangeItemDetails(valueToSend, pickOrDrop, whichItemSelected, 2)
   }
-
   render() {
     let { cruiseNumber } = this.state
     let { item, index, objectDetailStatuses } = this.props;
-
-
     return (
       <div>
         {/* //!pick up section  */}
@@ -577,28 +531,21 @@ class CheckForCruises extends React.Component {
 class CheckForTrain extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      trainNumber: "",
-      whichItemSelected: this.props.whichItemSelected,
-    };
+    this.state = { trainNumber: "", whichItemSelected: this.props.whichItemSelected, };
   }
-
   onchangeHandlerInput = (e, pickOrDrop) => {
     let { name, value } = e.target
-    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) {
-      return
-    }
+    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) return
+
     let { trainNumber, whichItemSelected } = this.state
     let valueToSend = trainNumber
     this.setState({ [name]: value })
     valueToSend = value
     window.journeyDetailsUpdateFormDispatch.onchangeItemDetails(valueToSend, pickOrDrop, whichItemSelected, 3)
   }
-
   render() {
     let { trainNumber } = this.state
     let { item, index, objectDetailStatuses } = this.props;
-
     return (
       <div>
         {/* //!pick up section  */}
@@ -642,18 +589,13 @@ class CheckForTrain extends React.Component {
 class CheckingForPostcodes extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      id: 0,
-      postCodeAddress: "",
-      whichItemSelected: this.props.whichItemSelected,
-    };
+    this.state = { id: 0, postCodeAddress: "", whichItemSelected: this.props.whichItemSelected, };
   }
 
   onchangeHandlerInput = (e, pickOrDrop) => {
     let { name, value } = e.target
-    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) {
-      return
-    }
+    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) return
+
     let { id, postCodeAddress, whichItemSelected } = this.state
     let postCodeDetails = { id, postCodeAddress }
 
@@ -670,11 +612,7 @@ class CheckingForPostcodes extends React.Component {
   render() {
     let postcodes = [];
     let { item, index, objectDetailStatuses, postCodeAddress } = this.props;
-
-    postcodes = postCodeAddress.filter(
-      (codes) => item.postcode === codes.postcode && codes.addresses
-    );
-
+    postcodes = postCodeAddress.filter((codes) => item.postcode === codes.postcode && codes.addresses);
     return (
       <div>
         {/* //!pick up section  */}
@@ -694,29 +632,16 @@ class CheckingForPostcodes extends React.Component {
                 classNameImg="icon_selectedPoints_selectbox-post-code"
               />
             )}
-            {this.state.id === 0
-              ? objectDetailStatuses[5].postCodeDetails.postCodeAddress
-                .pickup === 1 && (
-                <TextArea
-                  icon={icons.idBadge}
-                  fromBooking={true}
-                  name="postCodeAddress"
-                  title="Adress Description *"
-                  onChange={(e) => this.onchangeHandlerInput(e, 0)}
-                  value={
-                    this.state.postCodeAddress
-                      ? this.state.postCodeAddress
-                      : item.postCodeDetails.postCodeAddress
-                  }
-                  errorMessage={
-                    item.postCodeDetails.postCodeAddress ?
-                      ""
-                      :
-                      !this.state.postCodeAddress ? "required" : ""
-                  }
-                />
-              )
-              : null}
+            {this.state.id === 0 ? objectDetailStatuses[5].postCodeDetails.postCodeAddress.pickup === 1 && (
+              <TextArea
+                icon={icons.idBadge}
+                fromBooking={true}
+                name="postCodeAddress"
+                title="Adress Description *"
+                onChange={(e) => this.onchangeHandlerInput(e, 0)}
+                value={this.state.postCodeAddress ? this.state.postCodeAddress : item.postCodeDetails.postCodeAddress}
+                errorMessage={item.postCodeDetails.postCodeAddress ? "" : !this.state.postCodeAddress ? "required" : ""}
+              />) : null}
           </div>
         )}
         {/* //!drop off section  */}
@@ -735,30 +660,16 @@ class CheckingForPostcodes extends React.Component {
                 classNameImg="icon_selectedPoints_selectbox-post-code"
               />
             )}
-            {this.state.id === 0
-              ? objectDetailStatuses[5].postCodeDetails.postCodeAddress
-                .dropoff === 1 && (
-                <TextArea
-                  fromBooking={true}
-                  icon={icons.idBadge}
-                  name="postCodeAddress"
-                  title="Adress Description *"
-                  onChange={(e) => this.onchangeHandlerInput(e, 1)}
-
-                  value={
-                    this.state.postCodeAddress
-                      ? this.state.postCodeAddress
-                      : item.postCodeDetails.postCodeAddress
-                  }
-                  errorMessage={
-                    item.postCodeDetails.postCodeAddress ?
-                      ""
-                      :
-                      !this.state.postCodeAddress ? "required" : ""
-                  }
-                />
-              )
-              : null}
+            {this.state.id === 0 ? objectDetailStatuses[5].postCodeDetails.postCodeAddress.dropoff === 1 && (
+              <TextArea
+                fromBooking={true}
+                icon={icons.idBadge}
+                name="postCodeAddress"
+                title="Adress Description *"
+                onChange={(e) => this.onchangeHandlerInput(e, 1)}
+                value={this.state.postCodeAddress ? this.state.postCodeAddress : item.postCodeDetails.postCodeAddress}
+                errorMessage={item.postCodeDetails.postCodeAddress ? "" : !this.state.postCodeAddress ? "required" : ""}
+              />) : null}
           </div>
         )}
       </div>
@@ -768,17 +679,13 @@ class CheckingForPostcodes extends React.Component {
 class CheckPlaceOfInterest extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      "address-description": "",
-      whichItemSelected: this.props.whichItemSelected,
-    };
+    this.state = { "address-description": "", whichItemSelected: this.props.whichItemSelected, };
   }
 
   onchangeHandlerInput = (e, pickOrDrop) => {
     let { name, value } = e.target
-    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) {
-      return
-    }
+    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) return
+
     let { whichItemSelected } = this.state
     let addresDescription = this.state["address-description"]
     let valueToSend = addresDescription
@@ -802,13 +709,7 @@ class CheckPlaceOfInterest extends React.Component {
                 icon={icons.idBadge}
                 title="Places of Interest"
                 name="address-description"
-                value={
-                  this.state["address-description"]
-                    ?
-                    this.state["address-description"]
-                    :
-                    item["address-description"]
-                }
+                value={this.state["address-description"] ? this.state["address-description"] : item["address-description"]}
                 onChange={(e) => this.onchangeHandlerInput(e, 0)}
                 classNameImg="icon-inside-small-input-place-interest"
               />
@@ -816,28 +717,20 @@ class CheckPlaceOfInterest extends React.Component {
           </div>
         )}
         {/* //!drop off section  */}
-        {item.pcatId === 7 &&
-          index === 1 &&
-          objectDetailStatuses[7]["address-description"].dropoff === 2 && (
-            <div className="editable-selected-inputs">
-              <TextInput
-                type="text"
-                fromPoints={true}
-                icon={icons.idBadge}
-                title="Places of Interest"
-                name="address-description"
-                value={
-                  this.state["address-description"]
-                    ?
-                    this.state["address-description"]
-                    :
-                    item["address-description"]
-                }
-                onChange={(e) => this.onchangeHandlerInput(e, 1)}
-                classNameImg="icon-inside-small-input-place-interest"
-              />
-            </div>
-          )}
+        {item.pcatId === 7 && index === 1 && objectDetailStatuses[7]["address-description"].dropoff === 2 && (
+          <div className="editable-selected-inputs">
+            <TextInput
+              type="text"
+              fromPoints={true}
+              icon={icons.idBadge}
+              title="Places of Interest"
+              name="address-description"
+              value={this.state["address-description"] ? this.state["address-description"] : item["address-description"]}
+              onChange={(e) => this.onchangeHandlerInput(e, 1)}
+              classNameImg="icon-inside-small-input-place-interest"
+            />
+          </div>
+        )}
       </div>
     );
   }
@@ -845,17 +738,12 @@ class CheckPlaceOfInterest extends React.Component {
 class CheckForCitites extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      "address-description": "",
-      whichItemSelected: this.props.whichItemSelected,
-    };
+    this.state = { "address-description": "", whichItemSelected: this.props.whichItemSelected, };
   }
-
   onchangeHandlerInput = (e, pickOrDrop) => {
     let { name, value } = e.target
-    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) {
-      return
-    }
+    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) return
+
     let { whichItemSelected } = this.state
     let addresDescription = this.state["address-description"]
     let valueToSend = addresDescription
@@ -865,7 +753,6 @@ class CheckForCitites extends React.Component {
   }
   render() {
     let { item, index, objectDetailStatuses } = this.props;
-
     return (
       <div>
         {/* //!pick up section  */}
@@ -878,13 +765,7 @@ class CheckForCitites extends React.Component {
                 fromPoints={true}
                 icon={icons.mapLocation}
                 name="address-description"
-                value={
-                  this.state["address-description"]
-                    ?
-                    this.state["address-description"]
-                    :
-                    item["address-description"]
-                }
+                value={this.state["address-description"] ? this.state["address-description"] : item["address-descriptio "]}
                 onChange={(e) => this.onchangeHandlerInput(e, 0)}
                 classNameImg="icon-inside-small-input-place-interest"
               />
@@ -892,28 +773,20 @@ class CheckForCitites extends React.Component {
           </div>
         )}
         {/* //!drop off section  */}
-        {item.pcatId === 8 &&
-          index === 1 &&
-          objectDetailStatuses[8]["address-description"].dropoff === 2 && (
-            <div className="editable-selected-inputs">
-              <TextInput
-                type="text"
-                title="Cities"
-                fromPoints={true}
-                icon={icons.mapLocation}
-                name="address-description"
-                value={
-                  this.state["address-description"]
-                    ?
-                    this.state["address-description"]
-                    :
-                    item["address-description"]
-                }
-                onChange={(e) => this.onchangeHandlerInput(e, 1)}
-                classNameImg="icon-inside-small-input-place-interest"
-              />
-            </div>
-          )}
+        {item.pcatId === 8 && index === 1 && objectDetailStatuses[8]["address-description"].dropoff === 2 && (
+          <div className="editable-selected-inputs">
+            <TextInput
+              type="text"
+              title="Cities"
+              fromPoints={true}
+              icon={icons.mapLocation}
+              name="address-description"
+              value={this.state["address-description"] ? this.state["address-description"] : item["address-description"]}
+              onChange={(e) => this.onchangeHandlerInput(e, 1)}
+              classNameImg="icon-inside-small-input-place-interest"
+            />
+          </div>
+        )}
       </div>
     );
   }
@@ -921,17 +794,12 @@ class CheckForCitites extends React.Component {
 class CheckForUniversity extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      "address-description": "",
-      whichItemSelected: this.props.whichItemSelected,
-    };
+    this.state = { "address-description": "", whichItemSelected: this.props.whichItemSelected, };
   }
 
   onchangeHandlerInput = (e, pickOrDrop) => {
     let { name, value } = e.target
-    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) {
-      return
-    }
+    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) return
     let { whichItemSelected } = this.state
     let addresDescription = this.state["address-description"]
     let valueToSend = addresDescription
@@ -954,13 +822,7 @@ class CheckForUniversity extends React.Component {
                 icon={icons.building}
                 name="address-description"
                 title="Universities And Colleges"
-                value={
-                  this.state["address-description"]
-                    ?
-                    this.state["address-description"]
-                    :
-                    item["address-description"]
-                }
+                value={this.state["address-description"] ? this.state["address-description"] : item["address-description"]}
                 onChange={(e) => this.onchangeHandlerInput(e, 0)}
                 classNameImg="icon-inside-small-input-place-interest"
               />
@@ -968,29 +830,20 @@ class CheckForUniversity extends React.Component {
           </div>
         )}
         {/* //!drop off section  */}
-        {item.pcatId === 9 &&
-          index === 1 &&
-          objectDetailStatuses[9]["address-description"].dropoff === 2 && (
-            <div className="editable-selected-inputs">
-              <TextInput
-                type="text"
-                fromPoints={true}
-                icon={icons.building}
-                name="address-description"
-                title="Universities And Colleges"
-                value={
-                  this.state["address-description"]
-                    ?
-                    this.state["address-description"]
-                    :
-                    item["address-description"]
-                }
-                onChange={(e) => this.onchangeHandlerInput(e, 1)}
-                classNameImg="icon-inside-small-input-place-interest"
-              //onChange
-              />
-            </div>
-          )}
+        {item.pcatId === 9 && index === 1 && objectDetailStatuses[9]["address-description"].dropoff === 2 && (
+          <div className="editable-selected-inputs">
+            <TextInput
+              type="text"
+              fromPoints={true}
+              icon={icons.building}
+              name="address-description"
+              title="Universities And Colleges"
+              value={this.state["address-description"] ? this.state["address-description"] : item["address-description"]}
+              onChange={(e) => this.onchangeHandlerInput(e, 1)}
+              classNameImg="icon-inside-small-input-place-interest"
+            />
+          </div>
+        )}
       </div>
     );
   }
@@ -998,17 +851,13 @@ class CheckForUniversity extends React.Component {
 class CheckForOther extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      "address-description": "",
-      whichItemSelected: this.props.whichItemSelected,
-    };
+    this.state = { "address-description": "", whichItemSelected: this.props.whichItemSelected, };
   }
 
   onchangeHandlerInput = (e, pickOrDrop) => {
     let { name, value } = e.target
-    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) {
-      return
-    }
+    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) return
+
     let { whichItemSelected } = this.state
     let addresDescription = this.state["address-description"]
     let valueToSend = addresDescription
@@ -1018,8 +867,6 @@ class CheckForOther extends React.Component {
   }
   render() {
     let { item, index, objectDetailStatuses } = this.props;
-
-
     return (
       <div>
         {/* //!pick up section  */}
@@ -1033,42 +880,25 @@ class CheckForOther extends React.Component {
                 name="address-description"
                 icon={icons.locationArrow}
                 classNameImg="icon-inside-small-input"
-                value={
-                  this.state["address-description"]
-                    ?
-                    this.state["address-description"]
-                    :
-                    item["address-description"]
-                }
+                value={this.state["address-description"] ? this.state["address-description"] : item["address-description"]}
                 onChange={(e) => this.onchangeHandlerInput(e, 0)}
-              />
-            )}
+              />)}
           </div>
         )}
         {/* //!drop off section  */}
-        {item.pcatId === 10 &&
-          index === 1 &&
-          objectDetailStatuses[10]["address-description"].dropoff === 2 && (
-            <div className="editable-selected-inputs">
-              <TextInput
-                type="text"
-                title="Description "
-                fromPoints={true}
-                name="address-description"
-                icon={icons.locationArrow}
-                classNameImg="icon-inside-small-input"
-                value={
-                  this.state["address-description"]
-                    ?
-                    this.state["address-description"]
-                    :
-                    item["address-description"]
-                }
-                onChange={(e) => this.onchangeHandlerInput(e, 1)}
-              //onChange
-              />
-            </div>
-          )}
+        {item.pcatId === 10 && index === 1 && objectDetailStatuses[10]["address-description"].dropoff === 2 && (
+          <div className="editable-selected-inputs">
+            <TextInput
+              type="text"
+              title="Description "
+              fromPoints={true}
+              name="address-description"
+              icon={icons.locationArrow}
+              classNameImg="icon-inside-small-input"
+              value={this.state["address-description"] ? this.state["address-description"] : item["address-description"]}
+              onChange={(e) => this.onchangeHandlerInput(e, 1)}
+            />
+          </div>)}
       </div>
     );
   }
@@ -1088,8 +918,6 @@ class SelectBox extends React.Component {
       onChange = (e) => { },
       infoForFlight = false,
     } = this.props;
-
-
     return (
       <div className="editable-form-control">
         <div className="editable-form-control-header">
@@ -1098,55 +926,29 @@ class SelectBox extends React.Component {
             {infoForFlight ? (
               <span onClick={() => setModalFlightStatus()} className="info-for-flight" >
                 <img src={icons.info} className="circle-info-quotation-card-icon" alt="" />
-              </span>
-            ) : (
-              " "
-            )}
+              </span>) : (" ")}
           </p>
 
         </div>
         <div className="editable-select-div">
           <img className={classNameImg} src={icon} alt="" />
-          <img
-            className={`
-            editable-select-img-angle-down
-            ${fromPoints
-                ? "editable-select-img-angle-down-for-selectedPoints"
-                : ""
-              }`}
-            src={icons.angleDown}
-            alt=""
-          />
-          <select
-            name={name}
-            onChange={onChange}
-            className={fromPoints ? "select-selected-points" : ""}
-
-          >
-            {placeholder && (
-              <option value="" id={0}>
-                {placeholder}
-              </option>
-            )}
-            {Number(data)
-              ? Array(data)
-                .fill()
-                .map((x, i) => {
-                  return (
-                    <option key={i} value={i + 1}>
-                      {`${i + 1}`}
-                    </option>
-                  );
-                })
+          <img className={` editable-select-img-angle-down ${fromPoints ? "editable-select-img-angle-down-for-selectedPoints" : ""}`} src={icons.angleDown} alt="" />
+          <select name={name} onChange={onChange} className={fromPoints ? "select-selected-points" : ""} >
+            {placeholder && (<option value="" id={0}> {placeholder} </option>)}
+            {Number(data) ? Array(data)
+              .fill()
+              .map((x, i) => {
+                return (
+                  <option key={i} value={i + 1}>
+                    {`${i + 1}`}
+                  </option>
+                );
+              })
               : data.map((d, i) => {
                 return (
                   <option
                     key={i}
-                    selected={
-                      Number(d.value.split(" ")[0]) === Number(defaultValue)
-                      ||
-                      Number(d.id) === Number(defaultValue)
-                    }
+                    selected={Number(d.value.split(" ")[0]) === Number(defaultValue) || Number(d.id) === Number(defaultValue)}
                     value={d.value}
                     id={d.id && d.id}
                   >
@@ -1212,16 +1014,7 @@ class TextInput extends React.Component {
 //inside passenger details
 class DateInput extends React.Component {
   render() {
-    let {
-      icon,
-      type = "",
-      name = "",
-      value = "",
-      title = "",
-      classNameImg = "",
-      fromPoints = false,
-      onChange = (e) => { },
-    } = this.props;
+    let { icon, type = "", name = "", value = "", title = "", classNameImg = "", fromPoints = false, onChange = (e) => { }, } = this.props;
     return (
       <div className="editable-form-control">
         <div className="editable-form-control-header">
@@ -1229,14 +1022,7 @@ class DateInput extends React.Component {
         </div>
         <div className="editable-form-control-input-div  date-input-div">
           <img src={icon} className={classNameImg} alt="" />
-          <input
-            name={name}
-            type={type}
-            value={value}
-            onChange={onChange}
-            lang="en"
-            className={`inputDate ${fromPoints ? "input-selected-points" : ""}`}
-          />
+          <input name={name} type={type} value={value} onChange={onChange} lang="en" className={`inputDate ${fromPoints ? "input-selected-points" : ""}`} />
         </div>
       </div>
     );
@@ -1245,18 +1031,7 @@ class DateInput extends React.Component {
 //inside passenger details
 class TextArea extends React.Component {
   render() {
-    let {
-      value = "",
-      onChange = (e) => { },
-      name = "",
-      icon,
-      placeholder = "",
-      errorMessage = "",
-      title = "",
-      fromPoints = false,
-      classNameImg = "",
-    } = this.props;
-
+    let { value = "", onChange = (e) => { }, name = "", icon, placeholder = "", errorMessage = "", title = "", fromPoints = false, classNameImg = "", } = this.props;
     return (
       <div className="editable-form-control">
         <div className="editable-form-control-header-textarea">
@@ -1269,14 +1044,11 @@ class TextArea extends React.Component {
         </div>
         <div className="editable-form-control-textarea-div">
           <img src={icon} className={classNameImg} alt="" />
-
           <textarea
             placeholder={placeholder}
             onChange={onChange}
             name={name}
-            className={`
-            ${errorMessage ? "editable-error-input" : ""}
-            ${fromPoints ? "input-selected-points" : ""}`}
+            className={`  ${errorMessage ? "editable-error-input" : ""} ${fromPoints ? "input-selected-points" : ""}`}
             value={value}
           ></textarea>
         </div>
@@ -1287,36 +1059,19 @@ class TextArea extends React.Component {
 class TimePicker extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      dropdownActive: false,
-    };
+    this.state = { dropdownActive: false, };
   }
-
   statusDropDown() {
     this.setState({ dropdownActive: !this.state.dropdownActive });
   }
-
-
   render() {
     let { dropdownActive, } = this.state;
     let { title, name, options, hour, minute, } = this.props;
     return (
-      <div
-        className={`
-        jrn-time-picker
-        ${name === "hour" ? "jrn-time-picker-left" : "jrn-time-picker-right"}`}
-      >
+      <div className={` jrn-time-picker ${name === "hour" ? "jrn-time-picker-left" : "jrn-time-picker-right"}`}>
         <p>{title}</p>
-        <div
-          onClick={() => this.statusDropDown()}
-          className="jrn-timepicker-dropdown-holder"
-        >
-          <div
-            className={`
-            jrn-timepicker-dropdown
-            ${dropdownActive ? "DropDownActive" : ""}
-            `}
-          >
+        <div onClick={() => this.statusDropDown()} className="jrn-timepicker-dropdown-holder"  >
+          <div className={`  jrn-timepicker-dropdown  ${dropdownActive ? "DropDownActive" : ""}`}>
             <p className={"jrn-timepicker-holder"}>
               {name === "hour" ? hour : minute}
             </p>
@@ -1327,10 +1082,7 @@ class TimePicker extends React.Component {
                 return (
                   <li
                     onClick={(e) => this.props.setHourOrMinute(e, "hour")}
-                    className={`li ${Number(hour) === Number(item.value)
-                      ? "li-current"
-                      : ""
-                      }`}
+                    className={`li ${Number(hour) === Number(item.value) ? "li-current" : ""}`}
                     key={item.id}
                     value={item.value}
                   >
@@ -1342,10 +1094,7 @@ class TimePicker extends React.Component {
                 return (
                   <li
                     onClick={(e) => this.props.setHourOrMinute(e, "minute")}
-                    className={`li ${Number(minute) === Number(item.value)
-                      ? "li-current"
-                      : ""
-                      }`}
+                    className={`li ${Number(minute) === Number(item.value) ? "li-current" : ""}`}
                     key={item.id}
                     value={item.value}
                   >
@@ -1376,7 +1125,6 @@ class Loading extends React.Component {
 class DetailsLi extends React.Component {
   render() {
     let { icon, title, description, className } = this.props;
-
     return (
       <li>
         <div className="psg-li-left">
@@ -1392,7 +1140,6 @@ class DetailsLi extends React.Component {
 class DetailsGridLi extends React.Component {
   render() {
     let { icon, title, description, className } = this.props;
-
     return (
       <li>
         <div className="jrn-details-grid">
@@ -1446,69 +1193,23 @@ class ShowPointsOnTheTable extends React.Component {
                   </span>
                 </div>
                 {point.pcatId === 1 && (
-                  <ShowPointDescription
-                    title="Fligth Number"
-                    icon={icons.circle}
-                    description={point.flightDetails.flightNumber}
-                  />
-                )}
+                  <ShowPointDescription title="Fligth Number" icon={icons.circle} description={point.flightDetails.flightNumber} />)}
                 {point.pcatId === 1 && showWaiting && (
-                  <ShowPointDescription
-                    title="Waiting Pickup Time"
-                    icon={icons.circle}
-                    description={point.flightDetails.waitingPickupTime || "0"}
-                  />
-                )}
+                  <ShowPointDescription title="Waiting Pickup Time" icon={icons.circle} description={point.flightDetails.waitingPickupTime || "0"} />)}
                 {point.pcatId === 5 && (
-                  <ShowPointDescription
-                    title="Postcode Address"
-                    icon={icons.circle}
-                    description={point.postCodeDetails.postCodeAddress}
-                  />
-                )}
+                  <ShowPointDescription title="Postcode Address" icon={icons.circle} description={point.postCodeDetails.postCodeAddress} />)}
                 {point.pcatId === 2 && (
-                  <ShowPointDescription
-                    title="Cruise Name"
-                    icon={icons.circle}
-                    description={point.cruiseNumber}
-                  />
-                )}
+                  <ShowPointDescription title="Cruise Name" icon={icons.circle} description={point.cruiseNumber} />)}
                 {point.pcatId === 3 && (
-                  <ShowPointDescription
-                    title="Train Number"
-                    icon={icons.circle}
-                    description={point.trainNumber}
-                  />
-                )}
+                  <ShowPointDescription title="Train Number" icon={icons.circle} description={point.trainNumber} />)}
                 {point.pcatId === 7 && point["address-description"] && (
-                  <ShowPointDescription
-                    title="Places of Interest"
-                    icon={icons.circle}
-                    description={point["address-description"]}
-                  />
-                )}
+                  <ShowPointDescription title="Places of Interest" icon={icons.circle} description={point["address-description"]} />)}
                 {point.pcatId === 8 && point["address-description"] && (
-                  <ShowPointDescription
-                    title="Cities"
-                    icon={icons.circle}
-                    description={point["address-description"]}
-                  />
-                )}
-                {/*  */}
+                  <ShowPointDescription title="Cities" icon={icons.circle} description={point["address-description"]} />)}
                 {point.pcatId === 9 && point["address-description"] && (
-                  <ShowPointDescription
-                    title="Universities And Colleges"
-                    icon={icons.circle}
-                    description={point["address-description"]}
-                  />
-                )}
+                  <ShowPointDescription title="Universities And Colleges" icon={icons.circle} description={point["address-description"]} />)}
                 {point.pcatId === 10 && point["address-description"] && (
-                  <ShowPointDescription
-                    title="Description"
-                    icon={icons.circle}
-                    description={point["address-description"]}
-                  />
-                )}
+                  <ShowPointDescription title="Description" icon={icons.circle} description={point["address-description"]} />)}
               </div>
             );
           })}
@@ -1522,12 +1223,7 @@ class AlertMessage extends React.Component {
     let { sM, eM } = this.props;
     return (
       <div className={"tmb-alert-container"}>
-        <div
-          className={`
-          tmb-alert-div
-          ${sM || eM ? "tmb-showAlert" : ""}
-          ${eM ? "tmb-alert-div-error" : ""}
-           `}>
+        <div className={`  tmb-alert-div  ${sM || eM ? "tmb-showAlert" : ""}  ${eM ? "tmb-alert-div-error" : ""} `}>
           <img className="tmb-check-img" src={icons.check} alt="" />
           <span>{eM && eM}</span>
           <span>{sM && sM}</span>
@@ -1545,10 +1241,6 @@ class BookingLogin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // email: "elgun.ezmemmedov@mail.ru", //cash
-      // reservationId: "671836", //cash
-      // email: "info@aplcars.com",
-      // reservationId: "678623",
       reservationId: "683527",
       email: "elgun.ezmemmedov@gmail.com",
       error: "",
@@ -1563,11 +1255,7 @@ class BookingLogin extends React.Component {
       this.setState({ error: "", loading: true }, () => {
         let eM = "incorrect registered details";
         let { email, reservationId } = this.state;
-        let requestBody = {
-          method: "POST",
-          body: JSON.stringify({ reservationId, email }),
-          headers: { "Content-Type": "application/json" },
-        };
+        let requestBody = { method: "POST", body: JSON.stringify({ reservationId, email }), headers: { "Content-Type": "application/json" }, };
 
         fetch(`${__env.apiDomain}/api/v1/reservation/find-details`, requestBody)
           .then((res) => res.json())
@@ -1584,19 +1272,15 @@ class BookingLogin extends React.Component {
               this.setState({ error: error.message, loading: false });
               window.manageBookingDispatch.alertMessage("", error.message);
             }
-            //alert message
           );
-        //reset Error message after showAlert is gone
         setTimeout(() => {
           this.setState({ error: "" });
         }, 5000);
       });
     }
   }
-
   render() {
     let { email, reservationId, error, loading } = this.state;
-
     return (
       <div className="tmb-login-section">
         <div className={"tmb-login-content"}>
@@ -1612,14 +1296,7 @@ class BookingLogin extends React.Component {
 
               <div className="tmb-input-div">
                 <img className="tmb-form-icon" src={icons.at} alt="" />
-                <input
-                  type="text"
-                  name="email"
-                  value={email}
-                  placeholder="Email"
-                  onChange={(e) => this.setState({ email: e.target.value })}
-                  className={`tmb-input `}
-                />
+                <input type="text" name="email" value={email} placeholder="Email" onChange={(e) => this.setState({ email: e.target.value })} className={`tmb-input `} />
               </div>
             </div>
             <div className="tmb-form-control">
@@ -1627,33 +1304,22 @@ class BookingLogin extends React.Component {
                 <p className={"tmb-form-control-header-label"}>ReservationId</p>
               </div>
               <div className="tmb-input-div">
-                <img
-                  className="tmb-form-icon tmb-user-icon"
-                  src={icons.user}
-                  alt=""
-                />
+                <img className="tmb-form-icon tmb-user-icon" src={icons.user} alt="" />
                 <input
                   type="text"
                   name="reservationId"
                   value={reservationId}
                   placeholder="ReservationId"
-                  onChange={(e) =>
-                    this.setState({ reservationId: e.target.value })
-                  }
+                  onChange={(e) => this.setState({ reservationId: e.target.value })}
                   className={`tmb-input `}
                 />
               </div>
             </div>
             {error ? (
               <div className="tmb-login-error-div tmb-zoom-out">{error}</div>
-            ) : (
-              ""
-            )}
+            ) : ("")}
             <div className={"tmb-input-button"}>
-              <button
-                className="tmb-btn  tmb-btn-primary"
-                onClick={(e) => this.checkReservationDetails(e)}
-              >
+              <button className="tmb-btn  tmb-btn-primary" onClick={(e) => this.checkReservationDetails(e)}   >
                 {loading ? "LOADING ..." : "Find"}
               </button>
             </div>
@@ -1674,12 +1340,9 @@ class PassengerDetailsForm extends React.Component {
         </h1>
         <div className="psg-title">
           <h3>Customer Details</h3>
-          <button
-            onClick={() => this.props.onEdit()}
-            className="tmb-btn-primary-outlined fw_500 tmb-btn"
-          >
+          {this.props.checkFor24 ? "" : <button onClick={() => this.props.onEdit()} className="tmb-btn-primary-outlined fw_500 tmb-btn" >
             Edit
-          </button>
+          </button>}
         </div>
         <div className="psg-column psg-first-column">
           <DetailsLi
@@ -1691,23 +1354,11 @@ class PassengerDetailsForm extends React.Component {
               : ""
               }`}
           />
-          <DetailsLi
-            title="Email"
-            icon={icons.at}
-            description={this.props.passengerDetails.email}
-          />
+          <DetailsLi title="Email" icon={icons.at} description={this.props.passengerDetails.email} />
         </div>
         <div className="psg-column psg-second-column">
-          <DetailsLi
-            title="Number of Passengers"
-            icon={icons.users}
-            description={this.props.transferDetails.passengersNumber}
-          />
-          <DetailsLi
-            title="Phone Number"
-            icon={icons.phone}
-            description={this.props.passengerDetails.phone}
-          />
+          <DetailsLi title="Number of Passengers" icon={icons.users} description={this.props.transferDetails.passengersNumber} />
+          <DetailsLi title="Phone Number" icon={icons.phone} description={this.props.passengerDetails.phone} />
         </div>
       </div>
     );
@@ -1726,9 +1377,7 @@ class PassengerDetailsUpdateForm extends React.Component {
     };
   }
   onCancel() {
-    if (typeof this.props.onCancel === "function") {
-      this.props.onCancel();
-    }
+    if (typeof this.props.onCancel === "function") this.props.onCancel();
   }
   onSave() {
     let { passengerDetails, transferDetails } = this.props;
@@ -1762,9 +1411,7 @@ class PassengerDetailsUpdateForm extends React.Component {
 
   onchangeHandler(e) {
     let { name, value } = e.target;
-    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) {
-      return
-    }
+    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) return
     this.setState({ [name]: value });
   }
 
@@ -1778,10 +1425,7 @@ class PassengerDetailsUpdateForm extends React.Component {
             <button onClick={() => this.onCancel()} className="tmb-cancel-btn tmb-btn-primary-outlined fw_500 tmb-btn" >
               Cancel
             </button>
-            <button
-              onClick={loading ? () => { } : () => this.onSave()}
-              className="tmb-btn-primary-outlined fw_500 tmb-btn"
-            >
+            <button onClick={loading ? () => { } : () => this.onSave()} className="tmb-btn-primary-outlined fw_500 tmb-btn" >
               {loading ? "Loading .." : "Save"}
             </button>
           </div>
@@ -1854,38 +1498,18 @@ class JourneyDetailsForm extends React.Component {
       <div className="jrn-journey-details">
         <div className="jrn-title">
           <h3>Transfer Details</h3>
-          <button
-            onClick={() => this.props.onEdit()}
-            className="tmb-btn-primary-outlined fw_500 tmb-btn"
-          >
-            Edit
-          </button>
+          {this.props.checkFor24 ? "" :
+            <button onClick={() => this.props.onEdit()} className="tmb-btn-primary-outlined fw_500 tmb-btn" >
+              Edit
+            </button>}
         </div>
         <div className="jrn-column">
-          <ShowPointsOnTheTable
-            points={this.props.selectedPickupPoints}
-            title="Pick-up Location"
-            showWaiting={true}
-          />
-          <ShowPointsOnTheTable
-            points={this.props.selectedDropoffPoints}
-            title="Drop off Location"
-            showWaiting={false}
-          />
+          <ShowPointsOnTheTable points={this.props.selectedPickupPoints} title="Pick-up Location" showWaiting={true} />
+          <ShowPointsOnTheTable points={this.props.selectedDropoffPoints} title="Drop off Location" showWaiting={false} />
         </div>
         <div className="jrn-column jrn-column-details">
-          <DetailsGridLi
-            title="Transfer Type"
-            description={this.props.transferType}
-            className={false}
-            icon={icons.circle}
-          />
-          <DetailsGridLi
-            title="Notes"
-            description={this.props.transferDetails.specialRequests}
-            className={false}
-            icon={icons.circle}
-          />
+          <DetailsGridLi title="Transfer Type" description={this.props.transferType} className={false} icon={icons.circle} />
+          <DetailsGridLi title="Notes" description={this.props.transferDetails.specialRequests} className={false} icon={icons.circle} />
         </div>
         {/* + */}
         <div className="jrn-column jrn-column-details">
@@ -1904,12 +1528,7 @@ class JourneyDetailsForm extends React.Component {
             icon={icons.circle}
           />
 
-          <DetailsGridLi
-            title="Price"
-            description={`£${this.props.quotation.price}`}
-            className={false}
-            icon={icons.circle}
-          />
+          <DetailsGridLi title="Price" description={`£${this.props.quotation.price}`} className={false} icon={icons.circle} />
         </div>
         <div className="jrn-column jrn-column-details">
           <li>
@@ -1978,12 +1597,8 @@ class JorneyDetailsUpdateForm extends React.Component {
   }
   onCancel() {
     if (typeof this.props.onCancel === "function") {
-      console.log(this.props.selectedPickupPoints,
-        this.props.selectedDropoffPoints,);
-      console.log(JSON.parse(localStorage.getItem("reservation")));
-
-      window.manageBookingDispatch.onCancelJourneyDetails(JSON.parse(localStorage.getItem("reservation")))
       this.props.onCancel()
+      window.manageBookingDispatch.onCancelJourneyDetails(JSON.parse(localStorage.getItem("reservation")))
     }
   }
 
@@ -1992,7 +1607,6 @@ class JorneyDetailsUpdateForm extends React.Component {
   wetherEffectedPriceButSTillDoesntChangeTheMethod() {
 
     let isUpdated = false;
-
     let {
       quotation: quot,
       specialRequests: requuest,
@@ -2038,7 +1652,6 @@ class JorneyDetailsUpdateForm extends React.Component {
       });
     } else {
       this.props.onSave();
-      console.log('mmm');
     }
   }
 
@@ -2059,7 +1672,6 @@ class JorneyDetailsUpdateForm extends React.Component {
             .then((res) => res.json())
             .then((data) => {
               console.log(data);
-
               if (data.status === 200) {
                 this.setState({ payStripeLoadingInCaseCash: false, stripeIframeAndTokenInCaseCash: data })
               } else {
@@ -2160,9 +1772,7 @@ class JorneyDetailsUpdateForm extends React.Component {
   onchangeHandlerGetSuggestion(e) {
     let inpName = e.target.name
     let inpValue = e.target.value
-    if (inpValue.includes('"') || inpValue.includes(`'`) || inpValue.includes('/') || inpValue.includes('\\')) {
-      return
-    }
+    if (inpValue.includes('"') || inpValue.includes(`'`) || inpValue.includes('/') || inpValue.includes('\\')) return
     this.setState({ [inpName]: inpValue })
 
     if (inpValue.length < 3) this.setState({ dropOffSuggestions: [], pickUpSuggestions: [] })
@@ -2176,10 +1786,10 @@ class JorneyDetailsUpdateForm extends React.Component {
     }
   }
   onChangeDateSpecialRequest(e) {
+    //date picker =>  {/* //2022-12-29 */ }
     let { name, value } = e.target;
-    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) {
-      return
-    }
+    if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) return
+
     let { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString } = this.state
     if (name === "transferDateTimeString") {
       let minute = transferDateTimeString.split(" ")[1].split(":")[1]; //00   15 20 25
@@ -2191,6 +1801,7 @@ class JorneyDetailsUpdateForm extends React.Component {
     } else {
       this.setState({ [name]: value });
     }
+
 
   }
   //has sended to timePicker comp as a props
@@ -2274,8 +1885,6 @@ class JorneyDetailsUpdateForm extends React.Component {
     if (pickOrDropPoint === 0) selectedPickupPoints.splice(indexOfCurrentItem, 1);
     if (pickOrDropPoint === 1) selectedDropoffPoints.splice(indexOfCurrentItem, 1);
     let { transferDateTimeString } = this.state;
-    console.log(this.state.selectedPickupPoints);
-    console.log(this.props.selectedPickupPoints);
 
     //update automatically quotation
     let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
@@ -2314,7 +1923,6 @@ class JorneyDetailsUpdateForm extends React.Component {
     let { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString } = this.state;
     let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
     this.getQuotations(params);
-
     window.journeyDetailsUpdateFormDispatch = {
       removeAddInputField: (index) => {
         if (index === 0) {
@@ -2355,8 +1963,6 @@ class JorneyDetailsUpdateForm extends React.Component {
             selectedPickupPoints[whichItem] = { ...selectedPickupPoints[whichItem], ["address-description"]: updatedValues }
           }
         }
-
-
         if (pickOrDrop === 1) {
           if (pcatId === 1) {
             selectedDropoffPoints[whichItem] = { ...selectedDropoffPoints[whichItem], flightDetails: updatedValues }
@@ -2376,18 +1982,13 @@ class JorneyDetailsUpdateForm extends React.Component {
         }
         this.setState({ selectedPickupPoints, selectedDropoffPoints })
       },
-      setStripeIframeToNull: () => {
-        this.setState({ stripeIframeAndTokenInCaseCash: "" })
-      }
+      setStripeIframeToNull: () => this.setState({ stripeIframeAndTokenInCaseCash: "" })
     }
   }
 
   //it will triggered whenver we we have websocektToken
   componentDidUpdate(prevProps, prevState) {
-    let { quotation, specialRequests,
-      transferDateTimeString, selectedDropoffPoints,
-      selectedPickupPoints, stripeIframeAndTokenInCaseCash,
-    } = this.state
+    let { quotation, specialRequests, transferDateTimeString, selectedDropoffPoints, selectedPickupPoints, stripeIframeAndTokenInCaseCash, } = this.state
     let params = { quotation, specialRequests, transferDateTimeString, selectedDropoffPoints, selectedPickupPoints }
     let { webSocketToken, href } = stripeIframeAndTokenInCaseCash
 
@@ -2457,7 +2058,7 @@ class JorneyDetailsUpdateForm extends React.Component {
       getDropOffSuggestLoading,
       addExtraPointTextDropOff,
     } = this.state;
-    //replacing slahs with  -  11/03/2022  => change to  2022-03-11
+    //replacing slahs with  -  24/12/2022  => change to  2022-12-24
     let date = null
     if (this.state.transferDateTimeString.includes("/")) {
       date = (this.state.transferDateTimeString
@@ -2479,27 +2080,23 @@ class JorneyDetailsUpdateForm extends React.Component {
             <button onClick={() => this.onCancel()} className="tmb-cancel-btn tmb-btn-primary-outlined fw_500 tmb-btn" >
               Cancel
             </button>
-            {
-              paymentType !== 1 && Number(currentPrice) <= Number(previousPrice) ? (
-                selectedPickupPoints.length > 0 && selectedDropoffPoints.length > 0 ?
-                  <button
-                    onClick={
-                      updatedLoading ? () => { } :
-                        () => this.wetherEffectedPriceButSTillDoesntChangeTheMethod()}
-                    className=" tmb-btn-primary-outlined fw_500 tmb-btn" >
-                    {updatedLoading ? "Loading" : "Save"}
-                  </button> : ""
-              ) : (
-                selectedPickupPoints.length > 0 && selectedDropoffPoints.length > 0 ?
-                  <button
-                    onClick={
-                      updatedLoading ? () => { } :
-                        () => this.wetherEffectedPriceButSTillDoesntChangeTheMethod()}
-                    className=" tmb-btn-primary-outlined fw_500 tmb-btn" >
-                    {updatedLoading ? "Loading" : "Save"}
-                  </button> : ""
-              )
-            }
+            {paymentType !== 1 && Number(currentPrice) <= Number(previousPrice) ? (
+              selectedPickupPoints.length > 0 && selectedDropoffPoints.length > 0 ?
+                <button
+                  onClick={
+                    updatedLoading ? () => { } :
+                      () => this.wetherEffectedPriceButSTillDoesntChangeTheMethod()}
+                  className=" tmb-btn-primary-outlined fw_500 tmb-btn" >
+                  {updatedLoading ? "Loading" : "Save"}
+                </button> : "") : (
+              selectedPickupPoints.length > 0 && selectedDropoffPoints.length > 0 ?
+                <button
+                  onClick={
+                    updatedLoading ? () => { } :
+                      () => this.wetherEffectedPriceButSTillDoesntChangeTheMethod()}
+                  className=" tmb-btn-primary-outlined fw_500 tmb-btn" >
+                  {updatedLoading ? "Loading" : "Save"}
+                </button> : "")}
           </div>
         </div>
         <div className="editable-jrn-points-container">
@@ -2508,19 +2105,16 @@ class JorneyDetailsUpdateForm extends React.Component {
             <div className="editable-jrn-points-container-box-header">
               Pick ups
             </div>
-
-            {
-              selectedPickupPoints.length > 0 ?
-                <SelectedLists
-                  pickOrDrop={0}
-                  postCodeAddress={postCodeAddress}
-                  imageTypesObject={imageTypesObject}
-                  selectedItems={selectedPickupPoints}
-                  setModalFlightStatus={setModalFlightStatus} //when click to info
-                  objectDetailStatuses={objectDetailStatuses}
-                  deleteItemFromList={this.deleteItemFromList}
-                /> : ""
-            }
+            {selectedPickupPoints.length > 0 ?
+              <SelectedLists
+                pickOrDrop={0}
+                postCodeAddress={postCodeAddress}
+                imageTypesObject={imageTypesObject}
+                selectedItems={selectedPickupPoints}
+                setModalFlightStatus={setModalFlightStatus} //when click to info
+                objectDetailStatuses={objectDetailStatuses}
+                deleteItemFromList={this.deleteItemFromList}
+              /> : ""}
             <div className="add-extra-input-div-status">
               {selectedPickupPoints.length === 0 && (
                 <TextInput
@@ -2560,11 +2154,8 @@ class JorneyDetailsUpdateForm extends React.Component {
                 handleAddItemToSelectList={this.handleAddItemToSelectList}
               />
             </div>
-            {addExtraPointTextPickUp && (
-              <div
-                onClick={(e) => this.addExtraInputForJourney(e, 0)}
-                className="editable-jrn-points-container-box-add-extra-fly"
-              >
+            {addExtraPointTextPickUp && selectedDropoffPoints.length !== 0 && (
+              <div onClick={(e) => this.addExtraInputForJourney(e, 0)} className="editable-jrn-points-container-box-add-extra-fly"  >
                 <img src={icons.plus} alt="" />
                 <p>Add Extra Point</p>
               </div>
@@ -2629,7 +2220,7 @@ class JorneyDetailsUpdateForm extends React.Component {
                 handleAddItemToSelectList={this.handleAddItemToSelectList}
               />
             </div>
-            {addExtraPointTextDropOff && (
+            {addExtraPointTextDropOff && selectedDropoffPoints.length !== 0 && (
               <div onClick={(e) => this.addExtraInputForJourney(e, 1)} className="editable-jrn-points-container-box-add-extra-fly">
                 <img src={icons.plus} alt="" />
                 <p>Add Extra Point</p>
@@ -2641,6 +2232,7 @@ class JorneyDetailsUpdateForm extends React.Component {
         {/* dateInput timehour getQuotationBtn */}
         <div className="editable-jrn-date-hour-minute-div">
           <div className="editable-jrn-departing-date">
+            {/* //2022-12-29 */}
             <DateInput
               type="date"
               value={date}
@@ -2719,8 +2311,7 @@ class JorneyDetailsUpdateForm extends React.Component {
                 allow="payment"
               ></iframe>
             </div>
-          </div>
-        ) : ""}
+          </div>) : ""}
         {/* //if it is cash payment and updated effected to the price then should be visible   */}
         {quotations.length > 0 && Number(currentPrice) - Number(previousPrice) > 0 &&
           <div class="informative-subcharges-div">
@@ -2739,8 +2330,6 @@ class JorneyDetailsUpdateForm extends React.Component {
               {payStripeLoadingInCaseCash ? "Loading.." : "Pay by card"}
             </button>
           </div>}
-
-
         {/* if we have subchrage it will work  and will show off on the screen  */}
         {quotations.length > 0 && paymentType !== 1 && Number(currentPrice) - Number(previousPrice) > 0 &&
           <div className="jrn-py-btn-div">
@@ -2755,15 +2344,7 @@ class JorneyDetailsUpdateForm extends React.Component {
 //it is inside JourneyDetailsUpdateForm     .Which is gonna show all selected points
 class SelectedLists extends React.Component {
   render() {
-    let {
-      pickOrDrop,
-      selectedItems,
-      postCodeAddress,
-      imageTypesObject,
-      deleteItemFromList,
-      objectDetailStatuses,
-      setModalFlightStatus,
-    } = this.props;
+    let { pickOrDrop, selectedItems, postCodeAddress, imageTypesObject, deleteItemFromList, objectDetailStatuses, setModalFlightStatus, } = this.props;
     return (
       <div>
         {selectedItems.length > 0 ? selectedItems.map((item, i) => {
@@ -2779,67 +2360,14 @@ class SelectedLists extends React.Component {
                   x
                 </div>
               </div>
-              {/* done */}
-              <CheckForFlight
-                item={item}
-                index={pickOrDrop}
-                whichItemSelected={i}
-                setModalFlightStatus={setModalFlightStatus}
-                objectDetailStatuses={objectDetailStatuses}
-              />
-              {/* done */}
-              <CheckForCruises
-                item={item}
-                index={pickOrDrop}
-                whichItemSelected={i}
-                objectDetailStatuses={objectDetailStatuses}
-              />
-              {/* done */}
-              <CheckForTrain
-                item={item}
-                index={pickOrDrop}
-                whichItemSelected={i}
-                objectDetailStatuses={objectDetailStatuses}
-              />
-
-
-              {/* done  */}
-              <CheckingForPostcodes
-                item={item}
-                index={pickOrDrop}
-                whichItemSelected={i}
-                postCodeAddress={postCodeAddress}
-                objectDetailStatuses={objectDetailStatuses}
-              />
-              {/* done */}
-              <CheckPlaceOfInterest
-                item={item}
-                index={pickOrDrop}
-                whichItemSelected={i}
-                postCodeAddress={postCodeAddress}
-                objectDetailStatuses={objectDetailStatuses}
-              />
-              <CheckForCitites
-                item={item}
-                index={pickOrDrop}
-                whichItemSelected={i}
-                postCodeAddress={postCodeAddress}
-                objectDetailStatuses={objectDetailStatuses}
-              />
-              <CheckForUniversity
-                item={item}
-                index={pickOrDrop}
-                whichItemSelected={i}
-                postCodeAddress={postCodeAddress}
-                objectDetailStatuses={objectDetailStatuses}
-              />
-              <CheckForOther
-                item={item}
-                index={pickOrDrop}
-                whichItemSelected={i}
-                postCodeAddress={postCodeAddress}
-                objectDetailStatuses={objectDetailStatuses}
-              />
+              <CheckForFlight item={item} index={pickOrDrop} whichItemSelected={i} setModalFlightStatus={setModalFlightStatus} objectDetailStatuses={objectDetailStatuses} />
+              <CheckForCruises item={item} index={pickOrDrop} whichItemSelected={i} objectDetailStatuses={objectDetailStatuses} />
+              <CheckForTrain item={item} index={pickOrDrop} whichItemSelected={i} objectDetailStatuses={objectDetailStatuses} />
+              <CheckingForPostcodes item={item} index={pickOrDrop} whichItemSelected={i} postCodeAddress={postCodeAddress} objectDetailStatuses={objectDetailStatuses} />
+              <CheckPlaceOfInterest item={item} index={pickOrDrop} whichItemSelected={i} postCodeAddress={postCodeAddress} objectDetailStatuses={objectDetailStatuses} />
+              <CheckForCitites item={item} index={pickOrDrop} whichItemSelected={i} postCodeAddress={postCodeAddress} objectDetailStatuses={objectDetailStatuses} />
+              <CheckForUniversity item={item} index={pickOrDrop} whichItemSelected={i} postCodeAddress={postCodeAddress} objectDetailStatuses={objectDetailStatuses} />
+              <CheckForOther item={item} index={pickOrDrop} whichItemSelected={i} postCodeAddress={postCodeAddress} objectDetailStatuses={objectDetailStatuses} />
             </div>
           );
         }) : ""}
@@ -2858,6 +2386,7 @@ class ReservationDetails extends React.Component {
       stripeIframeAndTokenInCaseCash: "",
       payStripeLoadingInCaseCash: false,
       reservation: this.props.reservation,
+      checkFor24: null,
       postCodeAddress: []
     };
   }
@@ -2889,9 +2418,7 @@ class ReservationDetails extends React.Component {
                 window.manageBookingDispatch.alertMessage("", "Request Error Try contact with us ")
               }
             })
-            .catch((error) => {
-              console.log(error.message);
-            });
+            .catch((error) => { console.log(error.message); });
         })
       }
     } catch (error) {
@@ -2899,37 +2426,27 @@ class ReservationDetails extends React.Component {
     }
   }
   sendBookingAsEmail() {
+    console.log(JSON.parse(localStorage["reservation"]));
+    console.log('sda');
 
   }
   getPostCodeAdresses() {
     const url = `${__env.apiDomain}/api/v1/postcode-address`;
     let postCodes = [];
     //filtering
-    [
-      ...this.state.reservation.selectedPickupPoints,
-      ...this.state.reservation.selectedDropoffPoints,
-    ].filter((item) =>
-      item.pcatId === 5 ? postCodes.push(item.postcode) : item
-    );
+    [...this.state.reservation.selectedPickupPoints,
+    ...this.state.reservation.selectedDropoffPoints,
+    ].filter((item) => item.pcatId === 5 ? postCodes.push(item.postcode) : item);
     //configuration
-    const config = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ postcodes: postCodes, }),
-    };
+    const config = { method: "POST", headers: { "Content-Type": "application/json", }, body: JSON.stringify({ postcodes: postCodes, }), };
 
     fetch(url, config)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-
         if (data.status) this.setState({ postCodeAddress: data.results });
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => { console.log(error); });
   }
   //here we dont need selected points transferdatetime .Cause it alread on the screen
   componentDidUpdate(prevProps, prevState) {
@@ -2975,11 +2492,11 @@ class ReservationDetails extends React.Component {
   }
 
   componentDidMount() {
+    let { transferDetails: { transferDateTimeString } } = this.state.reservation
     this.getPostCodeAdresses()
+    this.setState({ checkFor24: checking24hours(transferDateTimeString) })
     window.reaervationDetailsDispatch = {
-      setStripeIframeToNull: () => {
-        this.setState({ stripeIframeAndTokenInCaseCash: "" })
-      },
+      setStripeIframeToNull: () => this.setState({ stripeIframeAndTokenInCaseCash: "" }),
       setSelectedPostCode: (results) => {
         let { postCodeAddress } = this.state
         let newpostcodeAdress = postCodeAddress;
@@ -2991,18 +2508,11 @@ class ReservationDetails extends React.Component {
     }
   }
 
-
   render() {
-    let { payStripeLoadingInCaseCash, stripeIframeAndTokenInCaseCash, postCodeAddress, } = this.state
+    let { payStripeLoadingInCaseCash, stripeIframeAndTokenInCaseCash, postCodeAddress, checkFor24 } = this.state
     let { reservation, resources: { carsTypes, pointTypeCategories }, eM, sM } = this.props;
-    let carsTypesObject = Object.assign(
-      {},
-      ...carsTypes.map((obj) => ({ [obj.id]: obj }))
-    );
-    let imageTypesObject = Object.assign(
-      {},
-      ...pointTypeCategories.map((obj) => ({ [obj.id]: obj.image }))
-    );
+    let carsTypesObject = Object.assign({}, ...carsTypes.map((obj) => ({ [obj.id]: obj })));
+    let imageTypesObject = Object.assign({}, ...pointTypeCategories.map((obj) => ({ [obj.id]: obj.image })));
     //for hansdle search adding item
     //=>flightDetails:flightNumber:""waitingPickupTime:0
     let objectDetailss = Object.assign(
@@ -3011,10 +2521,7 @@ class ReservationDetails extends React.Component {
         [obj.id]: JSON.parse(obj.objectDetails),
       }))
     );
-    let namePlaceTypesObject = Object.assign(
-      {},
-      ...pointTypeCategories.map((obj) => ({ [obj.id]: obj.categoryName }))
-    );
+    let namePlaceTypesObject = Object.assign({}, ...pointTypeCategories.map((obj) => ({ [obj.id]: obj.categoryName })));
     //inside selected list Inorder to handle search mandatory or not
     let objectDetailStatuses = Object.assign(
       {},
@@ -3035,31 +2542,20 @@ class ReservationDetails extends React.Component {
     } = reservation;
 
 
-
     return (
       <div className="rsv-section">
         {this.state.setModalCar ? (
           <ModalInfo
             fromCar={true}
-            setModalCarStatus={(e) =>
-              this.setState({ setModalCar: !this.state.setModalCar })
-            }
+            setModalCarStatus={(e) => this.setState({ setModalCar: !this.state.setModalCar })}
             content="This is meant to give an approcimation of car size and category .Actual mane and model may vary"
-          />
-        ) : (
-          ""
-        )}
+          />) : ("")}
         {this.state.setModalFlight ? (
           <ModalInfo
             fromCar={false}
-            setModalFlightStatus={(e) =>
-              this.setState({ setModalFlight: !this.state.setModalFlight })
-            }
+            setModalFlightStatus={(e) => this.setState({ setModalFlight: !this.state.setModalFlight })}
             content="Please note that on international flights, for UK and EU Citizens the average clearing time is around 45 to 60 minutes except for first & business class travellers where it is 30-45 minutes. Other nationalities take around 60-70 minutes and foreign students may take up to 90 minutes. For domestic flight, the clearance time is around 15 minutes"
-          />
-        ) : (
-          ""
-        )}
+          />) : ("")}
 
         {eM ? <AlertMessage eM={eM} /> : ""}
         {sM ? <AlertMessage sM={sM} /> : ""}
@@ -3075,6 +2571,7 @@ class ReservationDetails extends React.Component {
           ) : (
             !this.state.journeyEditStatus && (
               <PassengerDetailsForm
+                checkFor24={checkFor24}
                 transferDetails={transferDetails}
                 passengerDetails={passengerDetails}
                 reservationDetails={reservationDetails}
@@ -3115,6 +2612,7 @@ class ReservationDetails extends React.Component {
           ) : (
             <JourneyDetailsForm
               quotation={quotation}
+              checkFor24={checkFor24}
               paymentDetails={paymentDetails}
               transferDetails={transferDetails}
               selectedPickupPoints={selectedPickupPoints}
@@ -3128,24 +2626,23 @@ class ReservationDetails extends React.Component {
         {stripeIframeAndTokenInCaseCash ? (
           <div className="iframe-rsv-container">
             <div className="iframe-div-in-case-cash">
-              <iframe
-                src={stripeIframeAndTokenInCaseCash.href}
-                className={"iframe-in-case-cash"}
-                frameBorder="0"
-                allow="payment"
-              ></iframe>
+              <iframe src={stripeIframeAndTokenInCaseCash.href} className={"iframe-in-case-cash"} frameBorder="0" allow="payment" ></iframe>
             </div>
+          </div>) : ""}
+        {checkFor24 ? (<div className="alert-section-container">
+          <div className={`alert_danger_check_for_24`}>
+            You can only amend the details up to 24 hours prior to
+            your transfer time. Please call us on 0 20 8688 7744 if
+            you request any changes on your booking..{" "}
           </div>
-        ) : ""}
+        </div>) : ("")}
         {!this.state.journeyEditStatus && (
           <div className="rsv-payment-details">
             {/* payByCardBtn here */}
             <div className={"rsv-payment-details-header"}>
               <div className={"rsv-payment-details-left"}>
                 {/* if he  before paid with card Then it is not gonna be visible   */}
-                {paymentDetails.paymentType !== 1 ? (
-                  ""
-                ) : (
+                {paymentDetails.paymentType !== 1 ? ("") : (
                   stripeIframeAndTokenInCaseCash ? "" :
                     <div className={"rsv-payment-details-left-btn-div"}>
                       <button className=" tmb-btn tmb-btn-primary" onClick={() => this.payByStripe(7)}>
@@ -3197,7 +2694,6 @@ class ManageBooking extends React.Component {
       isAuth: false,
       showState: false,
       reservation: {},
-      // reservation:  JSON.parse(localStorage["reservation"]),
     };
   }
   componentDidMount() {
@@ -3235,8 +2731,8 @@ class ManageBooking extends React.Component {
         if (fetchRes.status === 200) {
           callback(fetchRes);
           window.manageBookingDispatch.alertMessage("Passenger Details Updated", "")
-          this.setState(reservation)
           localStorage["reservation"] = JSON.stringify(reservation);
+          this.setState(reservation)
         } else {
           window.manageBookingDispatch.alertMessage("", "Something went wrong please contact with us")
         }
@@ -3273,7 +2769,6 @@ class ManageBooking extends React.Component {
         window.reaervationDetailsDispatch.setStripeIframeToNull()
       },
       onCancelJourneyDetails: (reservation) => {
-        console.log(this.state.reservation);
         this.setState({ reservation })
       }
     };
@@ -3347,8 +2842,6 @@ class ManageBooking extends React.Component {
       );
       console.log("render is done");
       clearInterval(insrter);
-    } else {
-      console.log("not render yet");
-    }
+    } else { console.log("not render yet"); }
   }, 100);
 })();

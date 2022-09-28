@@ -97,71 +97,6 @@
       );
     });
 }
-//  print() {
-// let vehicleTypes = [
-//   selectedQuotTransfer && carObject[selectedQuotTransfer?.carId]?.name,
-// ];
-// let transferTypes = [
-//   selectedQuotTransfer &&
-//     carObject[selectedQuotTransfer?.carId]?.transferType,
-// ];
-// let reservId = [[reserv]];
-// let reqOptions = {
-//   method: "POST",
-//   body: JSON.stringify({
-//     reservId,
-//     reservations: [reservations[0]],
-//     vehicleTypes,
-//     transferTypes,
-//     meetPoint,
-//     surcharge,
-//   }),
-//   headers: {
-//     Accept: "application/json, text/plain, */*",
-//     "Content-Type": "application/json",
-//   },
-// };
-// fetch(`${env.websiteDomain}/api/reservation-document/${reserv}`, reqOptions)
-//   .then((res) => res.json())
-//   .then((res) => {
-//     if (res.status === "OK") {
-//       setTimeout(() => {
-//         (async () => {
-//           var win = window.open("", `Reservation ID ${reserv}`);
-//           win.document.body.innerHTML = res.htmlTemplate;
-//           win.print();
-//         })();
-//       }, 1000);
-//     }
-//   })
-//   .catch((e) => console.log(e.message));
-// }
-
-
-// date.split(" ")[0].replace(/\//g, "-")
-
-//       setSelectedPoints: (point, index, type) => {
-//         let { reservation } = this.state;
-//         let selectedPickupPoints = reservation.selectedPickupPoints;
-//         let selectedDropoffPoints = reservation.selectedDropoffPoints;
-
-//         if (index === 0) selectedPickupPoints = [...selectedPickupPoints, point];
-//         if (index === 1) selectedDropoffPoints = [...selectedDropoffPoints, point];
-
-//         reservation[
-//           type === "pickup" ? "selectedPickupPoints" : "selectedDropoffPoints"
-//         ] = type === "pickup" ? selectedPickupPoints : selectedDropoffPoints;
-
-
-//         //when ever we update points It will update quotations
-//         let { transferDetails: { transferDateTimeString }, } = reservation;
-//         let params = { selectedPickupPoints, selectedDropoffPoints, transferDateTimeString }
-//         this.getQuotations(params)
-//         this.setState({ reservation });
-//       },
-
-
-
 
 
 //!Bruichl=> city
@@ -211,124 +146,8 @@ const payByStripe = (id) => {
 };
 
 
-useEffect(() => {
-  const url = `https://api.london-tech.com/api/v1/payment/status`;
-  let interVal;
-  if (statusTokenInCaseDirectlyPayment) {
-    interVal = setInterval(async () => {
-      let config = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ token: statusTokenInCaseDirectlyPayment }),
-      };
-      try {
-        let requ = await fetch(url, config);
-        let resp = await requ.json();
-
-        if (resp?.status === 200) {
-          if (dataTokenForWebSocket?.href?.includes("stripe")) {
-            dispacth(setPayment(7, resp.data.token, ""));
-            setiframeStripeInCaseItIsDirectlyPayment("");
-            setStatusTokenInCaseItDirectlyPayment("");
-            setAlert({
-              alert: true,
-              message: "Reservation Updated",
-              close: false,
-            });
-          }
-          clearInterval(interVal);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }, 2000);
-  }
-
-  return () => clearInterval(interVal);
-}, [statusTokenInCaseDirectlyPayment]);
 
 
-
-onSave() {
-  let isUpdatedInCaseItIsCash = false;
-  let {
-    quotation: quot,
-    specialRequests: requuest,
-    transferDateTimeString: date,
-    selectedPickupPoints: pickUps,
-    selectedDropoffPoints: dropOff,
-  } = this.props
-
-  let {
-    quotation,
-    paymentType,
-    specialRequests,
-    transferDateTimeString,
-    selectedDropoffPoints,
-    selectedPickupPoints,
-  } = this.state
-
-  let propsValues = JSON.stringify({
-    quotatin: quot,
-    specialRequests: requuest,
-    transferDateTimeString: date,
-    selectedDropOffPoints: dropOff,
-    selectedPickUpPoints: pickUps
-  })
-  let stateValues = JSON.stringify({
-    quotation,
-    specialRequests,
-    transferDateTimeString,
-    selectedDropoffPoints,
-    selectedPickupPoints,
-  })
-  //if paymnet type 1 It means cash
-  //so it should be updated firstly on screeen then he /she should go for pay by card in order to make it permanent
-  if (propsValues !== stateValues && paymentType === 1) isUpdatedInCaseItIsCash = true;
-  if (isUpdatedInCaseItIsCash) {
-    window.manageBookingDispatch.saveJourneyOnScreenInCaseItIsCash(JSON.parse(stateValues));
-  }
-  this.props.onSave();
-}
-
-{/* {quotations.length > 0 ? (
-            <div className="editable-buttons">
-              <button onClick={() => this.onCancel()} className="tmb-cancel-btn tmb-btn-primary-outlined fw_500 tmb-btn" >
-                Cancel
-              </button>
-              <button onClick={loading ? () => { } : () => this.onSave()} className=" tmb-btn-primary-outlined fw_500 tmb-btn" >
-                Save
-              </button>
-
-              //if it is cash payment and updated effected to the price then we should  keep charge on that
-               onClick={loading ? () => { } : () => this.onSave()}
-              <button  className=" tmb-btn-primary-outlined fw_500 tmb-btn" >
-                wetherEffectedPriceButSTillWantsPayCash
-              </button>
-            </div>
-          ) : ""} */}
-
-
-{/* if it is  cahs payment then we  dont need to charge cubcharge */ }
-{/* {paymentType !== 1 ? "" : Number(currentPrice) - Number(previousPrice) > 0 &&
-          <div class="informative-subcharges-div">
-            <img src={__env.infoAlert} alt="" />
-            <div class="informative-subcharge-price-info ">
-              <p id="informationMessage">Due to the amendments you have made;</p>
-              <p id="informationMessage">New Journey price : £ {currentPrice}</p>
-              <p id="informationMessage">Previous journey price : £ {`${previousPrice}.00`}</p>
-              <p id="informationMessage" className="difference-price">Price difference : £ {`${+currentPrice - +previousPrice}.00`}</p>
-            </div>
-          </div>} */}
-{/* if it is  cahs payment then we dont need to make it visible cause he is gonna pay all by card */ }
-{/* {paymentType !== 1 ? "" : Number(currentPrice) - Number(previousPrice) > 0 &&
-          <div className="jrn-py-btn-div">
-            <button className="tmb-btn tmb-button-primary-outlined-hover ">
-              Pay By Card
-            </button>
-          </div>} */}
 
 
 try {
@@ -384,5 +203,13 @@ try {
   )
 }
 
-localStorage.getItem('reservation') ? JSON.parse(localStorage["reservation"]) : {},
-    };
+
+
+// email: "elgun.ezmemmedov@mail.ru", //cash
+// reservationId: "671836", //cash
+// email: "info@aplcars.com",
+// reservationId: "678623",
+reservationId: "683527",
+  email: "elgun.ezmemmedov@gmail.com",
+    error: "",
+      loading: false,

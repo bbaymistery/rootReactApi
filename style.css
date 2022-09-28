@@ -18,9 +18,11 @@
   --black-color-2: #433d3d;
   --dark-blue-black: #0d233e;
   --sky-color-blue: #99c4ea;
-
-  /* images filter color */
-  --green-color-image: invert(26%) sepia(78%) saturate(1698%) hue-rotate(93deg) brightness(98%) contrast(106%);
+  --alert-danger-color: #721c24;
+  --alert-danger-bg: #f8d7da;
+  --alert-danger-border: #f5c6cb
+    /* images filter color */
+    --green-color-image: invert(26%) sepia(78%) saturate(1698%) hue-rotate(93deg) brightness(98%) contrast(106%);
   --gray-text-color-image: invert(40%) sepia(3%) saturate(1432%) hue-rotate(174deg) brightness(95%) contrast(94%);
   --black-color-image: invert(0%) sepia(4%) saturate(7483%) hue-rotate(265deg) brightness(99%) contrast(105%);
   --white-color-image: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
@@ -2823,4 +2825,53 @@ input::-webkit-datetime-edit-year-field:focus {
   align-items: center;
   justify-content: center;
   min-height: 50px;
+}
+
+.alert_danger_check_for_24 {
+  padding: 15px;
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: 0.75rem;
+  animation: animate;
+  opacity: 1;
+  animation-duration: 2s;
+  animation-fill-mode: both;
+  animation-delay: .38s;
+  animation-iteration-count: 1;
+  animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+  color: var(--alert-danger-color);
+  background-color: var(--alert-danger-bg);
+  border-color: var(--alert-danger-border);
+  background-color: var(--);
+}
+
+.alert-section-container {
+  width: 100%;
+  max-width: var(--max-container-width);
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+}
+
+@keyframes animate {
+  0% {
+    opacity: 0;
+
+    transform: scale(0.5);
+
+  }
+
+  10% {
+    opacity: 0;
+    transform: scale(0.5);
+
+
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+
+
+  }
 }
