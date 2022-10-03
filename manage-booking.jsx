@@ -2,6 +2,7 @@ const __env = {
   apiDomain: "https://api.london-tech.com",
   websiteLogUrl: "https://heathrow-gatwick-transfers.com/images/logoJpg.png",
   infoAlert: "https://heathrow-gatwick-transfers.com/images/infoLittle.png",
+  emailSubjectUrl: "https://heathrow-gatwick-transfers.com"
 };
 const icons = {
   circleClose:
@@ -1243,6 +1244,8 @@ class BookingLogin extends React.Component {
     this.state = {
       reservationId: "683527",
       email: "elgun.ezmemmedov@gmail.com",
+      //671836
+      //elgun.ezmemmedov@mail.ru
       error: "",
       loading: false,
     };
@@ -1262,7 +1265,7 @@ class BookingLogin extends React.Component {
           .then((res) => {
             if (res.status === 200) {
               let { data } = res;
-              window.manageBookingDispatch.onSuccessLogin(data);
+              window.manageBookingDispatch.onSuccessLogin(data, reservationId);
             } else {
               this.setState({ error: eM, loading: false });
             }
@@ -1281,6 +1284,7 @@ class BookingLogin extends React.Component {
   }
   render() {
     let { email, reservationId, error, loading } = this.state;
+
     return (
       <div className="tmb-login-section">
         <div className={"tmb-login-content"}>
@@ -2426,8 +2430,50 @@ class ReservationDetails extends React.Component {
     }
   }
   sendBookingAsEmail() {
-    console.log(JSON.parse(localStorage["reservation"]));
-    console.log('sda');
+    let reservationId = (JSON.parse(localStorage["reservationId"]));
+    let { passengerDetails: { email } } = (JSON.parse(localStorage["reservation"]));
+    // const url = `${__env.apiDomain}/api/v1/reservation/mail/${reservationId}`
+    const url = `https://api.london-tech.com/api/v1/reservation/mail/${reservationId}`
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var requestOptions = { method: 'GET', headers: myHeaders, redirect: 'follow' };
+    console.log(email);
+
+
+
+    fetch(url, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        console.log(result);
+
+        if (result.status === 200) {
+          let emailOptions = {
+            method: "POST",
+            body: JSON.stringify({
+              senderId: 1,
+              reciverMails: [email],
+              subject: `Booking ${reservationId} ${__env.emailSubjectUrl}`,
+              mailContent: result.data.template,
+            }),
+            headers: { "Content-Type": "application/json" },
+          };
+          fetch(`https://api.london-tech.com/tools/mailer`, emailOptions)
+            .then((res) => {
+              console.log(res, "email");
+              if (res.status === 200) {
+                console.log("done");
+                window.manageBookingDispatch.alertMessage("Email sent successfully", "")
+              } else {
+                window.manageBookingDispatch.alertMessage("", "Request Error Try contact with us ")
+              }
+            })
+            .catch((e) => console.log(e.message));
+
+        }
+      }).catch(error => console.log('error', error));
+
+
+
 
   }
   getPostCodeAdresses() {
@@ -2699,8 +2745,9 @@ class ManageBooking extends React.Component {
   componentDidMount() {
     this.getResources();
     window.manageBookingDispatch = {
-      onSuccessLogin: (reservation) => {
+      onSuccessLogin: (reservation, reservationId) => {
         localStorage["reservation"] = JSON.stringify(reservation);
+        localStorage["reservationId"] = JSON.stringify(reservationId);
         this.setState({ reservation, isAuth: true });
       },
       saveNewPassengerDetails: async (params = {}, callback = () => { }) => {
