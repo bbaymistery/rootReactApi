@@ -137,7 +137,7 @@ const dateTimeStringFunc = () => {
   //2022-09-28 funct
   let tmpDt = new Date(Date.now() + 1000 * 60 * 60 * 6); //6
   let year = tmpDt.getFullYear();
-  let month = tmpDt.getMonth() + 1 < 10 ? `0${tmpDt.getMonth() + 1}` : " ";
+  let month = tmpDt.getMonth() + 1 < 10 ? `0${tmpDt.getMonth() + 1}` : tmpDt.getMonth() + 1;
   let date = tmpDt.getDate() < 10 ? `0${tmpDt.getDate()}` : tmpDt.getDate();
   let hours = tmpDt.getHours() < 10 ? `0${tmpDt.getHours()}` : tmpDt.getHours();
   let minute = "00";
@@ -150,6 +150,8 @@ const apiV1ReservationEdit = async (reservation, props) => {
   let method = "POST"
   let headers = { "Content-Type": "application/json" }
   let body = JSON.stringify({ reservation: [reservation], ...props })
+  console.log(body);
+
   let bodyRequest = { method, body, headers, };
   let fetchReq = await fetch(url, bodyRequest);
   let fetchRes = await fetchReq.json();
@@ -1242,8 +1244,10 @@ class BookingLogin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      reservationId: "683527",
-      email: "elgun.ezmemmedov@gmail.com",
+      // reservationId: "683527",//stripre
+      // email: "elgun.ezmemmedov@gmail.com",//stripre
+      reservationId: "671836",
+      email: "elgun.ezmemmedov@mail.ru",
       //671836
       //elgun.ezmemmedov@mail.ru
       error: "",
@@ -1391,13 +1395,13 @@ class PassengerDetailsUpdateForm extends React.Component {
       passengerDetails.email !== email ||
       passengerDetails.firstname !== firstname ||
       passengerDetails.phone !== phone ||
-      transferDetails.passengersNumber !== passengersNumber
+      Number(transferDetails.passengersNumber) !== Number(passengersNumber)
     ) {
       isUpdated = true;
     }
     if (isUpdated) {
       passengerDetails = { ...passengerDetails, email, firstname, phone };
-      transferDetails = { ...transferDetails, passengersNumber };
+      transferDetails = { ...transferDetails, passengersNumber: Number(passengersNumber) };
 
       let params = { passengerDetails, transferDetails };
       let callback = () => {
@@ -1414,9 +1418,12 @@ class PassengerDetailsUpdateForm extends React.Component {
   }
 
   onchangeHandler(e) {
+
     let { name, value } = e.target;
     if (value.includes('"') || value.includes(`'`) || value.includes('/') || value.includes('\\')) return
     this.setState({ [name]: value });
+
+
   }
 
   render() {
@@ -1641,14 +1648,15 @@ class JorneyDetailsUpdateForm extends React.Component {
       selectedDropoffPoints,
       selectedPickupPoints,
     })
-    if (propsValues !== stateValues) isUpdated = true;
+    if (propsValues !== stateValues) {
+      isUpdated = true;
+
+    }
 
     if (isUpdated) {
       console.log(isUpdated);
       let callback = () => {
-        this.setState({ updatedLoading: false }, () => {
-          this.props.onSave();
-        });
+        this.setState({ updatedLoading: false }, () => { this.props.onSave(); });
       };
       this.setState({ updatedLoading: true }, () => {
         let params = JSON.parse(stateValues)
@@ -2074,6 +2082,8 @@ class JorneyDetailsUpdateForm extends React.Component {
       date = this.state.transferDateTimeString.split(" ")[0]
     }
     let { payStripeLoadingInCaseCash, stripeIframeAndTokenInCaseCash } = this.state
+    // console.log(Number(currentPrice) <= Number(previousPrice));
+    // console.log(Number(currentPrice), Number(previousPrice));
 
     return (
       <div className="editable-jrn-details">
@@ -2084,23 +2094,22 @@ class JorneyDetailsUpdateForm extends React.Component {
             <button onClick={() => this.onCancel()} className="tmb-cancel-btn tmb-btn-primary-outlined fw_500 tmb-btn" >
               Cancel
             </button>
-            {paymentType !== 1 && Number(currentPrice) <= Number(previousPrice) ? (
-              selectedPickupPoints.length > 0 && selectedDropoffPoints.length > 0 ?
-                <button
-                  onClick={
-                    updatedLoading ? () => { } :
-                      () => this.wetherEffectedPriceButSTillDoesntChangeTheMethod()}
-                  className=" tmb-btn-primary-outlined fw_500 tmb-btn" >
-                  {updatedLoading ? "Loading" : "Save"}
-                </button> : "") : (
-              selectedPickupPoints.length > 0 && selectedDropoffPoints.length > 0 ?
-                <button
-                  onClick={
-                    updatedLoading ? () => { } :
-                      () => this.wetherEffectedPriceButSTillDoesntChangeTheMethod()}
-                  className=" tmb-btn-primary-outlined fw_500 tmb-btn" >
-                  {updatedLoading ? "Loading" : "Save"}
-                </button> : "")}
+            {
+              paymentType !== 1 && Number(currentPrice) <= Number(previousPrice) || paymentType === 1 ?
+                (
+                  selectedPickupPoints.length > 0 && selectedDropoffPoints.length > 0 ?
+                    <button
+                      onClick={
+                        updatedLoading ? () => { } :
+                          () => this.wetherEffectedPriceButSTillDoesntChangeTheMethod()}
+                      className=" tmb-btn-primary-outlined fw_500 tmb-btn" >
+                      {updatedLoading ? "Loading" : "Save"}
+                    </button>
+                    :
+                    ""
+                )
+                : ""
+            }
           </div>
         </div>
         <div className="editable-jrn-points-container">
@@ -2317,7 +2326,7 @@ class JorneyDetailsUpdateForm extends React.Component {
             </div>
           </div>) : ""}
         {/* //if it is cash payment and updated effected to the price then should be visible   */}
-        {quotations.length > 0 && Number(currentPrice) - Number(previousPrice) > 0 &&
+        {/* {quotations.length > 0 && Number(currentPrice) - Number(previousPrice) > 0 &&
           <div class="informative-subcharges-div">
             <img src={__env.infoAlert} alt="" />
             <div class="informative-subcharge-price-info ">
@@ -2326,14 +2335,14 @@ class JorneyDetailsUpdateForm extends React.Component {
               <p id="informationMessage">Previous journey price : £ {`${previousPrice}.00`}</p>
               <p id="informationMessage" className="difference-price">Price difference : £ {`${+currentPrice - +previousPrice}.00`}</p>
             </div>
-          </div>}
+          </div>} */}
         {/* //!if it is cash payment and updated effected to the price then we should  keep charge on that    */}
-        {quotations.length > 0 && paymentType === 1 &&
+        {/* {quotations.length > 0 && paymentType === 1 &&
           <div className="jrn-py-btn-div">
             <button className="tmb-btn tmb-button-primary-outlined-hover" onClick={() => this.itisCashAndWantsToPayByStripeCard(7)}>
               {payStripeLoadingInCaseCash ? "Loading.." : "Pay by card"}
             </button>
-          </div>}
+          </div>} */}
         {/* if we have subchrage it will work  and will show off on the screen  */}
         {quotations.length > 0 && paymentType !== 1 && Number(currentPrice) - Number(previousPrice) > 0 &&
           <div className="jrn-py-btn-div">
@@ -2404,7 +2413,7 @@ class ReservationDetails extends React.Component {
     let quotations = [quotation]
     let headers = { "Content-Type": "application/json", }
     let body = JSON.stringify({ quotations, type, language: "en", passengerEmail: email, mode: "sandbox" })
-    let config = { method, headers, body };
+    let config = { method, headers, body }; cal
     let url = `${__env.apiDomain}/api/v1/payment/stripe/create`;
 
     try {
@@ -2716,7 +2725,7 @@ class ReservationDetails extends React.Component {
               </div>
             </div>
             <div className="rsv-print-email-div rsv-payment-details-header">
-              <button onClick={print} className="tmb-btn tmb-btn-primary">
+              <button className="tmb-btn tmb-btn-primary">
                 Print Booking Details
               </button>
               <button onClick={(e) => this.sendBookingAsEmail()} className="tmb-btn tmb-btn-primary">
@@ -2746,7 +2755,6 @@ class ManageBooking extends React.Component {
     this.getResources();
     window.manageBookingDispatch = {
       onSuccessLogin: (reservation, reservationId) => {
-        localStorage["reservation"] = JSON.stringify(reservation);
         localStorage["reservationId"] = JSON.stringify(reservationId);
         this.setState({ reservation, isAuth: true });
       },
@@ -2755,6 +2763,8 @@ class ManageBooking extends React.Component {
         let { reservation } = this.state;
         reservation.transferDetails = { ...reservation.transferDetails, ...transferDetails };
         reservation.passengerDetails = { ...reservation.passengerDetails, ...passengerDetails };
+        console.log(reservation);
+
         let fetchRes = await apiV1ReservationEdit(reservation, this.props)
         console.log(fetchRes, typeof callback);
         if (fetchRes.status === 200) {
@@ -2767,10 +2777,15 @@ class ManageBooking extends React.Component {
       saveStillWantsToDoesntChangePayment: async (params = {}, callback = () => { }) => {
         let { quotation, specialRequests, selectedPickupPoints, selectedDropoffPoints, transferDateTimeString } = params;
         let { reservation } = this.state;
+        // console.log(reservation, "which didnot updated");
         reservation.quotation = quotation
         reservation.selectedPickupPoints = selectedPickupPoints
         reservation.selectedDropoffPoints = selectedDropoffPoints
         reservation.transferDetails = { ...reservation.transferDetails, transferDateTimeString, specialRequests }
+
+        // console.log(params);
+        // console.log(reservation, "updated");
+
 
         let fetchRes = await apiV1ReservationEdit(reservation, this.props)
 
